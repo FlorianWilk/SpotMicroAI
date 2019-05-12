@@ -18,7 +18,9 @@ Nevertheless we will have to create a precise IK-Model to be able to have some k
 First of all thanks to Deok-yeon Kim aka KDY0523 who made this incredible work 
 https://www.thingiverse.com/thing:3445283
 This basically already is the physical Robot. 
-Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory
+Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
+The Controller-Firmware for the Arduino-Mega can be found in /Controller.
+This Controller communicates with a NVIDIA Jetson Nano via UART. The Jetson Nano will serve as Locomotion Controller.
 
 ## b) Simulation and c) Training
 
