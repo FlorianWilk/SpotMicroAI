@@ -1,16 +1,17 @@
 # SpotMicro AI 
-This Project is work in progress and documenting my progress on the goal of making a four-legged robot walk.
+This Project is heavily work in progress and documenting my progress on the goal of making a four-legged robot walk.
 It is NOT a working or even finished Project you might want to use! 
 
-I started this Project because i got inspired by some very smart people/companies and projects out there and want to 
+I do not think that the Hardware i use here will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
+
+I started this Project because i got inspired by some very smart People/Companies and Projects out there and want to 
 understand and adapt their work on my personal wish to create a small "clone" of a "BostonDynamics SpotMini"-kind-of-looking but self-learning Robot.
 
 My Goal is to create a) a working physical Robot, b) a simulated Environment to be able to c) do RL training to make it walk.
 There are other ways of achiving this, i think. The use of InverseKinematics only, combined with a robust ground detection
 could also solve the problem and might be "more straight-forward" / yet already very challenging. 
-The reason why i want to try a combination of both is because i believe that a well trained RL-Model could be move stable and
-robust in different situations where the physical robot leaves controlled environments or parts like Servos or Legs become unstable or even break.
-
+I want to try a combination of both, because i believe that a well trained RL-Model could be move stable and
+robust in different situations where the physical robot leaves controlled environments or parts like Servos or Legs become unstable or may even break. 
 Nevertheless we will have to create a precise IK-Model to be able to have some kind of guided training. 
 
 ## a) The Robot
