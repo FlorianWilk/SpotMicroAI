@@ -3,7 +3,7 @@ This Project is work in progress and documenting my progress on the goal of maki
 It is NOT a working or even finished Project you might want to use! 
 
 I started this Project because i got inspired by some very smart people/companies and projects out there and want to 
-understand and adapt their work on my personal wish to create a small "clone" of BostonDynamics SpotMini.
+understand and adapt their work on my personal wish to create a small "clone" of a "BostonDynamics SpotMini"-kinda looking but self-learning Robot.
 
 My Goal is to create a) a working physical Robot, b) a simulated Environment to be able to c) do RL training to make it walk.
 There are other ways of achiving this, i think. The use of InverseKinematics only, combined with a robust ground detection
