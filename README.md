@@ -21,6 +21,9 @@ This basically already is the physical Robot.
 Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
 The Controller-Firmware for the Arduino-Mega can be found in /Controller.
 This Controller communicates with a NVIDIA Jetson Nano via UART. The Jetson Nano will serve as Locomotion Controller.
+Since i am not a robotics company and can easily invest some hundreds of Euros/Dollars, i will use Sonar Sensors instead of visual sensors like RGB or RGBD-Cams. Maybe someone wants to support my upcoming projects?... ;)
+Here i use 4xHC-SR04-Sensors. Two - as in the original model - in the "head" looking forward/down. Two on the bottom (front/back) looking down to measure the ground-distance. An IMU MPU-6050 is used to measure pitch,roll and velocities. Yaw will be ignored since it drifts quickly. 
+
 
 ## b) Simulation and c) Training
 
