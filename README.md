@@ -20,6 +20,7 @@ Nevertheless we will have to create a precise IK-Model to be able to have some k
 First of all thanks to Deok-yeon Kim aka KDY0523 who made this incredible work 
 https://www.thingiverse.com/thing:3445283
 This basically already is the physical Robot. 
+Here is my Make https://www.thingiverse.com/make:654812
 
 Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
 
