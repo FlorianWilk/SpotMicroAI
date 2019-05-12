@@ -2,7 +2,7 @@
 This Project is work in progress and documenting my progress on the goal of making a four-legged robot walk.
 It is NOT a working or even finished Project you might want to use! 
 
-I started this Project because i got inspired by some very smart people and projects out there and want to 
+I started this Project because i got inspired by some very smart people/companies and projects out there and want to 
 understand and adapt their work on my personal wish to create a small "clone" of BostonDynamics SpotMini.
 
 My Goal is to create a) a working physical Robot, b) a simulated Environment to be able to c) do RL training to make it walk.
@@ -28,7 +28,9 @@ Google Brain,Google DeepMind
 
 First of all a URDF needs to be created. The Model will be in URDF/
 
-
-
+## Credits
+Deok-yeon Kim creator of SpotMicro
+Boston Dynamics who built this incredible SpotMini
+Ivan Karsin - thanks inspiration and chatting
 
 
