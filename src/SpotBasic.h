@@ -35,7 +35,7 @@ private:
   long sum;
   int samples;
   long samples_timer;
-  static MODE mode;
+   MODE mode;
 };
 
 class PinConfig
@@ -97,6 +97,9 @@ public:
   volatile float x, y, z;
 };
 
+
+
+
 class SpotJoint
 {
 public:
@@ -130,8 +133,18 @@ private:
   volatile bool isFirstRotate = true;
 };
 
-class SpotLeg
-{
+class SpotLeg {
+  private:
+    SpotJoint shoulder;
+    SpotJoint leg;
+    SpotJoint foot;
+
+  public:
+    void moveLeg(int shoulder, int leg, int foot);
+    void moveShoulder(int shoulder);
+    void moveLeg(int leg);
+    void moveFoot(int foot);
+    
 };
 
 class PowerLed

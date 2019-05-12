@@ -1,0 +1,67 @@
+<robot name="SpotMicroAI">
+
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+
+  <material name="green">
+    <color rgba="0 0.9 0 1"/>
+  </material>
+
+  <!-- Body -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.140 0.110 0.070"/>
+      </geometry>
+      <material name="blue"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  <link name="rear_link">
+    <visual>
+      <geometry>
+        <box size="0.057 0.110 0.070"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.130 0 0"/>
+      <material name="blue"/>
+    </visual>
+  </link>
+  <link name="front_link">
+    <visual>
+      <geometry>
+        <box size="0.058 0.110 0.070"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
+      <material name="blue"/>
+    </visual>
+  </link>
+  <!-- Left front Leg -->
+
+  <link name="front_left_shoulder_link">
+    <visual>
+      <geometry>
+        <box size="0.044 0.038 0.070"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.093 0 0"/>
+      <material name="green"/>
+    </visual>
+  </link>
+
+
+
+  <joint name="base_rear" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_link"/>
+  </joint>
+
+  <joint name="base_front" type="fixed">
+    <parent link="base_link"/>
+    <child link="front_link"/>
+  </joint>
+
+  <joint name="base_front_left" type="fixed">
+    <parent link="base_link"/>
+    <child link="front_left_shoulder_link"/>
+  </joint>
+</robot>
