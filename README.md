@@ -22,6 +22,9 @@ https://www.thingiverse.com/thing:3445283
 This basically already is the physical Robot. 
 
 Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
+
+![Parts](/Images/SpotMicroAI_FreeCad.png)
+
 The Controller-Firmware for the Arduino-Mega can be found in /Controller.
 
 This Controller communicates with a NVIDIA Jetson Nano via UART. The Jetson Nano will serve as Locomotion Controller.
