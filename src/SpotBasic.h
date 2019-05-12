@@ -16,24 +16,44 @@ License     Creative Commons Attribution ShareAlike 3.0
 #include <Adafruit_NeoPixel.h>
 #include "SpotMemory.h"
 
-#define LOG_TO_SERIAL1  True
+#define LOG_TO_SERIAL1 True
 
+class PowerManager
+{
+public:
+  enum MODE
+  {
+    MODE_BRAIN_ONLY,
+    MODE_FULL
+  };
+  void switchMode(MODE newmode);
+  void Init();
+  void Update();
+  float getVoltage();
 
-class PinConfig {
+private:
+  long sum;
+  int samples;
+  long samples_timer;
+  static MODE mode;
+};
 
-    public:
-        static const int NEOMATRIX_PIN=30;
-        static const int POWERLED_PIN=45;
-        static const int MPU_INTERRUPT_PIN=1;
+class PinConfig
+{
 
-        static const int SONAR_1_ECHO_PIN=4;
-        static const int SONAR_1_TRIGGER_PIN=5;
-        static const int SONAR_2_ECHO_PIN=6;
-        static const int SONAR_2_TRIGGER_PIN=7;
-        static const int SONAR_3_ECHO_PIN=8;
-        static const int SONAR_3_TRIGGER_PIN=9;
-        static const int SONAR_4_ECHO_PIN=10;
-        static const int SONAR_4_TRIGGER_PIN=11;
+public:
+  static const int NEOMATRIX_PIN = 30;
+  static const int POWERLED_PIN = 45;
+  static const int MPU_INTERRUPT_PIN = 1;
+
+  static const int SONAR_1_ECHO_PIN = 4;
+  static const int SONAR_1_TRIGGER_PIN = 5;
+  static const int SONAR_2_ECHO_PIN = 6;
+  static const int SONAR_2_TRIGGER_PIN = 7;
+  static const int SONAR_3_ECHO_PIN = 8;
+  static const int SONAR_3_TRIGGER_PIN = 9;
+  static const int SONAR_4_ECHO_PIN = 10;
+  static const int SONAR_4_TRIGGER_PIN = 11;
 };
 
 class EepromAddresses
@@ -57,12 +77,13 @@ public:
   static const float robotState = 50;
 };
 
-class Logger {
-    public:
-       static void e(String s);
-       static void d(String s);
-       static void w(String s);
-       static void i(String s);
+class Logger
+{
+public:
+  static void e(String s);
+  static void d(String s);
+  static void w(String s);
+  static void i(String s);
 };
 
 class Point
@@ -109,71 +130,85 @@ private:
   volatile bool isFirstRotate = true;
 };
 
-class SpotLeg {
-
+class SpotLeg
+{
 };
 
-class PowerLed {
+class PowerLed
+{
 public:
-    static const int pin = PinConfig::POWERLED_PIN;
+  static const int pin = PinConfig::POWERLED_PIN;
 
-    void Init();
-    void Blink(int times,int speed,int intensity);
-    void Update();
+  void Init();
+  void Blink(int times, int speed, int intensity);
+  void Update();
 };
 
-class IMU {
+class IMU
+{
 public:
-    static const int pin = PinConfig::MPU_INTERRUPT_PIN;
+  static const int pin = PinConfig::MPU_INTERRUPT_PIN;
 
-    void Init();
-    void Update();
+  void Init();
+  void Update();
 };
 
-class OLED {
+class OLED
+{
 public:
-    void Init();
-    void Update();
+  void Init();
+  void Update();
 };
 
-class SonarSensor {
+class SonarSensor
+{
 private:
-    int echoPin;
-    int triggerPin;    
+  int echoPin;
+  int triggerPin;
+
 public:
-    void Init(int echoPin,int triggerPin);
+  void Init(int echoPin, int triggerPin);
 };
 
-class FrontLight {
+class FrontLight
+{
 private:
-    Adafruit_NeoPixel *pixel; 
-    long startTime;
-    int pin=PinConfig::NEOMATRIX_PIN;
+  Adafruit_NeoPixel *pixel;
+  long startTime;
+  int pin = PinConfig::NEOMATRIX_PIN;
+
 public:
-    void Init();
-    void Update();
+  void Init();
+  void Update();
 };
 
-class SpotMicro {
+class SpotMicro
+{
 private:
-    int ticks=0;
-    long timer1 = millis();
-    Memory memory;
-
+  int ticks = 0;
+  long timer1 = millis();
+  Memory memory;
+  PowerManager powerManager;
 
 public:
-    SpotMicro();
-    void Start();
-    void Update();
+  SpotMicro();
+  void Start();
+  void Update();
 
-    SonarSensor sonarFrontLeft,sonarFrontRight,sonarBottomFront,sonarBottomRear;
-    IMU imu;
-    PowerLed powerLed;
-    OLED oled;
-    FrontLight light;
-    SpotLeg leg_front_left,leg_front_right,leg_rear_left,leg_rear_right;
+  SonarSensor sonarFrontLeft, sonarFrontRight, sonarBottomFront, sonarBottomRear;
+  IMU imu;
+  PowerLed powerLed;
+  OLED oled;
+  FrontLight light;
+  SpotLeg leg_front_left, leg_front_right, leg_rear_left, leg_rear_right;
 
-  enum State { Install, Calibrate, Boot, Action };
+  enum State
+  {
+    Install,
+    Calibrate,
+    Boot,
+    Action
+  };
   State state = State::Boot;
 };
 

@@ -14,6 +14,8 @@
 #define PIN_BUTTON_2 40
 #define PIN_BUTTON_1 41
 
+#define PIN_VOLTAGE A0
+
 Servo myservo;
 SpotButton button;
 SpotMicro spot;
@@ -29,6 +31,7 @@ void initButtons()
 
 void setup()
 {
+
   spot.Start();
 
   for (double i = 180; i < 2 * 360 + 270; i++)
@@ -36,14 +39,13 @@ void setup()
     analogWrite(45, cos(PI / 180.0 * i) * 127 + 128);
     delayMicroseconds(1000);
   }
- setupLed();
- 
-  setupDisplay();
-  splashScreen();
+ //setupLed();
+//   setupDisplay();
+//  splashScreen();
 
 
   setupSonar();
-  setupIMU();
+//  setupIMU();
 
   initButtons();
 

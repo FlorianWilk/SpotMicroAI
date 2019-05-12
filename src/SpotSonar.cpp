@@ -1,3 +1,7 @@
+/***
+ * I am using the NewPing-Library here because it works non-blocking instead of the common ones which need delays
+ * **/
+
 #include <NewPing.h>
 
 #define SONAR_NUM 3      // Number or sensors.
@@ -50,6 +54,7 @@ void oneSensorCycle()
 
 void loopSonar()
 {
+    // TODO: One per cycle
     for (uint8_t i = 0; i < SONAR_NUM; i++)
     {
         if (millis() >= pingTimer[i])
