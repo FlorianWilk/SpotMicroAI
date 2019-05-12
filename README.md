@@ -37,6 +37,7 @@ Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, S
 Google Brain,Google DeepMind
 
 First of all a URDF needs to be created. The Model will be in URDF/
+I will start with a simple and very approximatly model of the real Robot, before i go into Detail for every Part. This gives me some feeling of progress during all the work. So don't be sad to see sad cubes everywhere ;)
 
 ## Credits  
 Deok-yeon Kim creator of SpotMicro, 
