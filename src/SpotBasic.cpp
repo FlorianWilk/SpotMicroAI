@@ -139,4 +139,33 @@ void SpotMicro::Update() {
   }
 }
 
+void SpotLeg::moveLeg(int shoulder, int leg, int foot) {
+  this->shoulder->RotateToDirectly(shoulder);
+  this->leg->RotateToDirectly(leg);
+  this->foot->RotateToDirectly(foot);
+}
+
+ SpotJoint::SpotJoint() {
+
+ }
+
+void SpotJoint::Set(int servoPin, float jointZero, bool jointDir, float jointMinAngle, float jointMaxAngle, int offsetAddress) {
+
+}
+
+  void  SpotJoint::SetOffset(float offset) {
+    
+  }
+  void SetOffsetEnableState(bool state);
+
+  void RotateToDirectly(float jointAngle);
+
+  float GetJointAngle(float servoAngle);
+
+  bool CheckJointAngle(float jointAngle);
+
+  volatile float jointAngleNow;
+  volatile float servoAngleNow;
+
+  static int firstRotateDelay;
 #endif
