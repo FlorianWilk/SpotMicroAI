@@ -28,7 +28,7 @@ Since my setup required some additional Hardware, i recreated some parts using F
 The Controller-Firmware for the Arduino-Mega can be found in /Controller.
 
 This Controller communicates with a NVIDIA Jetson Nano via UART. The Jetson Nano will serve as Locomotion Controller.
-Since i am not a robotics company and can easily invest some hundreds of Euros/Dollars, i will use Sonar Sensors instead of visual sensors like RGB or RGBD-Cams. Maybe someone wants to support my upcoming projects?... ;)
+Since i am not a robotics company, i can't easily invest some hundreds of Euros/Dollars. So i will use Sonar Sensors instead of visual sensors like RGB or RGBD-Cams. Maybe i will try with ESPEyes or something in the near future.
 
 Sensors used:
 4 x HC-SR04-Sensors. 2x as in the original model in the front looking forward/down. 2x at the bottom (front/back) looking down to measure the ground-distance. 
