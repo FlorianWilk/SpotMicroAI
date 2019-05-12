@@ -49,9 +49,9 @@ Google Brain,Google DeepMind
 First of all a URDF needs to be created. The Model will be in URDF/
 I will start with a simple and very approximatly model of the real Robot, before i go into Detail for every Part. This gives me some feeling of progress during all the work. So don't be sad to see sad cubes everywhere ;)
 
-## Credits  
+## Credits and thanks
 Deok-yeon Kim creator of SpotMicro, 
 Boston Dynamics who built this incredible SpotMini,
-Ivan Krasin - https://ivankrasin.com/about/ - thanks inspiration and chatting
+Ivan Krasin - https://ivankrasin.com/about/ - thanks for inspiration and chatting
 
 
