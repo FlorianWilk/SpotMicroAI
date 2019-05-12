@@ -15,6 +15,8 @@ Nevertheless we will have to create a precise IK-Model to be able to have some k
 
 ## a) The Robot
 
+![SpotMicroAI](/.SpotMicroAI_1.jpg)
+
 First of all thanks to Deok-yeon Kim aka KDY0523 who made this incredible work 
 https://www.thingiverse.com/thing:3445283
 This basically already is the physical Robot. 
