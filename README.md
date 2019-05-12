@@ -29,6 +29,10 @@ Sensors used:
 4 x HC-SR04-Sensors. 2x as in the original model in the front looking forward/down. 2x at the bottom (front/back) looking down to measure the ground-distance. 
 An IMU MPU-6050 is used to measure pitch,roll and velocities. Yaw will be ignored since it drifts quickly. 
 
+I also connected a SSD1306 128x64 OLED Display and a NeoMatrix LED Circle, but in my Tests it seems that the ArduinoMega is simply too slow to handle 12 Servos + Sonar + nice LED and OLED visual. The used ClockTicks prevent the Board from handling the PWD-Signals appropriately and the Servos start to "klick" on update-cycles or even shake when too much CPU-time has been used for custom code. This is why i decided to modify the Hardware-Setup and use the ArduinoMega as ServoController only. 
+
+An additional NodeMCU or WemosD1 (not yet decided because of 3V/5V issues) will then be the OLED and LED(s) and Sonar-Controller.
+
 
 ## b) Simulation and c) Training
 
