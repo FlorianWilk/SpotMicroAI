@@ -1,0 +1,284 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="SpotMicroAI">
+
+  <material name="yellow">
+    <color rgba="0.92 0.83 0.0 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0.1 0.1 0.1 1"/>
+  </material>
+  <material name="grey">
+    <color rgba="0.6 0.6 0.6 1"/>
+  </material>
+  <material name="blue">
+    <color rgba="0 0 0.8 1"/>
+  </material>
+  <material name="green">
+    <color rgba="0 0.9 0 1"/>
+  </material>
+  <material name="red">
+    <color rgba="0.9 0 0 1"/>
+  </material>
+
+  <!-- Params -->
+
+  <xacro:property name="body_length" value="0.140" />
+  <xacro:property name="body_width" value="0.110" />
+  <xacro:property name="body_height" value="0.070" />
+
+  <xacro:property name="front_length" value="0.058" />
+  <xacro:property name="rear_length" value="0.057" />
+
+  <xacro:property name="shoulder_length" value="0.044" />
+  <xacro:property name="shoulder_width" value="0.038" />
+
+  <xacro:macro name="gen_shoulder" params="name">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <box size="${shoulder_length} ${shoulder_width} ${body_height}"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <material name="black"/>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="gen_leg" params="name">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <box size="0.028 0.036 0.120"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+        <material name="yellow"/>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="gen_foot" params="name">
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <box size="0.026 0.020 0.155"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+        <material name="black"/>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="gen_toe" params="name">
+     <link name="${name}">
+    <visual>
+      <geometry>
+        <cylinder length="0.020" radius="0.014"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <material name="grey"/>
+    </visual>
+  </link>
+  </xacro:macro>
+
+  <!-- Body -->
+
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="${body_length} ${body_width} ${body_height}"/>
+      </geometry>
+      <material name="yellow"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </visual>
+  </link>
+  <link name="rear_link">
+    <visual>
+      <geometry>
+        <box size="${rear_length} ${body_width} ${body_height}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.145 0 0"/>
+      <material name="yellow"/>
+    </visual>
+  </link>
+  <link name="front_link">
+    <visual>
+      <geometry>
+        <box size="${front_length} ${body_width} ${body_height}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
+      <material name="yellow"/>
+    </visual>
+  </link>
+
+  <!-- Shoulder -->
+
+  <xacro:gen_shoulder name="front_left_shoulder_link"/>
+  <xacro:gen_shoulder name="front_right_shoulder_link"/>
+  <xacro:gen_shoulder name="rear_left_shoulder_link"/>
+  <xacro:gen_shoulder name="rear_right_shoulder_link"/>
+
+  <!-- Legs -->
+
+  <xacro:gen_leg name="front_left_leg_link"/>
+  <xacro:gen_leg name="front_right_leg_link"/>
+  <xacro:gen_leg name="rear_left_leg_link"/>
+  <xacro:gen_leg name="rear_right_leg_link"/>
+
+  <!-- Feet -->
+
+  <xacro:gen_foot name="front_left_foot_link"/>
+  <xacro:gen_foot name="front_right_foot_link"/>
+  <xacro:gen_foot name="rear_left_foot_link"/>
+  <xacro:gen_foot name="rear_right_foot_link"/>
+
+  <!-- Toes -->
+
+  <xacro:gen_toe name="front_left_toe_link"/>
+  <xacro:gen_toe name="front_right_toe_link"/>
+  <xacro:gen_toe name="rear_left_toe_link"/>
+  <xacro:gen_toe name="rear_right_toe_link"/>
+
+  <!-- Joints -->
+
+  <joint name="base_rear" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_link"/>
+  </joint>
+
+  <joint name="base_front" type="fixed">
+    <parent link="base_link"/>
+    <child link="front_link"/>
+  </joint>
+
+  <!-- ShoulderJoints -->
+
+  <!-- Front left -->
+
+  <joint name="base_front_left" type="revolute">
+    <parent link="base_link"/>
+    <child link="front_left_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="-0.093 -0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="front_left_leg" type="revolute">
+    <parent link="front_left_shoulder_link"/>
+    <child link="front_left_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 -0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+
+  <joint name="front_left_foot" type="revolute">
+    <parent link="front_left_leg_link"/>
+    <child link="front_left_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+  <joint name="front_left_toe" type="fixed">
+    <parent link="front_left_foot_link"/>
+    <child link="front_left_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
+
+  <!-- Front right -->
+
+  <joint name="base_front_right" type="revolute">
+    <parent link="base_link"/>
+    <child link="front_right_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="-0.093 0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="front_right_leg" type="revolute">
+    <parent link="front_right_shoulder_link"/>
+    <child link="front_right_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="front_right_foot" type="revolute">
+    <parent link="front_right_leg_link"/>
+    <child link="front_right_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+  <joint name="front_right_toe" type="fixed">
+    <parent link="front_right_foot_link"/>
+    <child link="front_right_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
+
+  <!-- rear left -->
+
+  <joint name="base_rear_left" type="revolute">
+    <parent link="base_link"/>
+    <child link="rear_left_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="0.093 -0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_left_leg" type="revolute">
+    <parent link="rear_left_shoulder_link"/>
+    <child link="rear_left_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 -0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_left_foot" type="revolute">
+    <parent link="rear_left_leg_link"/>
+    <child link="rear_left_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_left_toe" type="fixed">
+    <parent link="rear_left_foot_link"/>
+    <child link="rear_left_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
+
+  <!-- rear right -->
+
+  <joint name="base_rear_right" type="revolute">
+    <parent link="base_link"/>
+    <child link="rear_right_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="0.093 0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_right_leg" type="revolute">
+    <parent link="rear_right_shoulder_link"/>
+    <child link="rear_right_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_right_foot" type="revolute">
+    <parent link="rear_right_leg_link"/>
+    <child link="rear_right_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_right_toe" type="fixed">
+    <parent link="rear_right_foot_link"/>
+    <child link="rear_right_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
+
+</robot>
