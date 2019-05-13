@@ -51,7 +51,7 @@ See https://arxiv.org/pdf/1804.10332.pdf by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
 
-![PyBullet](/Images/SpotMicroAI_pybullet.png)
+![PyBullet](/Images/SpotMicroAI_pybullet_2.png)
 
 The URDF Model is very basic and work in progress.
 
