@@ -23,6 +23,14 @@
   <xacro:property name="shoulder_length" value="0.044" />
   <xacro:property name="shoulder_width" value="0.038" />
 
+  <xacro:property name="leg_length" value="0.120" />
+  <xacro:property name="foot_length" value="0.155" />
+
+  <xacro:property name="toe_radius" value="0.020" />
+  <!--  <xacro:property name="toe_radius" value="0.014" /> -->
+  <xacro:property name="toe_width" value="0.020" />
+
+
   <!-- Macros -->
 
   <xacro:macro name="gen_shoulder" params="name">
@@ -34,6 +42,16 @@
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <material name="black"/>
       </visual>
+      <collision>
+        <geometry>
+          <box size="${shoulder_length} ${shoulder_width} ${body_height}"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="0.10"/>
+        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+      </inertial>
     </link>
   </xacro:macro>
 
@@ -41,11 +59,21 @@
     <link name="${name}">
       <visual>
         <geometry>
-          <box size="0.028 0.036 0.120"/>
+          <box size="0.028 0.036 ${leg_length}"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
         <material name="yellow"/>
       </visual>
+      <collision>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
+        <geometry>
+          <box size="0.028 0.036 ${leg_length}"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="0.10"/>
+        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+      </inertial>
     </link>
   </xacro:macro>
 
@@ -53,11 +81,21 @@
     <link name="${name}">
       <visual>
         <geometry>
-          <box size="0.026 0.020 0.155"/>
+          <box size="0.026 0.020 ${foot_length}"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
         <material name="black"/>
       </visual>
+      <collision>
+        <geometry>
+          <box size="0.026 0.020 ${foot_length}"/>
+        </geometry>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
+      </collision>
+      <inertial>
+        <mass value="0.10"/>
+        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+      </inertial>
     </link>
   </xacro:macro>
 
@@ -65,11 +103,21 @@
     <link name="${name}">
       <visual>
         <geometry>
-          <cylinder length="0.020" radius="0.014"/>
+          <sphere radius="${toe_radius}" />
         </geometry>
         <origin rpy="1.5708 0 0" xyz="0 0 0"/>
         <material name="grey"/>
       </visual>
+      <collision>
+        <geometry>
+          <sphere radius="${toe_radius}" />
+        </geometry>
+        <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      </collision>
+      <inertial>
+        <mass value="0.01"/>
+        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+      </inertial>
     </link>
   </xacro:macro>
 
@@ -78,8 +126,9 @@
       <parent link="${pos}_leg_link"/>
       <child link="${pos}_foot_link"/>
       <axis xyz="0 1 0"/>
-      <origin xyz="-0.01 0 -0.120"/>
+      <origin xyz="-0.01 0 -${leg_length}"/>
       <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
   </xacro:macro>
 
@@ -87,7 +136,7 @@
     <joint name="${pos}_toe" type="fixed">
       <parent link="${pos}_foot_link"/>
       <child link="${pos}_toe_link"/>
-      <origin xyz="0 0 -0.155"/>
+      <origin xyz="0 0 -${foot_length}"/>
     </joint>
   </xacro:macro>
 
@@ -98,6 +147,7 @@
       <axis xyz="0 1 0"/>
       <origin xyz="0 ${shift} 0"/>
       <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
   </xacro:macro>
 
@@ -108,6 +158,7 @@
       <axis xyz="1 0 0"/>
       <origin xyz="${shiftx} ${shifty} 0"/>
       <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
   </xacro:macro>
 
@@ -133,6 +184,15 @@
       <material name="yellow"/>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="${body_length} ${body_width} ${body_height}"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.80"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
   </link>
 
   <link name="rear_link">
@@ -143,6 +203,16 @@
       <origin rpy="0 0 0" xyz="0.145 0 0"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="${rear_length} ${body_width} ${body_height}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.145 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.20"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
   </link>
   <joint name="base_rear" type="fixed">
     <parent link="base_link"/>
@@ -157,6 +227,17 @@
       <origin rpy="0 0 0" xyz="-0.145 0 0"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="${front_length} ${body_width} ${body_height}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.20"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+
   </link>
   <joint name="base_front" type="fixed">
     <parent link="base_link"/>
@@ -164,7 +245,7 @@
   </joint>
 
   <!-- create Legs -->
-  
+
   <xacro:gen_full_leg_joint pos="front_left" shiftx="-0.093" shifty="-0.036" shift="-0.042"/>
   <xacro:gen_full_leg_joint pos="front_right" shiftx="-0.093" shifty="0.036" shift="0.042"/>
   <xacro:gen_full_leg_joint pos="rear_left" shiftx="0.093" shifty="-0.036" shift="-0.042"/>

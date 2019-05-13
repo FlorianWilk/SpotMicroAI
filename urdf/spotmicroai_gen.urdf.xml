@@ -24,6 +24,15 @@
       <material name="yellow"/>
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.14 0.11 0.07"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.80"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="rear_link">
     <visual>
@@ -33,6 +42,16 @@
       <origin rpy="0 0 0" xyz="0.145 0 0"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.057 0.11 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.145 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.20"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <joint name="base_rear" type="fixed">
     <parent link="base_link"/>
@@ -46,6 +65,16 @@
       <origin rpy="0 0 0" xyz="-0.145 0 0"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.058 0.11 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.20"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <joint name="base_front" type="fixed">
     <parent link="base_link"/>
@@ -60,33 +89,73 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.044 0.038 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="front_left_leg_link">
     <visual>
       <geometry>
-        <box size="0.028 0.036 0.120"/>
+        <box size="0.028 0.036 0.12"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
+      <geometry>
+        <box size="0.028 0.036 0.12"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="front_left_foot_link">
     <visual>
       <geometry>
         <box size="0.026 0.020 0.155"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="front_left_toe_link">
     <visual>
       <geometry>
-        <cylinder length="0.020" radius="0.014"/>
+        <sphere radius="0.02"/>
       </geometry>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <material name="grey"/>
     </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <joint name="front_left_shoulder" type="revolute">
     <parent link="base_link"/>
@@ -94,6 +163,7 @@
     <axis xyz="1 0 0"/>
     <origin xyz="-0.093 -0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="front_left_leg" type="revolute">
     <parent link="front_left_shoulder_link"/>
@@ -101,13 +171,15 @@
     <axis xyz="0 1 0"/>
     <origin xyz="0 -0.042 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="front_left_foot" type="revolute">
     <parent link="front_left_leg_link"/>
     <child link="front_left_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
+    <origin xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="front_left_toe" type="fixed">
     <parent link="front_left_foot_link"/>
@@ -122,33 +194,73 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.044 0.038 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="front_right_leg_link">
     <visual>
       <geometry>
-        <box size="0.028 0.036 0.120"/>
+        <box size="0.028 0.036 0.12"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
+      <geometry>
+        <box size="0.028 0.036 0.12"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="front_right_foot_link">
     <visual>
       <geometry>
         <box size="0.026 0.020 0.155"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="front_right_toe_link">
     <visual>
       <geometry>
-        <cylinder length="0.020" radius="0.014"/>
+        <sphere radius="0.02"/>
       </geometry>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <material name="grey"/>
     </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <joint name="front_right_shoulder" type="revolute">
     <parent link="base_link"/>
@@ -156,6 +268,7 @@
     <axis xyz="1 0 0"/>
     <origin xyz="-0.093 0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="front_right_leg" type="revolute">
     <parent link="front_right_shoulder_link"/>
@@ -163,13 +276,15 @@
     <axis xyz="0 1 0"/>
     <origin xyz="0 0.042 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="front_right_foot" type="revolute">
     <parent link="front_right_leg_link"/>
     <child link="front_right_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
+    <origin xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="front_right_toe" type="fixed">
     <parent link="front_right_foot_link"/>
@@ -184,33 +299,73 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.044 0.038 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="rear_left_leg_link">
     <visual>
       <geometry>
-        <box size="0.028 0.036 0.120"/>
+        <box size="0.028 0.036 0.12"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
+      <geometry>
+        <box size="0.028 0.036 0.12"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="rear_left_foot_link">
     <visual>
       <geometry>
         <box size="0.026 0.020 0.155"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="rear_left_toe_link">
     <visual>
       <geometry>
-        <cylinder length="0.020" radius="0.014"/>
+        <sphere radius="0.02"/>
       </geometry>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <material name="grey"/>
     </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <joint name="rear_left_shoulder" type="revolute">
     <parent link="base_link"/>
@@ -218,6 +373,7 @@
     <axis xyz="1 0 0"/>
     <origin xyz="0.093 -0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="rear_left_leg" type="revolute">
     <parent link="rear_left_shoulder_link"/>
@@ -225,13 +381,15 @@
     <axis xyz="0 1 0"/>
     <origin xyz="0 -0.042 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="rear_left_foot" type="revolute">
     <parent link="rear_left_leg_link"/>
     <child link="rear_left_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
+    <origin xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="rear_left_toe" type="fixed">
     <parent link="rear_left_foot_link"/>
@@ -246,33 +404,73 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.044 0.038 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="rear_right_leg_link">
     <visual>
       <geometry>
-        <box size="0.028 0.036 0.120"/>
+        <box size="0.028 0.036 0.12"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
       <material name="yellow"/>
     </visual>
+    <collision>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
+      <geometry>
+        <box size="0.028 0.036 0.12"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="rear_right_foot_link">
     <visual>
       <geometry>
         <box size="0.026 0.020 0.155"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
       <material name="black"/>
     </visual>
+    <collision>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
+    </collision>
+    <inertial>
+      <mass value="0.10"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <link name="rear_right_toe_link">
     <visual>
       <geometry>
-        <cylinder length="0.020" radius="0.014"/>
+        <sphere radius="0.02"/>
       </geometry>
       <origin rpy="1.5708 0 0" xyz="0 0 0"/>
       <material name="grey"/>
     </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.02"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.01"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
   </link>
   <joint name="rear_right_shoulder" type="revolute">
     <parent link="base_link"/>
@@ -280,6 +478,7 @@
     <axis xyz="1 0 0"/>
     <origin xyz="0.093 0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="rear_right_leg" type="revolute">
     <parent link="rear_right_shoulder_link"/>
@@ -287,13 +486,15 @@
     <axis xyz="0 1 0"/>
     <origin xyz="0 0.042 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="rear_right_foot" type="revolute">
     <parent link="rear_right_leg_link"/>
     <child link="rear_right_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
+    <origin xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+    <dynamics damping="0.0" friction="0.0"/>
   </joint>
   <joint name="rear_right_toe" type="fixed">
     <parent link="rear_right_foot_link"/>

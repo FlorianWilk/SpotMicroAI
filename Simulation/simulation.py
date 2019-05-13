@@ -26,7 +26,7 @@ def drawInertiaBox(parentUid, parentLinkIndex, color):
            [-halfExtents[0], halfExtents[1], -halfExtents[2]],
            [halfExtents[0], -halfExtents[1], -halfExtents[2]],
            [-halfExtents[0], -halfExtents[1], -halfExtents[2]]]
-
+    """
     p.addUserDebugLine(pts[0],
                        pts[1],
                        color,
@@ -101,11 +101,11 @@ def drawInertiaBox(parentUid, parentLinkIndex, color):
                        1,
                        parentObjectUniqueId=parentUid,
                        parentLinkIndex=parentLinkIndex)
-
+    """
 
 toeConstraint = True
 useMaximalCoordinates = False
-useRealTime = 1
+useRealTime = 0
 
 #the fixedTimeStep and numSolverIterations are the most important parameters to trade-off quality versus performance
 fixedTimeStep = 1. / 100
@@ -145,7 +145,7 @@ p.setGravity(0, 0, -9.81)
 p.setTimeStep(fixedTimeStep)
 
 orn = p.getQuaternionFromEuler([0, 0, 0.4])
-p.setRealTimeSimulation(0)
+p.setRealTimeSimulation(useRealTime)
 quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", [1, -1, .3],
                        orn,
                        useFixedBase=False,
@@ -158,22 +158,22 @@ for i in range(nJoints):
   jointInfo = p.getJointInfo(quadruped, i)
   jointNameToId[jointInfo[1].decode('UTF-8')] = jointInfo[0]
 
-front_left_shoulder = jointNameToId['base_front_left']
+front_left_shoulder = jointNameToId['front_left_shoulder']
 front_left_leg = jointNameToId['front_left_leg']
 front_left_foot = jointNameToId['front_left_foot']
 front_left_toe = jointNameToId['front_left_toe']
 
-front_right_shoulder = jointNameToId['base_front_right']
+front_right_shoulder = jointNameToId['front_right_shoulder']
 front_right_leg = jointNameToId['front_right_leg']
 front_right_foot = jointNameToId['front_right_foot']
 front_right_toe = jointNameToId['front_right_toe']
 
-rear_left_shoulder = jointNameToId['base_rear_left']
+rear_left_shoulder = jointNameToId['rear_left_shoulder']
 rear_left_leg = jointNameToId['rear_left_leg']
 rear_left_foot = jointNameToId['rear_left_foot']
 rear_left_toe = jointNameToId['rear_left_toe']
 
-rear_right_shoulder = jointNameToId['base_rear_right']
+rear_right_shoulder = jointNameToId['rear_right_shoulder']
 rear_right_leg = jointNameToId['rear_right_leg']
 rear_right_foot = jointNameToId['rear_right_foot']
 rear_right_toe = jointNameToId['rear_right_toe']
@@ -368,7 +368,8 @@ p.setJointMotorControl2(bodyIndex=quadruped,
                         force=maxForce)
 #stand still
 
-p.setRealTimeSimulation(useRealTime)
+
+"""
 
 t = 0.0
 t_end = t + 15
@@ -387,14 +388,13 @@ print("quadruped Id = ")
 print(quadruped)
 p.saveWorld("quadru.py")
 logId = p.startStateLogging(p.STATE_LOGGING_MINITAUR, "quadrupedLog.bin", [quadruped])
-"""
-
+p.setRealTimeSimulation(useRealTime)
 #jump
 t = 0.0
 t_end = t + 100
 i = 0
 ref_time = time.time()
-for _ in range(10):
+for _ in range(10000):
     p.stepSimulation()
 
 while (1):
