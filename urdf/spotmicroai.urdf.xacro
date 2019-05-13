@@ -10,7 +10,7 @@
   <material name="grey">
     <color rgba="0.6 0.6 0.6 1"/>
   </material>
-  
+
   <!-- Params -->
 
   <xacro:property name="body_length" value="0.140" />
@@ -22,6 +22,8 @@
 
   <xacro:property name="shoulder_length" value="0.044" />
   <xacro:property name="shoulder_width" value="0.038" />
+
+  <!-- Macros -->
 
   <xacro:macro name="gen_shoulder" params="name">
     <link name="${name}">
@@ -100,16 +102,28 @@
   </xacro:macro>
 
   <xacro:macro name="gen_shoulder_joint" params="pos shiftx shifty">
- <joint name="${pos}_shoulder" type="revolute">
-    <parent link="base_link"/>
-    <child link="${pos}_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="${shiftx} ${shifty} 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
+    <joint name="${pos}_shoulder" type="revolute">
+      <parent link="base_link"/>
+      <child link="${pos}_shoulder_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="${shiftx} ${shifty} 0"/>
+      <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+    </joint>
   </xacro:macro>
 
-  <!-- Body -->
+  <xacro:macro name="gen_full_leg_joint" params="pos shiftx shifty shift">
+    <xacro:gen_shoulder name="${pos}_shoulder_link"/>
+    <xacro:gen_leg name="${pos}_leg_link"/>
+    <xacro:gen_foot name="${pos}_foot_link"/>
+    <xacro:gen_toe name="${pos}_toe_link"/>
+
+    <xacro:gen_shoulder_joint pos="${pos}" shiftx="${shiftx}" shifty="${shifty}"/>
+    <xacro:gen_leg_joint pos="${pos}" shift="${shift}"/>
+    <xacro:gen_foot_joint pos="${pos}"/>
+    <xacro:gen_toe_joint pos="${pos}"/>
+  </xacro:macro>
+
+  <!-- Robot Body -->
 
   <link name="base_link">
     <visual>
@@ -120,6 +134,7 @@
       <origin rpy="0 0 0" xyz="0 0 0"/>
     </visual>
   </link>
+
   <link name="rear_link">
     <visual>
       <geometry>
@@ -129,6 +144,11 @@
       <material name="yellow"/>
     </visual>
   </link>
+  <joint name="base_rear" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_link"/>
+  </joint>
+
   <link name="front_link">
     <visual>
       <geometry>
@@ -138,66 +158,16 @@
       <material name="yellow"/>
     </visual>
   </link>
-
-  <!-- Shoulder -->
-
-  <xacro:gen_shoulder name="front_left_shoulder_link"/>
-  <xacro:gen_shoulder name="front_right_shoulder_link"/>
-  <xacro:gen_shoulder name="rear_left_shoulder_link"/>
-  <xacro:gen_shoulder name="rear_right_shoulder_link"/>
-
-  <!-- Legs -->
-
-  <xacro:gen_leg name="front_left_leg_link"/>
-  <xacro:gen_leg name="front_right_leg_link"/>
-  <xacro:gen_leg name="rear_left_leg_link"/>
-  <xacro:gen_leg name="rear_right_leg_link"/>
-
-  <!-- Feet -->
-
-  <xacro:gen_foot name="front_left_foot_link"/>
-  <xacro:gen_foot name="front_right_foot_link"/>
-  <xacro:gen_foot name="rear_left_foot_link"/>
-  <xacro:gen_foot name="rear_right_foot_link"/>
-
-  <!-- Toes -->
-
-  <xacro:gen_toe name="front_left_toe_link"/>
-  <xacro:gen_toe name="front_right_toe_link"/>
-  <xacro:gen_toe name="rear_left_toe_link"/>
-  <xacro:gen_toe name="rear_right_toe_link"/>
-
-  <!-- Joints -->
-
-  <joint name="base_rear" type="fixed">
-    <parent link="base_link"/>
-    <child link="rear_link"/>
-  </joint>
-
   <joint name="base_front" type="fixed">
     <parent link="base_link"/>
     <child link="front_link"/>
   </joint>
+
+  <!-- create Legs -->
   
-  <!-- Shoulder Joints -->
-  <xacro:gen_shoulder_joint pos="front_left" shiftx="-0.093" shifty="-0.036"/>
-  <xacro:gen_shoulder_joint pos="front_right" shiftx="-0.093" shifty="0.036"/>
-  <xacro:gen_shoulder_joint pos="rear_left" shiftx="0.093" shifty="-0.036"/>
-  <xacro:gen_shoulder_joint pos="rear_right" shiftx="0.093" shifty="0.036"/>
-  <!-- Leg Joints -->
-  <xacro:gen_leg_joint pos="front_left" shift="-0.042"/>
-  <xacro:gen_leg_joint pos="front_right" shift="0.042"/>
-  <xacro:gen_leg_joint pos="rear_left" shift="-0.042"/>
-  <xacro:gen_leg_joint pos="rear_right" shift="0.042"/>
-  <!-- Foot Joints -->
-  <xacro:gen_foot_joint pos="front_left"/>
-  <xacro:gen_foot_joint pos="front_right"/>
-  <xacro:gen_foot_joint pos="rear_left"/>
-  <xacro:gen_foot_joint pos="rear_right"/>
-  <!-- Toe Joints -->
-  <xacro:gen_toe_joint pos="front_left"/>
-  <xacro:gen_toe_joint pos="front_right"/>
-  <xacro:gen_toe_joint pos="rear_left"/>
-  <xacro:gen_toe_joint pos="rear_right"/>
+  <xacro:gen_full_leg_joint pos="front_left" shiftx="-0.093" shifty="-0.036" shift="-0.042"/>
+  <xacro:gen_full_leg_joint pos="front_right" shiftx="-0.093" shifty="0.036" shift="0.042"/>
+  <xacro:gen_full_leg_joint pos="rear_left" shiftx="0.093" shifty="-0.036" shift="-0.042"/>
+  <xacro:gen_full_leg_joint pos="rear_right" shiftx="0.093" shifty="0.036" shift="0.042"/>
 
 </robot>
