@@ -1,8 +1,9 @@
 # SpotMicro AI 
+
+![urdf](/Images/SpotMicroAI_urdf2.png)
+
 This Project is heavily work in progress and documenting my progress on the goal of making a four-legged robot walk.
 It is NOT a working or even finished Project you might want to use! 
-
-I do not think that the Hardware i use here will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
 I started this Project because i got inspired by some very smart People/Companies and Projects out there and want to 
 understand and adapt their work on my personal wish to create a small "clone" of a "BostonDynamics SpotMini"-kind-of-looking but self-learning Robot.
@@ -40,6 +41,7 @@ I also connected a SSD1306 128x64 OLED Display and a NeoMatrix LED Circle, but i
 
 An additional NodeMCU or WemosD1 (not yet decided because of 3V/5V issues) will then be the OLED and LED(s) and Sonar-Controller.
 
+I do not think that the Hardware i use here will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
 ## b) Simulation and c) Training
 
@@ -50,7 +52,6 @@ Google Brain,Google DeepMind
 First of all a URDF needs to be created. The Model will be in URDF/
 I will start with a simple and very approximatly model of the real Robot, before i go into Detail for every Part. This gives me some feeling of progress during all the work. 
 
-![urdf](/Images/SpotMicroAI_urdf.png)
 
 ## Credits and thanks
 Deok-yeon Kim creator of SpotMicro, 

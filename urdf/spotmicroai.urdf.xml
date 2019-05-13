@@ -164,9 +164,45 @@
     </visual>
   </link>
 
+  <!-- Toes -->
+  <link name="front_left_toe_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.020" radius="0.014"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <material name="red"/>
+    </visual>
+  </link>
 
+  <link name="front_right_toe_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.020" radius="0.014"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <material name="red"/>
+    </visual>
+  </link>
 
-
+  <link name="rear_left_toe_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.020" radius="0.014"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <material name="red"/>
+    </visual>
+  </link>
+  <link name="rear_right_toe_link">
+    <visual>
+      <geometry>
+        <cylinder length="0.020" radius="0.014"/>
+      </geometry>
+      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <material name="red"/>
+    </visual>
+  </link>
   <!-- Joints -->
 
   <joint name="base_rear" type="fixed">
@@ -208,8 +244,14 @@
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
   </joint>
 
+  <joint name="front_left_toe" type="fixed">
+    <parent link="front_left_foot_link"/>
+    <child link="front_left_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
+
   <!-- Front right -->
-  
+
 
   <joint name="base_front_right" type="revolute">
     <parent link="base_link"/>
@@ -235,7 +277,14 @@
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
   </joint>
 
-<!-- rear left -->
+  <joint name="front_right_toe" type="fixed">
+    <parent link="front_right_foot_link"/>
+    <child link="front_right_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
+
+
+  <!-- rear left -->
 
   <joint name="base_rear_left" type="revolute">
     <parent link="base_link"/>
@@ -262,7 +311,13 @@
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
   </joint>
 
-<!-- rear right -->
+  <joint name="rear_left_toe" type="fixed">
+    <parent link="rear_left_foot_link"/>
+    <child link="rear_left_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
+
+  <!-- rear right -->
 
   <joint name="base_rear_right" type="revolute">
     <parent link="base_link"/>
@@ -288,6 +343,11 @@
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
   </joint>
 
+  <joint name="rear_right_toe" type="fixed">
+    <parent link="rear_right_foot_link"/>
+    <child link="rear_right_toe_link"/>
+    <origin xyz="0 0 -0.155"/>
+  </joint>
 
 
 </robot>
