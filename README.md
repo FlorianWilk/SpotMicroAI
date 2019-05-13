@@ -1,6 +1,6 @@
 # SpotMicro AI 
 
-![urdf](/Images/SpotMicroAI_urdf2.png)
+![urdf](/Images/SpotMicroAI_rviz2.png)
 
 This Project is heavily work in progress and documenting my progress on the goal of making a four-legged robot walk.
 It is NOT a working or even finished Project you might want to use! 
@@ -44,6 +44,8 @@ An additional NodeMCU or WemosD1 (not yet decided because of 3V/5V issues) will 
 I do not think that the Hardware i use here will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
 ## b) Simulation and c) Training
+
+![urdf](/Images/SpotMicroAI_urdf2.png)
 
 See https://arxiv.org/pdf/1804.10332.pdf by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
