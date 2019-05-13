@@ -49,8 +49,9 @@ See https://arxiv.org/pdf/1804.10332.pdf by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
 
-First of all a URDF needs to be created. The Model will be in URDF/
-I will start with a simple and very approximatly model of the real Robot, before i go into Detail for every Part. This gives me some feeling of progress during all the work. 
+![PyBullet](/Images/SpotMicroAI_pybullet.png)
+
+The URDF Model is very basic and work in progress.
 
 
 ## Credits and thanks
