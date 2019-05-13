@@ -195,181 +195,27 @@ print("localInertiaDiagonal", localInertiaDiagonal)
 
 #this is a no-op, just to show the API
 p.changeDynamics(quadruped, -1, localInertiaDiagonal=localInertiaDiagonal)
+for foot in (front_left_foot,front_right_foot,rear_left_foot,rear_right_foot):
+    p.setJointMotorControl2(bodyIndex=quadruped,
+                            jointIndex=foot,
+                            controlMode=p.POSITION_CONTROL,
+                            targetPosition= 2.47,
+                            positionGain=kp,
+                            velocityGain=kd,
+                            force=maxForce)
+for leg in (front_left_leg,front_right_leg,rear_left_leg,rear_right_leg):
+    p.setJointMotorControl2(bodyIndex=quadruped,
+                            jointIndex=leg,
+                            controlMode=p.POSITION_CONTROL,
+                            targetPosition= -1.5,
+                            positionGain=kp,
+                            velocityGain=kd,
+                            force=maxForce)
 
 #for i in range (nJoints):
 #	p.changeDynamics(quadruped,i,localInertiaDiagonal=[0.000001,0.000001,0.000001])
 
-drawInertiaBox(quadruped, -1, [1, 0, 0])
-#drawInertiaBox(quadruped,motor_front_rightR_joint, [1,0,0])
 
-for i in range(nJoints):
-  drawInertiaBox(quadruped, i, [0, 1, 0])
-"""
-
-if (useMaximalCoordinates):
-  steps = 400
-  for aa in range(steps):
-    p.setJointMotorControl2(quadruped, motor_front_leftL_joint, p.POSITION_CONTROL,
-                            motordir[0] * halfpi * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, motor_front_leftR_joint, p.POSITION_CONTROL,
-                            motordir[1] * halfpi * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, motor_back_leftL_joint, p.POSITION_CONTROL,
-                            motordir[2] * halfpi * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, motor_back_leftR_joint, p.POSITION_CONTROL,
-                            motordir[3] * halfpi * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, motor_front_rightL_joint, p.POSITION_CONTROL,
-                            motordir[4] * halfpi * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, motor_front_rightR_joint, p.POSITION_CONTROL,
-                            motordir[5] * halfpi * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, motor_back_rightL_joint, p.POSITION_CONTROL,
-                            motordir[6] * halfpi * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, motor_back_rightR_joint, p.POSITION_CONTROL,
-                            motordir[7] * halfpi * float(aa) / steps)
-
-    p.setJointMotorControl2(quadruped, knee_front_leftL_link, p.POSITION_CONTROL,
-                            motordir[0] * (kneeangle + twopi) * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, knee_front_leftR_link, p.POSITION_CONTROL,
-                            motordir[1] * kneeangle * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, knee_back_leftL_link, p.POSITION_CONTROL,
-                            motordir[2] * kneeangle * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, knee_back_leftR_link, p.POSITION_CONTROL,
-                            motordir[3] * (kneeangle + twopi) * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, knee_front_rightL_link, p.POSITION_CONTROL,
-                            motordir[4] * (kneeangle) * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, knee_front_rightR_link, p.POSITION_CONTROL,
-                            motordir[5] * (kneeangle + twopi) * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, knee_back_rightL_link, p.POSITION_CONTROL,
-                            motordir[6] * (kneeangle + twopi) * float(aa) / steps)
-    p.setJointMotorControl2(quadruped, knee_back_rightR_link, p.POSITION_CONTROL,
-                            motordir[7] * kneeangle * float(aa) / steps)
-    p.stepSimulation()
-    #time.sleep(fixedTimeStep)
-else:
-  p.resetJointState(quadruped, motor_front_leftL_joint, motordir[0] * halfpi)
-  p.resetJointState(quadruped, knee_front_leftL_link, motordir[0] * kneeangle)
-  p.resetJointState(quadruped, motor_front_leftR_joint, motordir[1] * halfpi)
-  p.resetJointState(quadruped, knee_front_leftR_link, motordir[1] * kneeangle)
-
-  p.resetJointState(quadruped, motor_back_leftL_joint, motordir[2] * halfpi)
-  p.resetJointState(quadruped, knee_back_leftL_link, motordir[2] * kneeangle)
-  p.resetJointState(quadruped, motor_back_leftR_joint, motordir[3] * halfpi)
-  p.resetJointState(quadruped, knee_back_leftR_link, motordir[3] * kneeangle)
-
-  p.resetJointState(quadruped, motor_front_rightL_joint, motordir[4] * halfpi)
-  p.resetJointState(quadruped, knee_front_rightL_link, motordir[4] * kneeangle)
-  p.resetJointState(quadruped, motor_front_rightR_joint, motordir[5] * halfpi)
-  p.resetJointState(quadruped, knee_front_rightR_link, motordir[5] * kneeangle)
-
-  p.resetJointState(quadruped, motor_back_rightL_joint, motordir[6] * halfpi)
-  p.resetJointState(quadruped, knee_back_rightL_link, motordir[6] * kneeangle)
-  p.resetJointState(quadruped, motor_back_rightR_joint, motordir[7] * halfpi)
-  p.resetJointState(quadruped, knee_back_rightR_link, motordir[7] * kneeangle)
-
-#p.getNumJoints(1)
-
-if (toeConstraint):
-  cid = p.createConstraint(quadruped, knee_front_leftR_link, quadruped, knee_front_leftL_link,
-                           p.JOINT_POINT2POINT, [0, 0, 0], [0, 0.005, 0.1], [0, 0.01, 0.1])
-  p.changeConstraint(cid, maxForce=maxKneeForce)
-  cid = p.createConstraint(quadruped, knee_front_rightR_link, quadruped, knee_front_rightL_link,
-                           p.JOINT_POINT2POINT, [0, 0, 0], [0, 0.005, 0.1], [0, 0.01, 0.1])
-  p.changeConstraint(cid, maxForce=maxKneeForce)
-  cid = p.createConstraint(quadruped, knee_back_leftR_link, quadruped, knee_back_leftL_link,
-                           p.JOINT_POINT2POINT, [0, 0, 0], [0, 0.005, 0.1], [0, 0.01, 0.1])
-  p.changeConstraint(cid, maxForce=maxKneeForce)
-  cid = p.createConstraint(quadruped, knee_back_rightR_link, quadruped, knee_back_rightL_link,
-                           p.JOINT_POINT2POINT, [0, 0, 0], [0, 0.005, 0.1], [0, 0.01, 0.1])
-  p.changeConstraint(cid, maxForce=maxKneeForce)
-
-if (1):
-  p.setJointMotorControl(quadruped, knee_front_leftL_link, p.VELOCITY_CONTROL, 0,
-                         kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_front_leftR_link, p.VELOCITY_CONTROL, 0,
-                         kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_front_rightL_link, p.VELOCITY_CONTROL, 0,
-                         kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_front_rightR_link, p.VELOCITY_CONTROL, 0,
-                         kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_back_leftL_link, p.VELOCITY_CONTROL, 0, kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_back_leftR_link, p.VELOCITY_CONTROL, 0, kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_back_leftL_link, p.VELOCITY_CONTROL, 0, kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_back_leftR_link, p.VELOCITY_CONTROL, 0, kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_back_rightL_link, p.VELOCITY_CONTROL, 0,
-                         kneeFrictionForce)
-  p.setJointMotorControl(quadruped, knee_back_rightR_link, p.VELOCITY_CONTROL, 0,
-                         kneeFrictionForce)
-
-p.setGravity(0, 0, -10)
-
-legnumbering = [
-    motor_front_leftL_joint, motor_front_leftR_joint, motor_back_leftL_joint,
-    motor_back_leftR_joint, motor_front_rightL_joint, motor_front_rightR_joint,
-    motor_back_rightL_joint, motor_back_rightR_joint
-]
-
-for i in range(8):
-  print(legnumbering[i])
-#use the Minitaur leg numbering
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[0],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[0] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[1],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[1] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[2],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[2] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[3],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[3] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[4],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[4] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[5],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[5] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[6],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[6] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-p.setJointMotorControl2(bodyIndex=quadruped,
-                        jointIndex=legnumbering[7],
-                        controlMode=p.POSITION_CONTROL,
-                        targetPosition=motordir[7] * 1.57,
-                        positionGain=kp,
-                        velocityGain=kd,
-                        force=maxForce)
-#stand still
-
-
-"""
 
 t = 0.0
 t_end = t + 15
@@ -394,8 +240,6 @@ t = 0.0
 t_end = t + 100
 i = 0
 ref_time = time.time()
-for _ in range(10000):
-    p.stepSimulation()
 
 while (1):
   if (useRealTime):
@@ -404,64 +248,7 @@ while (1):
     t = t + fixedTimeStep
   if (True):
     target = math.sin(t * speed) * jump_amp + 1.57
-    """
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[0],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[0] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[1],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[1] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[2],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[2] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[3],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[3] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[4],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[4] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[5],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[5] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[6],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[6] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=legnumbering[7],
-                            controlMode=p.POSITION_CONTROL,
-                            targetPosition=motordir[7] * target,
-                            positionGain=kp,
-                            velocityGain=kd,
-                            force=maxForce)
-    """
+   
   if (useRealTime == 0):
     p.stepSimulation()
     time.sleep(fixedTimeStep)

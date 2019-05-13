@@ -29,7 +29,9 @@
   <xacro:property name="toe_radius" value="0.020" />
   <!--  <xacro:property name="toe_radius" value="0.014" /> -->
   <xacro:property name="toe_width" value="0.020" />
-
+  <xacro:property name="shift" value="0.052" />
+  <xacro:property name="shiftx" value="0.093" />
+  <xacro:property name="shifty" value="0.036" />
 
   <!-- Macros -->
 
@@ -55,6 +57,17 @@
     </link>
   </xacro:macro>
 
+  <xacro:macro name="gen_shoulder_joint" params="pos shiftx shifty">
+    <joint name="${pos}_shoulder" type="revolute">
+      <parent link="base_link"/>
+      <child link="${pos}_shoulder_link"/>
+      <axis xyz="1 0 0"/>
+      <origin xyz="${shiftx} ${shifty} 0"/>
+      <limit effort="10000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+      <dynamics damping="0.0" friction="0.5"/>
+    </joint>
+  </xacro:macro>
+
   <xacro:macro name="gen_leg" params="name">
     <link name="${name}">
       <visual>
@@ -72,9 +85,20 @@
       </collision>
       <inertial>
         <mass value="0.10"/>
-        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+        <inertia ixx="10" ixy="0" ixz="0" iyy="10" iyz="0" izz="10" />
       </inertial>
     </link>
+  </xacro:macro>
+
+  <xacro:macro name="gen_leg_joint" params="pos shift">
+    <joint name="${pos}_leg" type="revolute">
+      <parent link="${pos}_shoulder_link"/>
+      <child link="${pos}_leg_link"/>
+      <axis xyz="0 1 0"/>
+      <origin xyz="0 ${shift} 0"/>
+      <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+      <dynamics damping="0.0" friction="0.5"/>
+    </joint>
   </xacro:macro>
 
   <xacro:macro name="gen_foot" params="name">
@@ -83,20 +107,31 @@
         <geometry>
           <box size="0.026 0.020 ${foot_length}"/>
         </geometry>
-        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
         <material name="black"/>
       </visual>
       <collision>
         <geometry>
           <box size="0.026 0.020 ${foot_length}"/>
         </geometry>
-        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.070"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
       </collision>
       <inertial>
-        <mass value="0.10"/>
-        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+        <mass value="0.15"/>
+        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
       </inertial>
     </link>
+  </xacro:macro>
+
+  <xacro:macro name="gen_foot_joint" params="pos">
+    <joint name="${pos}_foot" type="revolute">
+      <parent link="${pos}_leg_link"/>
+      <child link="${pos}_foot_link"/>
+      <axis xyz="0 1 0"/>
+      <origin xyz="-0.01 0 -${leg_length+0.20}"/>
+      <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
   </xacro:macro>
 
   <xacro:macro name="gen_toe" params="name">
@@ -121,44 +156,11 @@
     </link>
   </xacro:macro>
 
-  <xacro:macro name="gen_foot_joint" params="pos">
-    <joint name="${pos}_foot" type="revolute">
-      <parent link="${pos}_leg_link"/>
-      <child link="${pos}_foot_link"/>
-      <axis xyz="0 1 0"/>
-      <origin xyz="-0.01 0 -${leg_length}"/>
-      <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
-  </xacro:macro>
-
-  <xacro:macro name="gen_toe_joint" params="pos">
+ <xacro:macro name="gen_toe_joint" params="pos">
     <joint name="${pos}_toe" type="fixed">
       <parent link="${pos}_foot_link"/>
       <child link="${pos}_toe_link"/>
       <origin xyz="0 0 -${foot_length}"/>
-    </joint>
-  </xacro:macro>
-
-  <xacro:macro name="gen_leg_joint" params="pos shift">
-    <joint name="${pos}_leg" type="revolute">
-      <parent link="${pos}_shoulder_link"/>
-      <child link="${pos}_leg_link"/>
-      <axis xyz="0 1 0"/>
-      <origin xyz="0 ${shift} 0"/>
-      <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-      <dynamics damping="0.0" friction="0.0"/>
-    </joint>
-  </xacro:macro>
-
-  <xacro:macro name="gen_shoulder_joint" params="pos shiftx shifty">
-    <joint name="${pos}_shoulder" type="revolute">
-      <parent link="base_link"/>
-      <child link="${pos}_shoulder_link"/>
-      <axis xyz="1 0 0"/>
-      <origin xyz="${shiftx} ${shifty} 0"/>
-      <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-      <dynamics damping="0.0" friction="0.0"/>
     </joint>
   </xacro:macro>
 
@@ -246,9 +248,9 @@
 
   <!-- create Legs -->
 
-  <xacro:gen_full_leg_joint pos="front_left" shiftx="-0.093" shifty="-0.036" shift="-0.042"/>
-  <xacro:gen_full_leg_joint pos="front_right" shiftx="-0.093" shifty="0.036" shift="0.042"/>
-  <xacro:gen_full_leg_joint pos="rear_left" shiftx="0.093" shifty="-0.036" shift="-0.042"/>
-  <xacro:gen_full_leg_joint pos="rear_right" shiftx="0.093" shifty="0.036" shift="0.042"/>
+  <xacro:gen_full_leg_joint pos="front_left" shiftx="-${shiftx}" shifty="-${shifty}" shift="-${shift}"/>
+  <xacro:gen_full_leg_joint pos="front_right" shiftx="-${shiftx}" shifty="${shifty}" shift="${shift}"/>
+  <xacro:gen_full_leg_joint pos="rear_left" shiftx="${shiftx}" shifty="-${shifty}" shift="-${shift}"/>
+  <xacro:gen_full_leg_joint pos="rear_right" shiftx="${shiftx}" shifty="${shifty}" shift="${shift}"/>
 
 </robot>
