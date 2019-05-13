@@ -4,116 +4,15 @@ import time
 import math
 
 
-def drawInertiaBox(parentUid, parentLinkIndex, color):
-  dyn = p.getDynamicsInfo(parentUid, parentLinkIndex)
-  mass = dyn[0]
-  frictionCoeff = dyn[1]
-  inertia = dyn[2]
-  if (mass > 0):
-    Ixx = inertia[0]
-    Iyy = inertia[1]
-    Izz = inertia[2]
-    boxScaleX = 0.5 * math.sqrt(6 * (Izz + Iyy - Ixx) / mass)
-    boxScaleY = 0.5 * math.sqrt(6 * (Izz + Ixx - Iyy) / mass)
-    boxScaleZ = 0.5 * math.sqrt(6 * (Ixx + Iyy - Izz) / mass)
-
-    halfExtents = [boxScaleX, boxScaleY, boxScaleZ]
-    pts = [[halfExtents[0], halfExtents[1], halfExtents[2]],
-           [-halfExtents[0], halfExtents[1], halfExtents[2]],
-           [halfExtents[0], -halfExtents[1], halfExtents[2]],
-           [-halfExtents[0], -halfExtents[1], halfExtents[2]],
-           [halfExtents[0], halfExtents[1], -halfExtents[2]],
-           [-halfExtents[0], halfExtents[1], -halfExtents[2]],
-           [halfExtents[0], -halfExtents[1], -halfExtents[2]],
-           [-halfExtents[0], -halfExtents[1], -halfExtents[2]]]
-    """
-    p.addUserDebugLine(pts[0],
-                       pts[1],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[1],
-                       pts[3],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[3],
-                       pts[2],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[2],
-                       pts[0],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-
-    p.addUserDebugLine(pts[0],
-                       pts[4],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[1],
-                       pts[5],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[2],
-                       pts[6],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[3],
-                       pts[7],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-
-    p.addUserDebugLine(pts[4 + 0],
-                       pts[4 + 1],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[4 + 1],
-                       pts[4 + 3],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[4 + 3],
-                       pts[4 + 2],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    p.addUserDebugLine(pts[4 + 2],
-                       pts[4 + 0],
-                       color,
-                       1,
-                       parentObjectUniqueId=parentUid,
-                       parentLinkIndex=parentLinkIndex)
-    """
 
 toeConstraint = True
 useMaximalCoordinates = False
-useRealTime = 0
+useRealTime = 1
 
 #the fixedTimeStep and numSolverIterations are the most important parameters to trade-off quality versus performance
 fixedTimeStep = 1. / 100
 numSolverIterations = 50
 
-if (useMaximalCoordinates):
-  fixedTimeStep = 1. / 500
-  numSolverIterations = 200
 
 speed = 10
 amplitude = 0.8
@@ -140,7 +39,6 @@ p.startStateLogging(p.STATE_LOGGING_GENERIC_ROBOT,
                     logFlags=p.STATE_LOG_JOINT_TORQUES)
 p.setTimeOut(4000000)
 
-#p.setGravity(0, 0, 0)
 p.setGravity(0, 0, -9.81)
 p.setTimeStep(fixedTimeStep)
 
@@ -194,7 +92,7 @@ localInertiaDiagonal = dyn[2]
 print("localInertiaDiagonal", localInertiaDiagonal)
 
 #this is a no-op, just to show the API
-p.changeDynamics(quadruped, -1, localInertiaDiagonal=localInertiaDiagonal)
+#p.changeDynamics(quadruped, -1, localInertiaDiagonal=localInertiaDiagonal)
 for foot in (front_left_foot,front_right_foot,rear_left_foot,rear_right_foot):
     p.setJointMotorControl2(bodyIndex=quadruped,
                             jointIndex=foot,
@@ -220,8 +118,9 @@ for leg in (front_left_leg,front_right_leg,rear_left_leg,rear_right_leg):
 t = 0.0
 t_end = t + 15
 ref_time = time.time()
+print("First sim")
 while (t < t_end):
-  p.setGravity(0, 0, -10)
+ # p.setGravity(0, 0, -10)
   if (useRealTime):
     t = time.time() - ref_time
   else:
@@ -240,6 +139,7 @@ t = 0.0
 t_end = t + 100
 i = 0
 ref_time = time.time()
+print("Next sim")
 
 while (1):
   if (useRealTime):

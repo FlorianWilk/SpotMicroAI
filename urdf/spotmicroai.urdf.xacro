@@ -63,7 +63,7 @@
       <child link="${pos}_shoulder_link"/>
       <axis xyz="1 0 0"/>
       <origin xyz="${shiftx} ${shifty} 0"/>
-      <limit effort="10000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+      <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.7"/>
       <dynamics damping="0.0" friction="0.5"/>
     </joint>
   </xacro:macro>
@@ -84,8 +84,8 @@
         </geometry>
       </collision>
       <inertial>
-        <mass value="0.10"/>
-        <inertia ixx="10" ixy="0" ixz="0" iyy="10" iyz="0" izz="10" />
+        <mass value="0.15"/>
+        <inertia ixx="1000" ixy="0" ixz="0" iyy="1000" iyz="0" izz="1000" />
       </inertial>
     </link>
   </xacro:macro>
@@ -97,7 +97,7 @@
       <axis xyz="0 1 0"/>
       <origin xyz="0 ${shift} 0"/>
       <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-      <dynamics damping="0.0" friction="0.5"/>
+      <dynamics damping="0.0" friction="0.0"/>
     </joint>
   </xacro:macro>
 
@@ -117,8 +117,8 @@
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
       </collision>
       <inertial>
-        <mass value="0.15"/>
-        <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1" />
+        <mass value="0.1"/>
+        <inertia ixx="1000" ixy="0" ixz="0" iyy="1000" iyz="0" izz="1000" />
       </inertial>
     </link>
   </xacro:macro>
@@ -128,9 +128,9 @@
       <parent link="${pos}_leg_link"/>
       <child link="${pos}_foot_link"/>
       <axis xyz="0 1 0"/>
-      <origin xyz="-0.01 0 -${leg_length+0.20}"/>
+      <origin xyz="-0.01 0 -${leg_length}"/>
       <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="0.0" friction="0.5"/>
     </joint>
   </xacro:macro>
 
@@ -151,7 +151,7 @@
       </collision>
       <inertial>
         <mass value="0.01"/>
-        <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+        <inertia ixx="1000" ixy="0" ixz="0" iyy="1000" iyz="0" izz="1000" />
       </inertial>
     </link>
   </xacro:macro>
@@ -160,7 +160,7 @@
     <joint name="${pos}_toe" type="fixed">
       <parent link="${pos}_foot_link"/>
       <child link="${pos}_toe_link"/>
-      <origin xyz="0 0 -${foot_length}"/>
+      <origin xyz="0 0 -${foot_length+0.01}"/>
     </joint>
   </xacro:macro>
 
