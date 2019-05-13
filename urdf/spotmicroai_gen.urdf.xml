@@ -208,13 +208,32 @@
     <parent link="base_link"/>
     <child link="front_link"/>
   </joint>
-  <!-- ShoulderJoints -->
-  <!-- Front left -->
-  <joint name="base_front_left" type="revolute">
+  <joint name="front_left_shoulder" type="revolute">
     <parent link="base_link"/>
     <child link="front_left_shoulder_link"/>
     <axis xyz="1 0 0"/>
     <origin xyz="-0.093 -0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+  <joint name="front_right_shoulder" type="revolute">
+    <parent link="base_link"/>
+    <child link="front_right_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="-0.093 0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+  <joint name="rear_left_shoulder" type="revolute">
+    <parent link="base_link"/>
+    <child link="rear_left_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="0.093 -0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+  <joint name="rear_right_shoulder" type="revolute">
+    <parent link="base_link"/>
+    <child link="rear_right_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="0.093 0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
   </joint>
   <joint name="front_left_leg" type="revolute">
@@ -224,9 +243,51 @@
     <origin xyz="0 -0.042 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
   </joint>
+  <joint name="front_right_leg" type="revolute">
+    <parent link="front_right_shoulder_link"/>
+    <child link="front_right_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+  <joint name="rear_left_leg" type="revolute">
+    <parent link="rear_left_shoulder_link"/>
+    <child link="rear_left_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 -0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+  <joint name="rear_right_leg" type="revolute">
+    <parent link="rear_right_shoulder_link"/>
+    <child link="rear_right_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
   <joint name="front_left_foot" type="revolute">
     <parent link="front_left_leg_link"/>
     <child link="front_left_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+  <joint name="front_right_foot" type="revolute">
+    <parent link="front_right_leg_link"/>
+    <child link="front_right_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+  <joint name="rear_left_foot" type="revolute">
+    <parent link="rear_left_leg_link"/>
+    <child link="rear_left_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+  <joint name="rear_right_foot" type="revolute">
+    <parent link="rear_right_leg_link"/>
+    <child link="rear_right_foot_link"/>
     <axis xyz="0 1 0"/>
     <origin xyz="-0.01 0 -0.120"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
@@ -236,81 +297,15 @@
     <child link="front_left_toe_link"/>
     <origin xyz="0 0 -0.155"/>
   </joint>
-  <!-- Front right -->
-  <joint name="base_front_right" type="revolute">
-    <parent link="base_link"/>
-    <child link="front_right_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="-0.093 0.036 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
-  <joint name="front_right_leg" type="revolute">
-    <parent link="front_right_shoulder_link"/>
-    <child link="front_right_leg_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 0.042 0"/>
-    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-  </joint>
-  <joint name="front_right_foot" type="revolute">
-    <parent link="front_right_leg_link"/>
-    <child link="front_right_foot_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
-    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-  </joint>
   <joint name="front_right_toe" type="fixed">
     <parent link="front_right_foot_link"/>
     <child link="front_right_toe_link"/>
     <origin xyz="0 0 -0.155"/>
   </joint>
-  <!-- rear left -->
-  <joint name="base_rear_left" type="revolute">
-    <parent link="base_link"/>
-    <child link="rear_left_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="0.093 -0.036 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
-  <joint name="rear_left_leg" type="revolute">
-    <parent link="rear_left_shoulder_link"/>
-    <child link="rear_left_leg_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 -0.042 0"/>
-    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-  </joint>
-  <joint name="rear_left_foot" type="revolute">
-    <parent link="rear_left_leg_link"/>
-    <child link="rear_left_foot_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
-    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-  </joint>
   <joint name="rear_left_toe" type="fixed">
     <parent link="rear_left_foot_link"/>
     <child link="rear_left_toe_link"/>
     <origin xyz="0 0 -0.155"/>
-  </joint>
-  <!-- rear right -->
-  <joint name="base_rear_right" type="revolute">
-    <parent link="base_link"/>
-    <child link="rear_right_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="0.093 0.036 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
-  <joint name="rear_right_leg" type="revolute">
-    <parent link="rear_right_shoulder_link"/>
-    <child link="rear_right_leg_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 0.042 0"/>
-    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-  </joint>
-  <joint name="rear_right_foot" type="revolute">
-    <parent link="rear_right_leg_link"/>
-    <child link="rear_right_foot_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
-    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
   </joint>
   <joint name="rear_right_toe" type="fixed">
     <parent link="rear_right_foot_link"/>

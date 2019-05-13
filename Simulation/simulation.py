@@ -140,12 +140,13 @@ p.startStateLogging(p.STATE_LOGGING_GENERIC_ROBOT,
                     logFlags=p.STATE_LOG_JOINT_TORQUES)
 p.setTimeOut(4000000)
 
-p.setGravity(0, 0, 0)
+#p.setGravity(0, 0, 0)
+p.setGravity(0, 0, -9.81)
 p.setTimeStep(fixedTimeStep)
 
 orn = p.getQuaternionFromEuler([0, 0, 0.4])
 p.setRealTimeSimulation(0)
-quadruped = p.loadURDF("../urdf/spotmicroai.urdf.xml", [1, -1, .3],
+quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", [1, -1, .3],
                        orn,
                        useFixedBase=False,
                        useMaximalCoordinates=useMaximalCoordinates,
@@ -393,6 +394,8 @@ t = 0.0
 t_end = t + 100
 i = 0
 ref_time = time.time()
+for _ in range(10):
+    p.stepSimulation()
 
 while (1):
   if (useRealTime):
@@ -400,7 +403,6 @@ while (1):
   else:
     t = t + fixedTimeStep
   if (True):
-
     target = math.sin(t * speed) * jump_amp + 1.57
     """
     p.setJointMotorControl2(bodyIndex=quadruped,

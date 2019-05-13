@@ -10,16 +10,7 @@
   <material name="grey">
     <color rgba="0.6 0.6 0.6 1"/>
   </material>
-  <material name="blue">
-    <color rgba="0 0 0.8 1"/>
-  </material>
-  <material name="green">
-    <color rgba="0 0.9 0 1"/>
-  </material>
-  <material name="red">
-    <color rgba="0.9 0 0 1"/>
-  </material>
-
+  
   <!-- Params -->
 
   <xacro:property name="body_length" value="0.140" />
@@ -69,15 +60,53 @@
   </xacro:macro>
 
   <xacro:macro name="gen_toe" params="name">
-     <link name="${name}">
-    <visual>
-      <geometry>
-        <cylinder length="0.020" radius="0.014"/>
-      </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
-      <material name="grey"/>
-    </visual>
-  </link>
+    <link name="${name}">
+      <visual>
+        <geometry>
+          <cylinder length="0.020" radius="0.014"/>
+        </geometry>
+        <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+        <material name="grey"/>
+      </visual>
+    </link>
+  </xacro:macro>
+
+  <xacro:macro name="gen_foot_joint" params="pos">
+    <joint name="${pos}_foot" type="revolute">
+      <parent link="${pos}_leg_link"/>
+      <child link="${pos}_foot_link"/>
+      <axis xyz="0 1 0"/>
+      <origin xyz="-0.01 0 -0.120"/>
+      <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="gen_toe_joint" params="pos">
+    <joint name="${pos}_toe" type="fixed">
+      <parent link="${pos}_foot_link"/>
+      <child link="${pos}_toe_link"/>
+      <origin xyz="0 0 -0.155"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="gen_leg_joint" params="pos shift">
+    <joint name="${pos}_leg" type="revolute">
+      <parent link="${pos}_shoulder_link"/>
+      <child link="${pos}_leg_link"/>
+      <axis xyz="0 1 0"/>
+      <origin xyz="0 ${shift} 0"/>
+      <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+    </joint>
+  </xacro:macro>
+
+  <xacro:macro name="gen_shoulder_joint" params="pos shiftx shifty">
+ <joint name="${pos}_shoulder" type="revolute">
+    <parent link="base_link"/>
+    <child link="${pos}_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="${shiftx} ${shifty} 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
   </xacro:macro>
 
   <!-- Body -->
@@ -149,136 +178,26 @@
     <parent link="base_link"/>
     <child link="front_link"/>
   </joint>
-
-  <!-- ShoulderJoints -->
-
-  <!-- Front left -->
-
-  <joint name="base_front_left" type="revolute">
-    <parent link="base_link"/>
-    <child link="front_left_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="-0.093 -0.036 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
-
-  <joint name="front_left_leg" type="revolute">
-    <parent link="front_left_shoulder_link"/>
-    <child link="front_left_leg_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 -0.042 0"/>
-    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-  </joint>
-
-
-  <joint name="front_left_foot" type="revolute">
-    <parent link="front_left_leg_link"/>
-    <child link="front_left_foot_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
-    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-  </joint>
-
-  <joint name="front_left_toe" type="fixed">
-    <parent link="front_left_foot_link"/>
-    <child link="front_left_toe_link"/>
-    <origin xyz="0 0 -0.155"/>
-  </joint>
-
-  <!-- Front right -->
-
-  <joint name="base_front_right" type="revolute">
-    <parent link="base_link"/>
-    <child link="front_right_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="-0.093 0.036 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
-
-  <joint name="front_right_leg" type="revolute">
-    <parent link="front_right_shoulder_link"/>
-    <child link="front_right_leg_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 0.042 0"/>
-    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-  </joint>
-
-  <joint name="front_right_foot" type="revolute">
-    <parent link="front_right_leg_link"/>
-    <child link="front_right_foot_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
-    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-  </joint>
-
-  <joint name="front_right_toe" type="fixed">
-    <parent link="front_right_foot_link"/>
-    <child link="front_right_toe_link"/>
-    <origin xyz="0 0 -0.155"/>
-  </joint>
-
-  <!-- rear left -->
-
-  <joint name="base_rear_left" type="revolute">
-    <parent link="base_link"/>
-    <child link="rear_left_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="0.093 -0.036 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
-
-  <joint name="rear_left_leg" type="revolute">
-    <parent link="rear_left_shoulder_link"/>
-    <child link="rear_left_leg_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 -0.042 0"/>
-    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-  </joint>
-
-  <joint name="rear_left_foot" type="revolute">
-    <parent link="rear_left_leg_link"/>
-    <child link="rear_left_foot_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
-    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-  </joint>
-
-  <joint name="rear_left_toe" type="fixed">
-    <parent link="rear_left_foot_link"/>
-    <child link="rear_left_toe_link"/>
-    <origin xyz="0 0 -0.155"/>
-  </joint>
-
-  <!-- rear right -->
-
-  <joint name="base_rear_right" type="revolute">
-    <parent link="base_link"/>
-    <child link="rear_right_shoulder_link"/>
-    <axis xyz="1 0 0"/>
-    <origin xyz="0.093 0.036 0"/>
-    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
-  </joint>
-
-  <joint name="rear_right_leg" type="revolute">
-    <parent link="rear_right_shoulder_link"/>
-    <child link="rear_right_leg_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="0 0.042 0"/>
-    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
-  </joint>
-
-  <joint name="rear_right_foot" type="revolute">
-    <parent link="rear_right_leg_link"/>
-    <child link="rear_right_foot_link"/>
-    <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.120"/>
-    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
-  </joint>
-
-  <joint name="rear_right_toe" type="fixed">
-    <parent link="rear_right_foot_link"/>
-    <child link="rear_right_toe_link"/>
-    <origin xyz="0 0 -0.155"/>
-  </joint>
+  
+  <!-- Shoulder Joints -->
+  <xacro:gen_shoulder_joint pos="front_left" shiftx="-0.093" shifty="-0.036"/>
+  <xacro:gen_shoulder_joint pos="front_right" shiftx="-0.093" shifty="0.036"/>
+  <xacro:gen_shoulder_joint pos="rear_left" shiftx="0.093" shifty="-0.036"/>
+  <xacro:gen_shoulder_joint pos="rear_right" shiftx="0.093" shifty="0.036"/>
+  <!-- Leg Joints -->
+  <xacro:gen_leg_joint pos="front_left" shift="-0.042"/>
+  <xacro:gen_leg_joint pos="front_right" shift="0.042"/>
+  <xacro:gen_leg_joint pos="rear_left" shift="-0.042"/>
+  <xacro:gen_leg_joint pos="rear_right" shift="0.042"/>
+  <!-- Foot Joints -->
+  <xacro:gen_foot_joint pos="front_left"/>
+  <xacro:gen_foot_joint pos="front_right"/>
+  <xacro:gen_foot_joint pos="rear_left"/>
+  <xacro:gen_foot_joint pos="rear_right"/>
+  <!-- Toe Joints -->
+  <xacro:gen_toe_joint pos="front_left"/>
+  <xacro:gen_toe_joint pos="front_right"/>
+  <xacro:gen_toe_joint pos="rear_left"/>
+  <xacro:gen_toe_joint pos="rear_right"/>
 
 </robot>
