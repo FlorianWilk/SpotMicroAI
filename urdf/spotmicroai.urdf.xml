@@ -7,7 +7,9 @@
   <material name="green">
     <color rgba="0 0.9 0 1"/>
   </material>
-
+  <material name="red">
+    <color rgba="0.9 0 0 1"/>
+  </material>
   <!-- Body -->
   <link name="base_link">
     <visual>
@@ -23,7 +25,7 @@
       <geometry>
         <box size="0.057 0.110 0.070"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0.130 0 0"/>
+      <origin rpy="0 0 0" xyz="0.145 0 0"/>
       <material name="blue"/>
     </visual>
   </link>
@@ -36,19 +38,136 @@
       <material name="blue"/>
     </visual>
   </link>
-  <!-- Left front Leg -->
+  <!-- Shoulder -->
 
   <link name="front_left_shoulder_link">
     <visual>
       <geometry>
         <box size="0.044 0.038 0.070"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="-0.093 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="green"/>
     </visual>
   </link>
 
+  <link name="front_right_shoulder_link">
+    <visual>
+      <geometry>
+        <box size="0.044 0.038 0.070"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="green"/>
+    </visual>
+  </link>
 
+  <link name="rear_left_shoulder_link">
+    <visual>
+      <geometry>
+        <box size="0.044 0.038 0.070"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <link name="rear_right_shoulder_link">
+    <visual>
+      <geometry>
+        <box size="0.044 0.038 0.070"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <!-- Legs -->
+
+  <link name="front_left_leg_link">
+    <visual>
+      <geometry>
+        <box size="0.028 0.036 0.120"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <link name="front_right_leg_link">
+    <visual>
+      <geometry>
+        <box size="0.028 0.036 0.120"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <link name="rear_left_leg_link">
+    <visual>
+      <geometry>
+        <box size="0.028 0.036 0.120"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <link name="rear_right_leg_link">
+    <visual>
+      <geometry>
+        <box size="0.028 0.036 0.120"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.050"/>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <!-- Feet -->
+
+  <link name="front_left_foot_link">
+    <visual>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <link name="front_right_foot_link">
+    <visual>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <link name="rear_left_foot_link">
+    <visual>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <link name="rear_right_foot_link">
+    <visual>
+      <geometry>
+        <box size="0.026 0.020 0.155"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 -0.070"/>
+      <material name="red"/>
+    </visual>
+  </link>
+
+
+
+
+  <!-- Joints -->
 
   <joint name="base_rear" type="fixed">
     <parent link="base_link"/>
@@ -60,8 +179,115 @@
     <child link="front_link"/>
   </joint>
 
-  <joint name="base_front_left" type="fixed">
+  <!-- ShoulderJoints -->
+
+  <!-- Front left -->
+
+  <joint name="base_front_left" type="revolute">
     <parent link="base_link"/>
     <child link="front_left_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="-0.093 -0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
   </joint>
+
+  <joint name="front_left_leg" type="revolute">
+    <parent link="front_left_shoulder_link"/>
+    <child link="front_left_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 -0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+
+  <joint name="front_left_foot" type="revolute">
+    <parent link="front_left_leg_link"/>
+    <child link="front_left_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+  <!-- Front right -->
+  
+
+  <joint name="base_front_right" type="revolute">
+    <parent link="base_link"/>
+    <child link="front_right_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="-0.093 0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="front_right_leg" type="revolute">
+    <parent link="front_right_shoulder_link"/>
+    <child link="front_right_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="front_right_foot" type="revolute">
+    <parent link="front_right_leg_link"/>
+    <child link="front_right_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+<!-- rear left -->
+
+  <joint name="base_rear_left" type="revolute">
+    <parent link="base_link"/>
+    <child link="rear_left_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="0.093 -0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+
+
+  <joint name="rear_left_leg" type="revolute">
+    <parent link="rear_left_shoulder_link"/>
+    <child link="rear_left_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 -0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_left_foot" type="revolute">
+    <parent link="rear_left_leg_link"/>
+    <child link="rear_left_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+<!-- rear right -->
+
+  <joint name="base_rear_right" type="revolute">
+    <parent link="base_link"/>
+    <child link="rear_right_shoulder_link"/>
+    <axis xyz="1 0 0"/>
+    <origin xyz="0.093 0.036 0"/>
+    <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_right_leg" type="revolute">
+    <parent link="rear_right_shoulder_link"/>
+    <child link="rear_right_leg_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0.042 0"/>
+    <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
+  </joint>
+
+  <joint name="rear_right_foot" type="revolute">
+    <parent link="rear_right_leg_link"/>
+    <child link="rear_right_foot_link"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="-0.01 0 -0.120"/>
+    <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
+  </joint>
+
+
+
 </robot>
