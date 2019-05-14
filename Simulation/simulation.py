@@ -76,9 +76,6 @@ rear_right_leg = jointNameToId['rear_right_leg']
 rear_right_foot = jointNameToId['rear_right_foot']
 rear_right_toe = jointNameToId['rear_right_toe']
 
-
-#fixtorso = p.createConstraint(-1,-1,quadruped,-1,p.JOINT_FIXED,[0,0,0],[0,0,0],[0,0,0])
-
 motordir = [-1, -1, -1, -1, 1, 1, 1, 1]
 halfpi = 1.57079632679
 twopi = 4 * halfpi
@@ -147,8 +144,15 @@ while (1):
   else:
     t = t + fixedTimeStep
   if (True):
-    target = math.sin(t * speed) * jump_amp + 1.57
-   
+    for leg in (front_left_leg,front_right_leg,rear_left_leg,rear_right_leg):
+        target = math.sin(t * speed) * jump_amp + 1.57
+        p.setJointMotorControl2(bodyIndex=quadruped,
+                            jointIndex=leg,
+                            controlMode=p.POSITION_CONTROL,
+                            targetPosition= target,
+                            positionGain=kp,
+                            velocityGain=kd,
+                            force=maxForce)
   if (useRealTime == 0):
     p.stepSimulation()
     time.sleep(fixedTimeStep)
