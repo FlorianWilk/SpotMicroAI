@@ -1,15 +1,38 @@
+import numpy as np
+import random
+import tensorflow as tf
+import matplotlib.pyplot as plt
+import scipy.misc
+import os
+import csv
+import itertools
+import tensorflow.contrib.slim as slim
+from tensorflow.keras import layers
 import pybullet as p
 import pybullet_data
 import time
 import math
+import numpy as np
+from collections import deque
 
+from dqn_agent import Agent
 
+# See https://arxiv.org/pdf/1804.10332.pdf
+# Observation-Space -> roll,pitch,vax,vay,vaz,motor1-12
+# The Observation-Space includes the additional Servos for Shoulders
+#
+# Action-Space -> Leg1-4 position in Leg Space (swing, extension, shift)
+# The Action-Space includes one additional Information "Shift", because SpotMicro also has a Shoulder
 
-toeConstraint = True
+state_size=17
+action_size=12
+
+# original DQN-Code by Jonas Leininger https://github.com/JonasLeininger/deep-q-network-banana-navigation
+
+agent = Agent(state_size=state_size, action_size=action_size)
+
 useMaximalCoordinates = False
 useRealTime = 1
-
-#the fixedTimeStep and numSolverIterations are the most important parameters to trade-off quality versus performance
 fixedTimeStep = 1. / 100
 numSolverIterations = 50
 
@@ -42,7 +65,7 @@ p.setTimeOut(4000000)
 p.setGravity(0, 0, -9.81)
 p.setTimeStep(fixedTimeStep)
 
-orn = p.getQuaternionFromEuler([0, 0, 0.4])
+orn = p.getQuaternionFromEuler([0, 0, 0.0])
 p.setRealTimeSimulation(useRealTime)
 quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", [1, -1, .3],
                        orn,
@@ -107,53 +130,55 @@ for leg in (front_left_leg,front_right_leg,rear_left_leg,rear_right_leg):
                             velocityGain=kd,
                             force=maxForce)
 
-#for i in range (nJoints):
-#	p.changeDynamics(quadruped,i,localInertiaDiagonal=[0.000001,0.000001,0.000001])
-
-
+for i in range (nJoints):
+	p.changeDynamics(quadruped,i,localInertiaDiagonal=[0.000001,0.000001,0.000001])
 
 t = 0.0
 t_end = t + 15
 ref_time = time.time()
-print("First sim")
-while (t < t_end):
- # p.setGravity(0, 0, -10)
-  if (useRealTime):
-    t = time.time() - ref_time
-  else:
-    t = t + fixedTimeStep
-  if (useRealTime == 0):
-    p.stepSimulation()
-    time.sleep(fixedTimeStep)
 
 print("quadruped Id = ")
 print(quadruped)
-p.saveWorld("quadru.py")
-logId = p.startStateLogging(p.STATE_LOGGING_MINITAUR, "quadrupedLog.bin", [quadruped])
+#p.saveWorld("quadru.py")
+#logId = p.startStateLogging(p.STATE_LOGGING_MINITAUR, "quadrupedLog.bin", [quadruped])
 p.setRealTimeSimulation(useRealTime)
 #jump
 t = 0.0
 t_end = t + 100
 i = 0
 ref_time = time.time()
-print("Next sim")
 
 while (1):
-  if (useRealTime):
-    t = time.time() - ref_time
-  else:
-    t = t + fixedTimeStep
-  if (True):
-    for leg in (front_left_leg,front_right_leg,rear_left_leg,rear_right_leg):
-        target = math.sin(t * speed) * jump_amp + 1.57
+    motors=(front_left_shoulder,front_right_shoulder,rear_left_shoulder,rear_right_shoulder,front_left_leg,front_right_leg,rear_left_leg,rear_right_leg,front_left_foot,front_right_foot,rear_left_foot,rear_right_foot)
+    motor_torques = [
+          p.getJointState(quadruped,jointIndex=motor_id)[3] for motor_id in motors
+      ]
+
+    # TODO: IMU Inputs
+    state=[1,2,3,4,5]
+
+    state.extend(motor_torques)
+    state = np.reshape(state, [1, state_size])
+    action = agent.act(state)
+
+    if (useRealTime):
+        t = time.time() - ref_time
+    else:
+        t = t + fixedTimeStep
+
+    idx=0
+    for leg in motors:
+        # TODO: Convert to Legspace
         p.setJointMotorControl2(bodyIndex=quadruped,
                             jointIndex=leg,
                             controlMode=p.POSITION_CONTROL,
-                            targetPosition= target,
+                            targetPosition= action[0][idx],
                             positionGain=kp,
                             velocityGain=kd,
                             force=maxForce)
-  if (useRealTime == 0):
-    p.stepSimulation()
-    time.sleep(fixedTimeStep)
+    idx+=1
+
+    if (useRealTime == 0):
+        p.stepSimulation()
+        time.sleep(fixedTimeStep)
 
