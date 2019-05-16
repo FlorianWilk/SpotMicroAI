@@ -1,7 +1,6 @@
 # SpotMicro AI 
-## How to build a cheap four-legged Robot and make it learn how to walk
-
 ![urdf](/Images/SpotMicroAI_rviz_2.png)
+## How to build a cheap four-legged Robot and make it learn how to walk
 
 This Project is heavily work in progress and documenting my progress on the goal of making a four-legged robot walk.
 It is NOT a working or even finished Project you might want to use! 
