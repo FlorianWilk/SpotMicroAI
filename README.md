@@ -21,15 +21,15 @@ Nevertheless we will have to create a precise IK-Model to be able to have some k
 
 ![SpotMicroAI](/Images/SpotMicroAI_1.jpg)
 
-First of all thanks to Deok-yeon Kim aka KDY0523 who made (this incredible work)[https://www.thingiverse.com/thing:3445283]
+First of all thanks to Deok-yeon Kim aka KDY0523 who made [this incredible work](https://www.thingiverse.com/thing:3445283)
 This basically is the physical Robot. It will take some Days to print and assemble all the Parts, but it's worth all the effort. I also sanded, primed and painted all the Parts to give it a nicer Look.
 
-(Here is my Make)[https://www.thingiverse.com/make:654812]
+[Here is my Make](https://www.thingiverse.com/make:654812)
 
 Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
-I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART. To have some Protection for the NVIDIA, i printed (this Case)[https://www.thingiverse.com/thing:3603594].
+I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART. To have some Protection for the NVIDIA, i printed [this Case](https://www.thingiverse.com/thing:3603594).
 
 The Controller-Firmware for the Arduino-Mega can be found in /Controller. It will receive and send Commands and Information via UART(Serial) to our Locomotion-Controller.
 
@@ -51,7 +51,7 @@ I am not sure if the Hardware i use here will be enough to finally have a very s
 
 ![urdf](/Images/SpotMicroAI_urdf2.png)
 
-I will try to implement (this Paper)[https://arxiv.org/pdf/1804.10332.pdf] by
+I will try to implement [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
 
