@@ -29,7 +29,13 @@ This basically is the physical Robot. It will take some Days to print and assemb
 Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
-I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART. To have some Protection for the NVIDIA, i printed [this Case](https://www.thingiverse.com/thing:3603594).
+I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART. 
+
+[JetsonNano](/Images/jetsonNano.jpg)
+
+To have some Protection for the NVIDIA, i printed [this Case](https://www.thingiverse.com/thing:3603594).
+
+[JetsonNano-Case](/Images/jetsonNanoCase.jpg)
 
 The Controller-Firmware for the Arduino-Mega can be found in /Controller. It will receive and send Commands and Information via UART(Serial) to our Locomotion-Controller.
 
