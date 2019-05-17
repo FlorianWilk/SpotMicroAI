@@ -31,11 +31,11 @@ Since my setup required some additional Hardware, i recreated some parts using F
 
 I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART. 
 
-[JetsonNano](/Images/jetsonNano.jpg)
+![JetsonNano](/Images/jetsonNano.jpg)
 
 To have some Protection for the NVIDIA, i printed [this Case](https://www.thingiverse.com/thing:3603594).
 
-[JetsonNano-Case](/Images/jetsonNanoCase.jpg)
+![JetsonNano-Case](/Images/jetsonNanoCase.jpg)
 
 The Controller-Firmware for the Arduino-Mega can be found in /Controller. It will receive and send Commands and Information via UART(Serial) to our Locomotion-Controller.
 
