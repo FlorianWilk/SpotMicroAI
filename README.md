@@ -53,6 +53,9 @@ An additional NodeMCU or WemosD1 (not yet decided because of 3V/5V issues) will 
 
 I am not sure if the Hardware i use here will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
+UPDATE: The Arduino simply takes too much space when acting as Servo-Controller only. I think i will completely replace the Arduino with the Jetson Nano + 16 Channel PCA9685 I2C-Servo Driver.
+
+
 ## b) Simulation and c) Training
 
 ![urdf](/Images/SpotMicroAI_urdf2.png)
