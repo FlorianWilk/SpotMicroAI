@@ -7,33 +7,47 @@ import math
 
 class IK(object):
     def __init__(self):
-        self._shoulder_width = 2.5
-        self._leg_length=11.8
-        self._foot_length=12.3
+        self._l1=2.5
+        self._l2=1.5
+        self._l3=11.8
+        self._l4=12.3
 
     def calc(self,x,y,z):
         """ Notes:
         atan2 angle of diagonale in rectangle
         acos alpha from triangle for which we known all length
 
-        Assuming X goes from front to back, Y left right, Z up down
+        Assuming Z goes from front to back, X left right, Z up down
 
         alpha is the shoulder angle
         beta the leg angle
         gamma the foot angle
         """
 
-        alpha = math.atan2(y-self._shoulder_width,z) 
-        
-        f=math.sqrt(z**2+y**2)
-        d=math.sqrt(f**2+x**2)
-        beta1=math.atan2(z,f)
-        beta2=math.acos((self._leg_length**2+d**2-self._foot_length**2)/(2*self._leg_length*d))
-        beta=beta1+beta2
+        l1=self._l1
+        l2=self._l2
+        l3=self._l3
+        l4=self._l4
 
-        gamma = math.acos((self._leg_length**2+self._foot_length**2-d**2)/(2*self._leg_length*self._foot_length))
-        print("alpha {} beta {} gamma {}".format(alpha/(math.pi/180),beta/(math.pi/180),gamma/(math.pi/180)))
+        # Shoulder
+
+        alpha1=-math.atan2(-y,x) 
+        E=math.sqrt(x**2+y**2-l1**2)
+        beta1=math.atan2(E,-l1)
+        omega1=alpha1-beta1
+
+        # Foot
+
+        F=E-l2
+        D=(F**2+z**2-l3**2-l4**2)/(2*l3*l4)
+        omega3=math.atan2(math.sqrt(1-D**2),D)
+
+        # Leg
+
+        omega2=math.atan2(z,F)-math.atan2(l3*math.sin(omega3),l2+l3*math.cos(omega3))
+
+        print("o1 {} o2 {} o3 {}".format(omega1/(math.pi/180),omega2/(math.pi/180),omega3/(math.pi/180)))
 
 if __name__ == "__main__":
-    IK().calc(11.8,0,12.3)
+    IK().calc(-2.5,18,0.3)
     print("OK")
