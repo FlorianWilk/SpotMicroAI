@@ -17,7 +17,7 @@ So, lets reconstruct the calculations used in this cool Paper above.
 Let's focus on the IK-Part.
 So let's take a look at SpotMicro's Legs:
 
-[Leg in Space](../Images/leg_in_space.jpg)
+![Leg in Space](../Images/leg_in_space.jpg)
 
 First of all lets focus on the shoulder-angle - omega1.
 The Paper uses
@@ -37,7 +37,7 @@ So, if you want to know a or b (one of the edges touching the square-angle), you
 
 a**2=c**2-b**2 and b**2=c**2-a**2
 
-and so
+and so 
 
 c=sqrt(a**2+b**2)
 a=sqrt(c**2-b**2) and b=sqrt(c**2-a**2)
@@ -48,7 +48,7 @@ Please see [Wikipedia](https://en.wikipedia.org/wiki/Atan2). They did a great jo
 
 ## omega1
 
-[omega1](../Images/leg_front.jpg)
+![omega1](../Images/leg_front.jpg)
 
 Lets take another position for the Leg:
 
@@ -73,9 +73,21 @@ Lets take a look at the direct Front of the rotated side of the Leg. This time w
 
 ![side](../Images/leg_side.jpg)
 
-and so
+So,
 
 ![side](../Images/leg_side_2.jpg)
+
+So G is "how long has the leg to be on Z/Y to reach the point Pzy".
+We want to know "How long must the leg be in 3D X/Y/Z-Space".
+
+So we need to know K:
+
+![side](../Images/leg_front_k.jpg)
+
+Sorry for the bad drawings ;) 
+But let's focus on K:
+
+
 
 
 
