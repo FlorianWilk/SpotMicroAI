@@ -1,6 +1,6 @@
 ## Inverse Kinematics
 
-See [this Page] for more Information about Inverse Kinematics for quadruped Robots.
+See [this Page](https://www.ijstr.org/final-print/sep2017/Inverse-Kinematic-Analysis-Of-A-Quadruped-Robot.pdf) for more Information about Inverse Kinematics for quadruped Robots.
 We will use this as a template / comparison for our own calculations, because
 SpotMicro has some specialities which are not included a those formulas.
 
