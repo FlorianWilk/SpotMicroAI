@@ -63,10 +63,6 @@ Can be done with atan2, too.
 
 ## theta1 
 
-![theta1](../Images/leg_front.jpg)
-
-Lets take another position for the Leg:
-
 ![theta1](../Images/leg_front_notsolved.jpg)
 
 If we could solve E and F, we could calculate the angles and we have theta1!
