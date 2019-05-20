@@ -16,7 +16,8 @@ I want to try a combination of both, because i believe that a well trained RL-Mo
 robust in different situations where the physical robot leaves controlled environments or parts like Servos or Legs become unstable or may even break. 
 
 Nevertheless we will have to create a precise IK-Model to be able to have some kind of guided training. 
-You can find [my first thoughts on IK here](../Kinematics/README.md)
+You can find [my first thoughts on IK here](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics)
+
 ## a) The Robot
 
 ![SpotMicroAI](/Images/SpotMicroAI_1.jpg)
