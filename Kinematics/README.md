@@ -76,7 +76,7 @@ acos( ( a^2 + b^2 - c^2 ) / (2ab) )  or similar
 
 so we have 
 
-omega3 = acos(L3**2+L4**2-sqrt((E-L2)**2+z**2))/(2*L3*L4)
+omega3 = acos(L3**2+L4**2-sqrt((sqrt(x**2+y**2-L1**2)-L2)**2+z**2))/(2*L3*L4)
 
 ## omega2
 
