@@ -37,9 +37,6 @@ We need some kind of toolbelt for this mission.
 
 ![Pythagoras](https://latex.codecogs.com/gif.latex?a%5E2&plus;b%5E2%3Dc%5E2)
 
-But keep in mind: This is only for triangles with the square-angle where c is the opposite edge.
-So, if you want to know a or b (one of the edges touching the square-angle), you will use:
-
 ![Pythagoras](https://latex.codecogs.com/gif.latex?a%5E2%3Dc%5E2-b%5E2)
 
 ![Pythagoras](https://latex.codecogs.com/gif.latex?b%5E2%3Dc%5E2-a%5E2)
@@ -60,6 +57,8 @@ alpha = atan2(y,x) not x,y!
 ### get alpha angle of triangle when all sides are known
 
 ![google](https://latex.codecogs.com/gif.latex?%5Calpha%3Dacos%28%20%28%20a%5E2%20&plus;%20b%5E2%20-%20c%5E2%20%29%20/%20%282ab%29%20%29)
+
+Can be done with atan2, too.
 
 
 ## theta1 
