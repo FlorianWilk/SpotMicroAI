@@ -30,7 +30,7 @@ We need some kind of toolbelt for this mission.
 
 ### The "Pythagoras-Tool"
 
-a**2+b**2=c**2
+'''a**2+b**2=c**2'''
 
 But keep in mind: This is only for triangles with the square-angle where c is the opposite edge.
 So, if you want to know a or b (one of the edges touching the square-angle), you will use:
@@ -52,11 +52,11 @@ Please see [Wikipedia](https://en.wikipedia.org/wiki/Atan2). They did a great jo
 
 Lets take another position for the Leg:
 
-[omega1](../Images/leg_front_notsolved.jpg)
+![omega1](../Images/leg_front_notsolved.jpg)
 
 If we could solve E and F, we could calculate the angles and we have omega1!
 
-[omega1](../Images/leg_front_solved.jpg)
+![omega1](../Images/leg_front_solved.jpg)
 
 F is quite easy, as Pythagoras told us. And then E is quite easy too. Pythagoras again. 
 Now we have a Triangle with L1,E and F, and it has a square-angle. Perfect for atan2!
@@ -71,11 +71,11 @@ Which is great, because now we can take the difficult part:
 
 Lets take a look at the direct Front of the rotated side of the Leg. This time we see Z,Y kind of, not really because we are slightly rotated around z. Just focus on the Triangles ;)
 
-[side](../Images/leg_side.jpg)
+![side](../Images/leg_side.jpg)
 
 and so
 
-[side](../Images/leg_side_2.jpg)
+![side](../Images/leg_side_2.jpg)
 
 
 
