@@ -85,7 +85,7 @@ or similar.so we have:
 
 ![h](https://latex.codecogs.com/gif.latex?H%20%3D%20%5Csqrt%7B%28%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D%29%5E2&plus;z%5E2%7D)
 
-![omega3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%20%3D%20acos%28L%7B_%7B3%7D%7D%5E2&plus;L%7B_%7B4%7D%7D%5E2-G%5E2%29/%282L_%7B3%7DL_%7B4%7D%29)
+![omega3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%20%3D%20acos%28L%7B_%7B3%7D%7D%5E2&plus;L%7B_%7B4%7D%7D%5E2-H%5E2%29/%282L_%7B3%7DL_%7B4%7D%29)
 
 
 ## omega2
