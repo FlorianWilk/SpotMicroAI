@@ -22,24 +22,26 @@ So let's take a look at SpotMicro's Legs:
 First of all lets focus on the shoulder-angle - omega1.
 The Paper uses
 
-omega1 = -atan2(-y,x) - atan2(sqrt(x**2+y**2-L1**2),-L1)
+![Original](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B1%7D%20%3D%20-atan2%28-y%2Cx%29%20-%20atan2%28%5Csqrt%7Bx%5E2&plus;y%5E2-L1%5E2%7D%2C-L1%29)
 
 Let's discover that.
 We need some kind of toolbelt for this mission.
 
 ### The "Pythagoras-Tool"
 
-'''a**2+b**2=c**2'''
+![Pythagoras](https://latex.codecogs.com/gif.latex?a%5E2&plus;b%5E2%3Dc%5E2)
 
 But keep in mind: This is only for triangles with the square-angle where c is the opposite edge.
 So, if you want to know a or b (one of the edges touching the square-angle), you will use:
 
-a**2=c**2-b**2 and b**2=c**2-a**2
+![Pythagoras](https://latex.codecogs.com/gif.latex?a%5E2%3Dc%5E2-b%5E2)
+![Pythagoras](https://latex.codecogs.com/gif.latex?b%5E2%3Dc%5E2-a%5E2)
 
 and so 
 
-c=sqrt(a**2+b**2)
-a=sqrt(c**2-b**2) and b=sqrt(c**2-a**2)
+![Pythagoras](https://latex.codecogs.com/gif.latex?c%3D%5Csqrt%5B%5D%7Ba%5E2&plus;b%5E2%7D)
+![Pythagoras](https://latex.codecogs.com/gif.latex?a%3D%5Csqrt%5B%5D%7Bc%5E2-b%5E2%7D)
+![Pythagoras](https://latex.codecogs.com/gif.latex?b%3D%5Csqrt%5B%5D%7Bc%5E2-a%5E2%7D)
 
 ### atan2(y,x) - get the angle
 
@@ -69,14 +71,15 @@ We call it G. We say H is sqrt(G**2+z**2) and have the length (3D) our leg has t
 ## omega3
 
 We know what length we need to reach with the leg and foot-joint. It's a simple triangle.
-All sides are known. L3,L4 and H = sqrt(G**2+z**2)
+All sides are known. L3,L4 and H.
 Google "angles for triangle with all sides known" and you'll get:
 
-acos( ( a^2 + b^2 - c^2 ) / (2ab) )  or similar
+![google](https://latex.codecogs.com/gif.latex?%5Calpha%3Dacos%28%20%28%20a%5E2%20&plus;%20b%5E2%20-%20c%5E2%20%29%20/%20%282ab%29%20%29)
+or similar.so we have:
 
-so we have 
-
-omega3 = acos(L3**2+L4**2-sqrt((sqrt(x**2+y**2-L1**2)-L2)**2+z**2))/(2*L3*L4)
+![g](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D)
+![h](https://latex.codecogs.com/gif.latex?H%20%3D%20%5Csqrt%7B%28%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D%29%5E2&plus;z%5E2%7D)
+![omega3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%20%3D%20acos%28L%7B_%7B3%7D%7D%5E2&plus;L%7B_%7B4%7D%7D%5E2-G%5E2%29/%282L_%7B3%7DL_%7B4%7D%29)
 
 ## omega2
 
