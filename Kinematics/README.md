@@ -24,8 +24,7 @@ The Paper uses
 
 omega1 = -atan2(-y,x) - atan2(sqrt(x**2+y**2-L1**2),-L1)
 
-Let's discover, why that is.
-
+Let's discover that.
 We need some kind of toolbelt for this mission.
 
 ### The "Pythagoras-Tool"
@@ -45,8 +44,9 @@ a=sqrt(c**2-b**2) and b=sqrt(c**2-a**2)
 ### atan2(y,x) - get the angle
 
 Please see [Wikipedia](https://en.wikipedia.org/wiki/Atan2). They did a great job in explaining it. 
+alpha = atan2(y,x) not x,y! 
 
-## omega1
+## omega1 
 
 ![omega1](../Images/leg_front.jpg)
 
@@ -80,12 +80,7 @@ So,
 So G is "how long has the leg to be on Z/Y to reach the point Pzy".
 We want to know "How long must the leg be in 3D X/Y/Z-Space".
 
-So we need to know K:
 
-![side](../Images/leg_front_k.jpg)
-
-Sorry for the bad drawings ;) 
-But let's focus on K:
 
 
 
