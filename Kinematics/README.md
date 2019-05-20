@@ -35,12 +35,15 @@ But keep in mind: This is only for triangles with the square-angle where c is th
 So, if you want to know a or b (one of the edges touching the square-angle), you will use:
 
 ![Pythagoras](https://latex.codecogs.com/gif.latex?a%5E2%3Dc%5E2-b%5E2)
+
 ![Pythagoras](https://latex.codecogs.com/gif.latex?b%5E2%3Dc%5E2-a%5E2)
 
 and so 
 
 ![Pythagoras](https://latex.codecogs.com/gif.latex?c%3D%5Csqrt%5B%5D%7Ba%5E2&plus;b%5E2%7D)
+
 ![Pythagoras](https://latex.codecogs.com/gif.latex?a%3D%5Csqrt%5B%5D%7Bc%5E2-b%5E2%7D)
+
 ![Pythagoras](https://latex.codecogs.com/gif.latex?b%3D%5Csqrt%5B%5D%7Bc%5E2-a%5E2%7D)
 
 ### atan2(y,x) - get the angle
@@ -75,11 +78,15 @@ All sides are known. L3,L4 and H.
 Google "angles for triangle with all sides known" and you'll get:
 
 ![google](https://latex.codecogs.com/gif.latex?%5Calpha%3Dacos%28%20%28%20a%5E2%20&plus;%20b%5E2%20-%20c%5E2%20%29%20/%20%282ab%29%20%29)
+
 or similar.so we have:
 
 ![g](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D)
+
 ![h](https://latex.codecogs.com/gif.latex?H%20%3D%20%5Csqrt%7B%28%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D%29%5E2&plus;z%5E2%7D)
+
 ![omega3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%20%3D%20acos%28L%7B_%7B3%7D%7D%5E2&plus;L%7B_%7B4%7D%7D%5E2-G%5E2%29/%282L_%7B3%7DL_%7B4%7D%29)
+
 
 ## omega2
 
