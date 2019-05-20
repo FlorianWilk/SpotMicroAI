@@ -64,17 +64,21 @@ So we calculate the whole angle alpha of the triangle and then substract the ang
 of the lower part by using atan2 again with -y and x. Great!
 
 And now we have E. And E-L2 is "how long must the leg be (on X/Y only) to reach point Pxy".
-We call it G
+We call it G. We say H is sqrt(G**2+z**2) and have the length (3D) our leg has to be.
 
-Which is great, because now we can take the difficult part:
+## omega3
 
-## omega2 and omega3
+We know what length we need to reach with the leg and foot-joint. It's a simple triangle.
+All sides are known. L3,L4 and H = sqrt(G**2+z**2)
+Google "angles for triangle with all sides known" and you'll get:
 
-Lets take a look at the direct Front of the rotated side of the Leg. 
+acos( ( a^2 + b^2 - c^2 ) / (2ab) )  or similar
 
-![side](../Images/leg_side_g.jpg)
+so we have 
 
-We want to know "How long must the leg be in 3D X/Y/Z-Space".
+omega3 = acos(L3**2+L4**2-sqrt((E-L2)**2+z**2))/(2*L3*L4)
+
+## omega2
 
 
 
