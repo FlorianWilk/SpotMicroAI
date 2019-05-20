@@ -19,10 +19,16 @@ So let's take a look at SpotMicro's Legs:
 
 ![Leg in Space](../Images/leg_in_space.jpg)
 
-First of all lets focus on the shoulder-angle - omega1.
+First of all lets focus on the shoulder-angle - theta1.
 The Paper uses
 
 ![Original](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B1%7D%20%3D%20-atan2%28-y%2Cx%29%20-%20atan2%28%5Csqrt%7Bx%5E2&plus;y%5E2-L1%5E2%7D%2C-L1%29)
+
+![theta2](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B2%7D%3Datan2%28z%2C%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D%29-atan2%28L_%7B3%7Dsin%28%5Ctheta_%7B3%7D%29%2CL_%7B2%7D&plus;L_%7B3%7Dcos%28%5Ctheta_%7B3%7D%29%29)
+
+![theta3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%3Datan2%28%5Csqrt%7B1-D%5E2%7D%2CD%29)
+
+![D](https://latex.codecogs.com/gif.latex?D%3D%28X%5E2&plus;Y%5E2-L%7B_%7B1%7D%7D%5E2&plus;Z%5E2-L%7B_%7B2%7D%7D%5E2-L%7B_%7B3%7D%7D%5E2%29/%282L%7B_%7B2%7D%7DL_%7B3%7D%29)
 
 Let's discover that.
 We need some kind of toolbelt for this mission.
@@ -51,17 +57,22 @@ and so
 Please see [Wikipedia](https://en.wikipedia.org/wiki/Atan2). They did a great job in explaining it. 
 alpha = atan2(y,x) not x,y! 
 
-## omega1 
+### get alpha angle of triangle when all sides are known
 
-![omega1](../Images/leg_front.jpg)
+![google](https://latex.codecogs.com/gif.latex?%5Calpha%3Dacos%28%20%28%20a%5E2%20&plus;%20b%5E2%20-%20c%5E2%20%29%20/%20%282ab%29%20%29)
+
+
+## theta1 
+
+![theta1](../Images/leg_front.jpg)
 
 Lets take another position for the Leg:
 
-![omega1](../Images/leg_front_notsolved.jpg)
+![theta1](../Images/leg_front_notsolved.jpg)
 
-If we could solve E and F, we could calculate the angles and we have omega1!
+If we could solve E and F, we could calculate the angles and we have theta1!
 
-![omega1](../Images/leg_front_solved.jpg)
+![theta1](../Images/leg_front_solved.jpg)
 
 F is quite easy, as Pythagoras told us. And then E is quite easy too. Pythagoras again. 
 Now we have a Triangle with L1,E and F, and it has a square-angle. Perfect for atan2!
@@ -71,24 +82,19 @@ of the lower part by using atan2 again with -y and x. Great!
 And now we have E. And E-L2 is "how long must the leg be (on X/Y only) to reach point Pxy".
 We call it G. We say H is sqrt(G**2+z**2) and have the length (3D) our leg has to be.
 
-## omega3
+## theta3
 
 We know what length we need to reach with the leg and foot-joint. It's a simple triangle.
 All sides are known. L3,L4 and H.
-Google "angles for triangle with all sides known" and you'll get:
-
-![google](https://latex.codecogs.com/gif.latex?%5Calpha%3Dacos%28%20%28%20a%5E2%20&plus;%20b%5E2%20-%20c%5E2%20%29%20/%20%282ab%29%20%29)
-
-or similar.so we have:
 
 ![g](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D)
 
 ![h](https://latex.codecogs.com/gif.latex?H%20%3D%20%5Csqrt%7B%28%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D%29%5E2&plus;z%5E2%7D)
 
-![omega3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%20%3D%20acos%28L%7B_%7B3%7D%7D%5E2&plus;L%7B_%7B4%7D%7D%5E2-H%5E2%29/%282L_%7B3%7DL_%7B4%7D%29)
+![theta3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%20%3D%20acos%28L%7B_%7B3%7D%7D%5E2&plus;L%7B_%7B4%7D%7D%5E2-H%5E2%29/%282L_%7B3%7DL_%7B4%7D%29)
 
 
-## omega2
+## theta2
 
 
 
