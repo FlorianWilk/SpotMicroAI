@@ -34,6 +34,7 @@ Let's discover that.
 We need some kind of toolbelt for this mission.
 
 ### The "Pythagoras-Tool"
+Calculate the missing edge-length of a triangle with a 90° angle. 
 
 ![Pythagoras](https://latex.codecogs.com/gif.latex?a%5E2&plus;b%5E2%3Dc%5E2)
 
