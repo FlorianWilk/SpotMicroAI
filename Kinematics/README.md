@@ -63,21 +63,17 @@ Now we have a Triangle with L1,E and F, and it has a square-angle. Perfect for a
 So we calculate the whole angle alpha of the triangle and then substract the angle 
 of the lower part by using atan2 again with -y and x. Great!
 
-And now we have E which is "how long must the leg be (on X/Y only) to reach point Pxy".
+And now we have E. And E-L2 is "how long must the leg be (on X/Y only) to reach point Pxy".
+We call it G
 
 Which is great, because now we can take the difficult part:
 
 ## omega2 and omega3
 
-Lets take a look at the direct Front of the rotated side of the Leg. This time we see Z,Y kind of, not really because we are slightly rotated around z. Just focus on the Triangles ;)
+Lets take a look at the direct Front of the rotated side of the Leg. 
 
-![side](../Images/leg_side.jpg)
+![side](../Images/leg_side_g.jpg)
 
-So,
-
-![side](../Images/leg_side_2.jpg)
-
-So G is "how long has the leg to be on Z/Y to reach the point Pzy".
 We want to know "How long must the leg be in 3D X/Y/Z-Space".
 
 
