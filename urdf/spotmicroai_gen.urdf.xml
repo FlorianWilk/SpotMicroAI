@@ -34,52 +34,7 @@
       <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
     </inertial>
   </link>
-  <link name="rear_link">
-    <visual>
-      <geometry>
-        <box size="0.057 0.11 0.07"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="0.145 0 0"/>
-      <material name="yellow"/>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.057 0.11 0.07"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="0.145 0 0"/>
-    </collision>
-    <inertial>
-      <mass value="0.20"/>
-      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-    </inertial>
-  </link>
-  <joint name="base_rear" type="fixed">
-    <parent link="base_link"/>
-    <child link="rear_link"/>
-  </joint>
-  <link name="front_link">
-    <visual>
-      <geometry>
-        <box size="0.058 0.11 0.07"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
-      <material name="yellow"/>
-    </visual>
-    <collision>
-      <geometry>
-        <box size="0.058 0.11 0.07"/>
-      </geometry>
-      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
-    </collision>
-    <inertial>
-      <mass value="0.20"/>
-      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
-    </inertial>
-  </link>
-  <joint name="base_front" type="fixed">
-    <parent link="base_link"/>
-    <child link="front_link"/>
-  </joint>
+  
   <!-- create Legs -->
   <link name="front_left_shoulder_link">
     <visual>
@@ -161,7 +116,7 @@
     <parent link="base_link"/>
     <child link="front_left_shoulder_link"/>
     <axis xyz="1 0 0"/>
-    <origin xyz="-0.093 -0.036 0"/>
+    <origin rpy="0 0 0" xyz="-0.093 -0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.7"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
@@ -169,7 +124,7 @@
     <parent link="front_left_shoulder_link"/>
     <child link="front_left_leg_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="0 -0.052 0"/>
+    <origin rpy="0 0 0" xyz="0 -0.052 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
@@ -177,14 +132,14 @@
     <parent link="front_left_leg_link"/>
     <child link="front_left_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.12"/>
+    <origin rpy="0 0 0" xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
   <joint name="front_left_toe" type="fixed">
     <parent link="front_left_foot_link"/>
     <child link="front_left_toe_link"/>
-    <origin xyz="0 0 -0.165"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.165"/>
   </joint>
   <link name="front_right_shoulder_link">
     <visual>
@@ -266,7 +221,7 @@
     <parent link="base_link"/>
     <child link="front_right_shoulder_link"/>
     <axis xyz="1 0 0"/>
-    <origin xyz="-0.093 0.036 0"/>
+    <origin rpy="0 0 0" xyz="-0.093 0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.7"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
@@ -274,7 +229,7 @@
     <parent link="front_right_shoulder_link"/>
     <child link="front_right_leg_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="0 0.052 0"/>
+    <origin rpy="0 0 0"  xyz="0 0.052 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
@@ -282,14 +237,14 @@
     <parent link="front_right_leg_link"/>
     <child link="front_right_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.12"/>
+    <origin rpy="0 0 0" xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
   <joint name="front_right_toe" type="fixed">
     <parent link="front_right_foot_link"/>
     <child link="front_right_toe_link"/>
-    <origin xyz="0 0 -0.165"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.165"/>
   </joint>
   <link name="rear_left_shoulder_link">
     <visual>
@@ -371,7 +326,7 @@
     <parent link="base_link"/>
     <child link="rear_left_shoulder_link"/>
     <axis xyz="1 0 0"/>
-    <origin xyz="0.093 -0.036 0"/>
+    <origin rpy="0 0 0" xyz="0.093 -0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.7"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
@@ -379,7 +334,7 @@
     <parent link="rear_left_shoulder_link"/>
     <child link="rear_left_leg_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="0 -0.052 0"/>
+    <origin rpy="0 0 0" xyz="0 -0.052 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
@@ -387,14 +342,14 @@
     <parent link="rear_left_leg_link"/>
     <child link="rear_left_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.12"/>
+    <origin rpy="0 0 0" xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
   <joint name="rear_left_toe" type="fixed">
     <parent link="rear_left_foot_link"/>
     <child link="rear_left_toe_link"/>
-    <origin xyz="0 0 -0.165"/>
+    <origin rpy="0 0 0" xyz="0 0 -0.165"/>
   </joint>
   <link name="rear_right_shoulder_link">
     <visual>
@@ -476,7 +431,7 @@
     <parent link="base_link"/>
     <child link="rear_right_shoulder_link"/>
     <axis xyz="1 0 0"/>
-    <origin xyz="0.093 0.036 0"/>
+    <origin rpy="0 0 0" xyz="0.093 0.036 0"/>
     <limit effort="1000.0" lower="-0.548" upper="0.548" velocity="0.7"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
@@ -484,7 +439,7 @@
     <parent link="rear_right_shoulder_link"/>
     <child link="rear_right_leg_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="0 0.052 0"/>
+    <origin rpy="0 0 0" xyz="0 0.052 0"/>
     <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
@@ -492,7 +447,7 @@
     <parent link="rear_right_leg_link"/>
     <child link="rear_right_foot_link"/>
     <axis xyz="0 1 0"/>
-    <origin xyz="-0.01 0 -0.12"/>
+    <origin rpy="0 0 0" xyz="-0.01 0 -0.12"/>
     <limit effort="1000.0" lower="-0.1" upper="2.59" velocity="0.5"/>
     <dynamics damping="0.0" friction="0.5"/>
   </joint>
@@ -500,6 +455,52 @@
     <parent link="rear_right_foot_link"/>
     <child link="rear_right_toe_link"/>
     <origin xyz="0 0 -0.165"/>
+  </joint>
+<link name="rear_link">
+    <visual>
+      <geometry>
+        <box size="0.057 0.11 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.145 0 0"/>
+      <material name="yellow"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.057 0.11 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0.145 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.20"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
+  </link>
+  <joint name="base_rear" type="fixed">
+    <parent link="base_link"/>
+    <child link="rear_link"/>
+  </joint>
+  <link name="front_link">
+    <visual>
+      <geometry>
+        <box size="0.058 0.11 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
+      <material name="yellow"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.058 0.11 0.07"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
+    </collision>
+    <inertial>
+      <mass value="0.20"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
+    </inertial>
+  </link>
+  <joint name="base_front" type="fixed">
+    <parent link="base_link"/>
+    <child link="front_link"/>
   </joint>
 </robot>
 
