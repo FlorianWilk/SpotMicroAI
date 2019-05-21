@@ -12,11 +12,12 @@ My Goal is to create a) a working physical Robot with cheap components everyone 
 
 There are other ways of achiving this, i think. The use of InverseKinematics only, combined with a robust ground detection could also solve the problem and might be "more straight-forward" / yet already very challenging. 
 
+You can find [my first thoughts on SpotMicro's IK here](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics).
+
 I want to try a combination of both, because i believe that a well trained RL-Model could be move stable and
 robust in different situations where the physical robot leaves controlled environments or parts like Servos or Legs become unstable or may even break. 
 
 Nevertheless we will have to create a precise IK-Model to be able to have some kind of guided training. 
-You can find [my first thoughts on IK here](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics)
 
 ## a) The Robot
 
