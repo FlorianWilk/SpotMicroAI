@@ -61,11 +61,11 @@ Please see [Wikipedia](https://en.wikipedia.org/wiki/Atan2). They did a great jo
 
 ![google](https://latex.codecogs.com/gif.latex?%5Calpha%3Dacos%28%20%28%20a%5E2%20&plus;%20b%5E2%20-%20c%5E2%20%29%20/%20%282ab%29%20%29)
 
-and knowing that:
+and yes, knowing that:
 
 ![atan2](https://latex.codecogs.com/gif.latex?acos%28D%29%3Datan2%28%5Csqrt%7B1-D%5E2%7D%2CD%29)
 
-and yes, it looks pretty similar to:
+it looks very similar to:
 
 ![D](https://latex.codecogs.com/gif.latex?D%3D%28X%5E2&plus;Y%5E2-L%7B_%7B1%7D%7D%5E2&plus;Z%5E2-L%7B_%7B2%7D%7D%5E2-L%7B_%7B3%7D%7D%5E2%29/%282L%7B_%7B2%7D%7DL_%7B3%7D%29)
 
