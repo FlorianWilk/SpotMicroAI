@@ -1,8 +1,7 @@
 # Inverse Kinematics of a four-legged Robot
 
 See [this Page](https://www.ijstr.org/final-print/sep2017/Inverse-Kinematic-Analysis-Of-A-Quadruped-Robot.pdf) for more Information about Inverse Kinematics for quadruped Robots.
-We will use this as a template / comparison for our own calculations, because
-SpotMicro has some specialities which are not included a those formulas.
+We will have to do our own calculations, since SpotMicro has some specialities which are not included a those formulas.
 
 When you take a look at Fig. 2 you will notice, that the Leg used here is quite similar to 
 SpotMicros Leg, but not really the same:
