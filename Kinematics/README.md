@@ -1,4 +1,4 @@
-## Inverse Kinematics
+# Inverse Kinematics of a four-legged Robot
 
 See [this Page](https://www.ijstr.org/final-print/sep2017/Inverse-Kinematic-Analysis-Of-A-Quadruped-Robot.pdf) for more Information about Inverse Kinematics for quadruped Robots.
 We will use this as a template / comparison for our own calculations, because
@@ -15,6 +15,9 @@ SpotMicros Leg, but not really the same:
 
 So, lets reconstruct the calculations used in this cool Paper above. 
 Let's focus on the IK-Part.
+
+## Leg IK
+
 So let's take a look at SpotMicro's Legs:
 
 ![Leg in Space](../Images/leg_in_space.jpg)
@@ -33,7 +36,8 @@ The Paper uses
 Let's discover that.
 We need some kind of toolbelt for this mission.
 
-### The "Pythagoras-Tool"
+### Tool 1: Pythagoras
+
 Calculate the missing edge-length of a triangle with a 90° angle. 
 
 ![Pythagoras](https://latex.codecogs.com/gif.latex?a%5E2&plus;b%5E2%3Dc%5E2)
@@ -50,11 +54,11 @@ and so
 
 ![Pythagoras](https://latex.codecogs.com/gif.latex?b%3D%5Csqrt%5B%5D%7Bc%5E2-a%5E2%7D)
 
-### atan2(y,x) - get the angle of Point(x,y) from Origin (square-angle needed)
+### Tool 2: atan2(y,x) - get the angle of Point(x,y) from Origin (square-angle needed)
 
 Please see [Wikipedia](https://en.wikipedia.org/wiki/Atan2). They did a great job in explaining it. 
 
-### get alpha angle of triangle when all sides are known
+### Tool 2b: get alpha angle of triangle when all sides are known
 
 ![google](https://latex.codecogs.com/gif.latex?%5Calpha%3Dacos%28%20%28%20a%5E2%20&plus;%20b%5E2%20-%20c%5E2%20%29%20/%20%282ab%29%20%29)
 
@@ -62,13 +66,13 @@ and knowing that:
 
 ![atan2](https://latex.codecogs.com/gif.latex?acos%28D%29%3Datan2%28%5Csqrt%7B1-D%5E2%7D%2CD%29)
 
-it looks pretty similar to:
+and yes, it looks pretty similar to:
 
 ![D](https://latex.codecogs.com/gif.latex?D%3D%28X%5E2&plus;Y%5E2-L%7B_%7B1%7D%7D%5E2&plus;Z%5E2-L%7B_%7B2%7D%7D%5E2-L%7B_%7B3%7D%7D%5E2%29/%282L%7B_%7B2%7D%7DL_%7B3%7D%29)
 
 ![theta3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%3Datan2%28%5Csqrt%7B1-D%5E2%7D%2CD%29)
 
-## theta1 
+### solving theta1 
 
 ![theta1](../Images/leg_front_notsolved.jpg)
 
@@ -90,7 +94,7 @@ So now we can say H is the "needed length of our joints in X,Y,Z". Thank you Pyt
 
 ![h](https://latex.codecogs.com/gif.latex?H%20%3D%20%5Csqrt%7B%28%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D%29%5E2&plus;z%5E2%7D)
 
-## theta3
+### solving theta3
 
 We know what length we need to reach with the leg and foot-joint. It's a simple triangle.
 All sides are known. L3,L4 and H.
@@ -99,11 +103,13 @@ All sides are known. L3,L4 and H.
 
 ![theta3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%3Datan2%28%5Csqrt%7B1-D%5E2%7D%2CD%29)
 
-## theta2
+### solving theta2
 
 The last one, theta2. This one is quite easy:
 
-<Formula will follow>
+Formula will follow
+
+## Body IK
 
 
 
