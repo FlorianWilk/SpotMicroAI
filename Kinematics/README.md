@@ -81,25 +81,29 @@ Now we have a Triangle with L1,E and F, and it has a square-angle. Perfect for a
 So we calculate the whole angle alpha of the triangle and then substract the angle 
 of the lower part by using atan2 again with -y and x. Great!
 
-And now we have E. And E-L2 is "how long must the leg be (on X/Y only) to reach point Pxy".
-We call it G. We say H is sqrt(G**2+z**2) and have the length (3D) our leg has to be.
+And now we have E. And E-L2 is "how long must the two joints leg and foot be (on X/Y only) to reach point Pxy".
+We call it G.
+
+![g](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D)
+
+So now we can say H is the "needed length of our joints in X,Y,Z". Thank you Pythagoras, again.
+
+![h](https://latex.codecogs.com/gif.latex?H%20%3D%20%5Csqrt%7B%28%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D%29%5E2&plus;z%5E2%7D)
 
 ## theta3
 
 We know what length we need to reach with the leg and foot-joint. It's a simple triangle.
 All sides are known. L3,L4 and H.
 
-![g](https://latex.codecogs.com/gif.latex?G%20%3D%20%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D)
-
-![h](https://latex.codecogs.com/gif.latex?H%20%3D%20%5Csqrt%7B%28%5Csqrt%7Bx%5E2&plus;y%5E2-L%7B_%7B1%7D%7D%5E2%7D-L_%7B2%7D%29%5E2&plus;z%5E2%7D)
-
 ![D](https://latex.codecogs.com/gif.latex?D%20%3D%20%28L%7B_%7B3%7D%7D%5E2&plus;L%7B_%7B4%7D%7D%5E2-H%5E2%29/%282L_%7B3%7DL_%7B4%7D%29)
 
 ![theta3](https://latex.codecogs.com/gif.latex?%5Ctheta_%7B3%7D%3Datan2%28%5Csqrt%7B1-D%5E2%7D%2CD%29)
 
-
 ## theta2
 
+The last one, theta2. This one is quite easy:
+
+<Formula will follow>
 
 
 
