@@ -1,5 +1,12 @@
 # How to solve Inverse Kinematics of a four-legged Robot
 
+What is Inverse Kinematics / IK? 
+A RobotLeg consists of 3 Servos rotating things from angle amin to angle amax.
+When we know all three angles, we can determine the TargetPoint of the Leg by simple School-Math (remember sin and cos?).
+
+This is what is called "Forward Kinematics". Inverse Kinematics is, you can imagine, the inverse. 
+So, we have a Point and want to know the angles of our Servos. This can become pretty challenging when having more than 3-DOF (Degrees of Freedom). But in our case it's quite trivial.
+
 See [this Page](https://www.ijstr.org/final-print/sep2017/Inverse-Kinematic-Analysis-Of-A-Quadruped-Robot.pdf) for more Information about Inverse Kinematics for quadruped Robots.
 We will have to do our own calculations, since SpotMicro has some specialities which are not included a those formulas.
 
