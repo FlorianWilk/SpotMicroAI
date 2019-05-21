@@ -1,4 +1,4 @@
-# Inverse Kinematics of a four-legged Robot
+# How to solve Inverse Kinematics of a four-legged Robot
 
 See [this Page](https://www.ijstr.org/final-print/sep2017/Inverse-Kinematic-Analysis-Of-A-Quadruped-Robot.pdf) for more Information about Inverse Kinematics for quadruped Robots.
 We will have to do our own calculations, since SpotMicro has some specialities which are not included a those formulas.
@@ -11,9 +11,6 @@ SpotMicros Leg, but not really the same:
   but does not rotate with the Leg (L2,L3). Since we are completely recreating the calculations, i decided to go with
   L1-L4 instead of L1,L1b,L2,L3. 
 - the "Foot"-joint is shifted by ~1cm to "the front" (pictures will follow). 
-
-So, lets reconstruct the calculations used in this cool Paper above. 
-Let's focus on the IK-Part.
 
 ## Leg IK
 
