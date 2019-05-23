@@ -17,8 +17,11 @@ if (physId < 0):
 angle = 0   
 orn = p.getQuaternionFromEuler([0, angle, 0])
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
-p.loadURDF("plane.urdf", [0, 0, 0], orn)
-
+planeUid=p.loadURDF("plane.urdf", [0, 0, 0], orn)
+texUid = p.loadTexture("concrete.png")
+#texUid = p.loadTexture("asphalt.png")
+#p.changeVisualShape(planeUid, -1, rgbaColor=[1, 1, 1, 0.5])
+p.changeVisualShape(planeUid, -1, textureUniqueId=texUid)
 p.setTimeOut(4000000)
 
 p.setGravity(0, 0, -9.81)
@@ -36,6 +39,7 @@ jointNameToId = {}
 for i in range(nJoints):
   jointInfo = p.getJointInfo(quadruped, i)
   jointNameToId[jointInfo[1].decode('UTF-8')] = jointInfo[0]
+
 
 front_left_shoulder = jointNameToId['front_left_shoulder']
 front_left_leg = jointNameToId['front_left_leg']
@@ -59,8 +63,8 @@ rear_right_toe = jointNameToId['rear_right_toe']
 Lp=np.array([[100,-100,100,1],[100,-100,-100,1],[-100,-100,100,1],[-100,-100,-100,1]])
 kin=Kinematic()
 p.setRealTimeSimulation(useRealTime)
-kp = 1
-kd = .5
+kp = 0.05
+kd = .1
 maxForce = 3.5
 ref_time = time.time()
 for i in range (nJoints):
@@ -72,13 +76,16 @@ while (1):
         t = time.time() - ref_time
     else:
         t = t + fixedTimeStep
+    cubePos, cubeOrn = p.getBasePositionAndOrientation(quadruped)
+    #print(cubePos,cubeOrn)
+
     for lx,leg in enumerate(['front_left','front_right','rear_left','rear_right']):
         for px,part in enumerate(['shoulder','leg','foot']):
             j=jointNameToId[leg+"_"+part]
             p.setJointMotorControl2(bodyIndex=quadruped,
                             jointIndex=j,
                             controlMode=p.POSITION_CONTROL,
-                            targetPosition= -0.1,
+                            targetPosition= 0,
                             positionGain=kp,
                             velocityGain=kd,
                             force=maxForce)
@@ -91,8 +98,8 @@ while (1):
         for px,part in enumerate(['shoulder','leg','foot']):
             j=jointNameToId[leg+"_"+part]
             aa=(angles[lx][px])
-            if(px==0 and lx==0):
-                print(aa)
+#            if(px==0 and lx==0):
+#                print(aa)
             """
             p.setJointMotorControl2(bodyIndex=quadruped,
                                     jointIndex=j,
