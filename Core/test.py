@@ -6,7 +6,7 @@ import time
 import math
 
 useMaximalCoordinates = False
-useRealTime = 0
+useRealTime = 1
 fixedTimeStep = 1. / 100
 numSolverIterations = 50
 t = 0.0
@@ -72,7 +72,16 @@ while (1):
         t = time.time() - ref_time
     else:
         t = t + fixedTimeStep
-
+    for lx,leg in enumerate(['front_left','front_right','rear_left','rear_right']):
+        for px,part in enumerate(['shoulder','leg','foot']):
+            j=jointNameToId[leg+"_"+part]
+            p.setJointMotorControl2(bodyIndex=quadruped,
+                            jointIndex=j,
+                            controlMode=p.POSITION_CONTROL,
+                            targetPosition= -0.1,
+                            positionGain=kp,
+                            velocityGain=kd,
+                            force=maxForce)
     #Lp[0][0]+=0.2
     pia=1*math.sin((t/10))
     angles=kin.calcIK(Lp,(0,0,0),(0,0,0))
@@ -84,6 +93,7 @@ while (1):
             aa=(angles[lx][px])
             if(px==0 and lx==0):
                 print(aa)
+            """
             p.setJointMotorControl2(bodyIndex=quadruped,
                                     jointIndex=j,
                                     controlMode=p.POSITION_CONTROL,
@@ -91,7 +101,7 @@ while (1):
                                     positionGain=kp,
                                     velocityGain=kd,
                                     force=maxForce)
-
+            """
             idx+=1
 
     if (useRealTime == 0):
