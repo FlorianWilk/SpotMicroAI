@@ -46,7 +46,7 @@ def loadModels():
 
     orn = p.getQuaternionFromEuler([0, 0, 90.0])
     p.setRealTimeSimulation(useRealTime)
-    quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", [0, 0, 0],
+    quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", [0, 0, 0.5],
                         orn,
                         useFixedBase=False,
                         useMaximalCoordinates=useMaximalCoordinates,
@@ -83,9 +83,9 @@ rear_right_toe = jointNameToId['rear_right_toe']
 Lp=np.array([[120,-100,140,1],[120,-100,-140,1],[-120,-100,140,1],[-120,-100,-140,1]])
 kin=Kinematic()
 p.setRealTimeSimulation(useRealTime)
-kp = 0.02
-kd = .1
-maxForce = 5.5
+kp = 0.012
+kd = .2
+maxForce = 12.5
 ref_time = time.time()
 for i in range (nJoints):
 	p.changeDynamics(quadruped,i,localInertiaDiagonal=[0.000001,0.000001,0.000001])
