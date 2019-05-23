@@ -1,6 +1,6 @@
-# How to solve Inverse Kinematics of a four-legged Robot
+# How to solve Kinematics of a four-legged Robot
 
-What is Inverse Kinematics / IK? 
+What is Kinematics / IK? 
 A RobotLeg consists of 3 Servos rotating things from angle amin to angle amax.
 When we know all three angles, we can determine the TargetPoint of the Leg.
 
@@ -112,7 +112,7 @@ The last one, theta2. This one is quite easy:
 
 Formula will follow
 
-## Body IK
+## Body Forward Kinematics
 
 
 

@@ -22,8 +22,8 @@ class Kinematic:
     def __init__(self):
         self.l1=50
         self.l2=20
-        self.l3=115
-        self.l4=130
+        self.l3=120
+        self.l4=155
 
         self.L = 140
         self.W = 75
