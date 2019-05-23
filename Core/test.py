@@ -97,8 +97,20 @@ joy_x=128
 joy_y=128
 joy_z=128
 joy_rz=128
-
+fov, aspect, nearplane, farplane = 90, 1.3, .0111, 100
+projection_matrix = p.computeProjectionMatrixFOV(fov, aspect, nearplane, farplane)
 while (1):
+    cubePos, cubeOrn = p.getBasePositionAndOrientation(quadruped)
+    init_camera_vector = (-1, 0, 0) # z-axis
+    init_up_vector = (0, 0, 1) # y-axis
+    # Rotated vectors
+    rot_matrix = p.getMatrixFromQuaternion(cubeOrn)
+    rot_matrix = np.array(rot_matrix).reshape(3, 3)
+    addV=(30,0,0)
+    camera_vector = rot_matrix.dot(init_camera_vector)
+    up_vector = init_up_vector# rot_matrix.dot(init_up_vector)
+    view_matrix = p.computeViewMatrix(cubePos+ 0.15 * camera_vector, cubePos + 3 * camera_vector, up_vector)
+    img = p.getCameraImage(320, 200, view_matrix, projection_matrix)
     commandInput, commandValue = gamepad.read()
 		# Gamepad button command filter
     if commandInput == 'ABS_X':
@@ -126,7 +138,7 @@ while (1):
     angles=kin.calcIK(Lp,(0,0.6/256*joy_x-0.3,-(0.9/256*joy_y-0.45)),#(0,20,0))
     (100/256*-joy_rz-20+100,40,60/256*joy_z-30))
 
-    cubePos, cubeOrn = p.getBasePositionAndOrientation(quadruped)
+
     rot=p.getEulerFromQuaternion(cubeOrn)
     (xr,yr,zr)=rot
     if(abs(xr)>math.pi/2 or abs(yr)>math.pi/2):
