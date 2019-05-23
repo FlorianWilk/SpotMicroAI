@@ -65,26 +65,26 @@ maxForce = 3.5
 ref_time = time.time()
 for i in range (nJoints):
 	p.changeDynamics(quadruped,i,localInertiaDiagonal=[0.000001,0.000001,0.000001])
-
+dirs=[[1,1,1],[-1,1,1],[1,1,1],[-1,1,1]]
 while (1):
 
     if (useRealTime):
         t = time.time() - ref_time
     else:
         t = t + fixedTimeStep
+    angles=kin.calcIK(Lp,(0,0,0),(0,0,0))
     for lx,leg in enumerate(['front_left','front_right','rear_left','rear_right']):
         for px,part in enumerate(['shoulder','leg','foot']):
             j=jointNameToId[leg+"_"+part]
             p.setJointMotorControl2(bodyIndex=quadruped,
-                            jointIndex=j,
+                            jointIndex=angles[lx][px]*dirs[lx][px],
                             controlMode=p.POSITION_CONTROL,
-                            targetPosition= -0.1,
+                            targetPosition= -0.,
                             positionGain=kp,
                             velocityGain=kd,
                             force=maxForce)
     #Lp[0][0]+=0.2
     pia=1*math.sin((t/10))
-    angles=kin.calcIK(Lp,(0,0,0),(0,0,0))
     #joints=[jointNameToId[x+"_"+a] for x in ['front_left','front_right','rear_left','rear_right']  for a in ['shoulder','leg','foot']  ]
     idx=0
     for lx,leg in enumerate(['front_left','front_right','rear_left','rear_right']):
