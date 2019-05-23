@@ -91,7 +91,7 @@ for i in range (nJoints):
 	p.changeDynamics(quadruped,i,localInertiaDiagonal=[0.000001,0.000001,0.000001])
 dirs=[[-1,1,1],[1,1,1],[-1,1,1],[1,1,1]]
 
-p.addUserDebugText("tip", [0,0,1.05],textColorRGB=[1,0,0],textSize=1.5)
+p.addUserDebugText("GamePad Mode", [0,0,1.05],textColorRGB=[1,1,1],textSize=1.5)
 
 joy_x=128
 joy_y=128
