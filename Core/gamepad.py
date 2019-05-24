@@ -6,6 +6,18 @@ import time
 import math
 from inputs import devices, get_gamepad
 from thinputs import ThreadedInputs  
+import matplotlib.pyplot as plt
+
+
+plot=False
+# Target Positions:
+start = 0.0
+end = 1.0
+delta_t = 0.0001
+steps = int((end - start) / delta_t)
+q_tor = [[0.] * steps, [0.] * steps]
+t = [0] * steps
+
 # Dictionary of game controller buttons we want to include.
 gamepadInputs = {'ABS_X': 128, 
 				'ABS_RZ': 127, 
@@ -14,6 +26,7 @@ gamepadInputs = {'ABS_X': 128,
 				'BTN_SOUTH': 0, 
 				'BTN_WEST': 0,
 				'BTN_START': 0}
+
 
 # Initialise the gamepad object using the gamepad inputs Python package
 gamepad = ThreadedInputs()
@@ -52,6 +65,23 @@ def loadModels():
                         useMaximalCoordinates=useMaximalCoordinates,
                         flags=p.URDF_USE_IMPLICIT_CYLINDER)
     return quadruped
+
+
+IDheight = p.addUserDebugParameter("height", -40, 60, 0)
+IDroll = p.addUserDebugParameter("roll", -20, 20, 0)
+
+if plot:
+    p.stepSimulation()
+    figure = plt.figure(figsize=[15, 4.5])
+    figure.subplots_adjust(left=0.05, bottom=0.11, right=0.97, top=0.9, wspace=0.4, hspace=0.55)
+
+    ax_pos = figure.add_subplot(141)
+    ax_pos.set_title("Joint Position")
+    ax_pos.plot(t, q_tor[0], '--r', lw=4, label='Desired q0')
+    ax_pos.plot(t, q_tor[1], '--b', lw=4, label='Desired q1')
+    ax_pos.set_ylim(-1., 1.)
+    ax_pos.legend()
+    plt.pause(0.01)
 
 quadruped=loadModels()
 nJoints = p.getNumJoints(quadruped)
@@ -93,6 +123,7 @@ dirs=[[-1,1,1],[1,1,1],[-1,1,1],[1,1,1]]
 
 p.addUserDebugText("GamePad Mode", [0,0,1.05],textColorRGB=[1,1,1],textSize=1.5)
 
+
 joy_x=128
 joy_y=128
 joy_z=128
@@ -108,8 +139,8 @@ while (1):
     rot_matrix = np.array(rot_matrix).reshape(3, 3)
     addV=(30,0,0)
     camera_vector = rot_matrix.dot(init_camera_vector)
-    up_vector = init_up_vector# rot_matrix.dot(init_up_vector)
-    view_matrix = p.computeViewMatrix(cubePos+ 0.15 * camera_vector, cubePos + 3 * camera_vector, up_vector)
+    up_vector = rot_matrix.dot(init_up_vector)
+    view_matrix = p.computeViewMatrix(cubePos+ 0.15 * camera_vector, cubePos + 3 * camera_vector,  up_vector)
     img = p.getCameraImage(320, 200, view_matrix, projection_matrix)
     commandInput, commandValue = gamepad.read()
 		# Gamepad button command filter
@@ -134,9 +165,11 @@ while (1):
 
 #    angles=kin.calcIK(Lp,(0,-0.2*math.sin((time.time()-ref_time)*2.6),0),#(0,20,0))
 #    (30+40*math.sin((time.time()-ref_time)*2.6),40,40*math.cos((time.time()-ref_time)*2.6)))
+    height = p.readUserDebugParameter(IDheight)
+    roll = p.readUserDebugParameter(IDroll)
 
-    angles=kin.calcIK(Lp,(0,0.6/256*joy_x-0.3,-(0.9/256*joy_y-0.45)),#(0,20,0))
-    (100/256*-joy_rz-20+100,40,60/256*joy_z-30))
+    angles=kin.calcIK(Lp,(math.pi/180*roll,0.6/256*joy_x-0.3,-(0.9/256*joy_y-0.45)),#(0,20,0))
+    (100/256*-joy_rz-20+100,40+height,60/256*joy_z-30))
 
 
     rot=p.getEulerFromQuaternion(cubeOrn)

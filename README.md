@@ -30,9 +30,11 @@ This basically is the physical Robot. It will take some Days to print and assemb
 [Here is my Make](https://www.thingiverse.com/make:654812)
 
 Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
+
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
-I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART. 
+I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART.
+ 
 UPDATE: The Arduino simply takes too much space when acting as Servo-Controller only. I replaced the Arduino with the Jetson Nano + 16 Channel PCA9685 I2C-Servo Driver. Pictures still show the Arduino-Version.
 
 ![JetsonNano](/Images/jetsonNano.jpg)
@@ -76,6 +78,7 @@ This example can be found in the Repository. You need a GamePad for this to work
 ```
 pip3 install numpy
 pip3 install pybullet
+pip3 install inputs
 
 cd Core/
 python3 gamepad.py
