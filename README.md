@@ -65,7 +65,7 @@ I try to implement the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pd
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
 
-![PyBullet](/Images/SpotMicroAI_pybullet_2.png)
+![PyBullet](/Images/SpotMicroAI_stairs.png)
 
 The URDF Model is very basic and work in progress. Masses and Inertias are guesses and not correct. I will have to disassemble the Robot to have correct weights. 
 

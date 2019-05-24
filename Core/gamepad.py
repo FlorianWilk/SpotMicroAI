@@ -40,6 +40,9 @@ def loadModels():
     texUid = p.loadTexture("concrete.png")
     p.changeVisualShape(planeUid, -1, textureUniqueId=texUid)
 
+    stairsUid = p.loadURDF("../urdf/stairs_gen.urdf.xml", [0, -1, 0], orn)
+
+
     orn = p.getQuaternionFromEuler([0, 0, 90.0])
     p.setRealTimeSimulation(useRealTime)
     quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", [0, 0, 0.5],
