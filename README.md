@@ -7,7 +7,10 @@ It is NOT a working or even finished Project you might want to use!
 I started this Project because i got inspired by some very smart People/Companies and Projects out there and want to 
 understand and adapt their work on my personal wish to create a small "clone" of a "BostonDynamics SpotMini"-kind-of-looking but self-learning Robot.
 
-My Goal is to create a) a working physical Robot with cheap components everyone can build, b) a simulated Environment to be able to c) do RL training to make it walk.
+My Goal is to 
+1. create a working physical Robot with cheap components everyone can build
+2. a simulated Environment and be able to control the Robot 
+3. to do RL training to make it learn how to stand/walk/run
 
 There are other ways of achiving this, i think. The use of InverseKinematics only, combined with a robust ground detection could also solve the problem and might be "more straight-forward" / yet already very challenging. 
 
@@ -18,8 +21,7 @@ Nevertheless we will have to create a precise IK-Model to be able to have some k
 
 You can find [my first thoughts on SpotMicro's IK here](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics). There is also a [Jupyter Notebook explaining the Kinematics](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics/Kinematic.ipynb) and a [YouTube-Video](https://www.youtube.com/watch?v=VSkqhFok17Q).
 
-
-## a) The physical Robot
+## 1. The physical Robot
 
 ![SpotMicroAI](/Images/SpotMicroAI_1.jpg)
 
@@ -33,9 +35,7 @@ Since my setup required some additional Hardware, i recreated some parts using F
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
-I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART.
- 
-UPDATE: The Arduino simply takes too much space when acting as Servo-Controller only. I replaced the Arduino with the Jetson Nano + 16 Channel PCA9685 I2C-Servo Driver. Pictures still show the Arduino-Version.
+UPDATE: I replaced the ArduinoMega with the Jetson Nano + 16 Channel PCA9685 I2C-Servo Driver. Pictures still show the Arduino-Version.
 
 ![JetsonNano](/Images/jetsonNano.jpg)
 
@@ -51,19 +51,22 @@ Sensors used:
 4 x HC-SR04-Sensors. 2x as in the original model in the front looking forward/down. 2x at the bottom (front/back) looking down to measure the ground-distance. 
 An IMU MPU-6050 is used to measure pitch,roll and velocities. Yaw will be ignored since it drifts quickly. 
 
-I also connected a SSD1306 128x64 OLED Display and a NeoMatrix LED Circle, but in my Tests it seems that the ArduinoMega is simply too slow to handle 12 Servos + Sonar + nice LED and OLED visual. The used ClockTicks prevent the Board from handling the PWM-Signals properly and the Servos start to "klick" on Update-Cycles or even shake when too much CPU-Time has been used for Custom Code. This is why I decided to modify the Hardware-Setup and use the ArduinoMega as ServoController only. 
+Also i have a SSD1306 OLED-Display and a NeoMatrix LED-Circle i want to include for the Style.
+In a first Version i tried to use a Arduino Mega as kind of Servo/Sensor-Controller and use a Raspberry PI as Locomotion-Controller (communication via UART), but in my experiments the Arduino was simply too slow for Servo-PWM and Sensor-Readings plus OLED. 
 
-An additional NodeMCU or WemosD1 (not yet decided because of 3V/5V issues) will then be the OLED and LED(s) and Sonar-Controller.
+I am not sure if the Hardware i use now will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
-I am not sure if the Hardware i use here will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
-
-## b) Simulation
-
-![urdf](/Images/SpotMicroAI_urdf2.png)
+## 2. Simulation
 
 I try to implement the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
+
+Here you can see the first version of the URDF-Model.
+
+![urdf](/Images/SpotMicroAI_urdf2.png)
+
+And here the Model with working Kinematics in a PyBullet-Simulation.
 
 ![PyBullet](/Images/SpotMicroAI_stairs.png)
 
@@ -81,9 +84,9 @@ cd Core/
 python3 gamepad.py
 ```
 
-## c) Training
+## 3. Training
 
-There is no real Training-Code yet.
+There is no real Training-Code yet. I am still unsure about the optimal Architecture.
 
 ## Credits and thanks
 
