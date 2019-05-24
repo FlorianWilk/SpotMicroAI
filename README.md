@@ -71,9 +71,21 @@ The URDF Model is very basic and work in progress. Masses and Inertias are guess
 
 The Simulation-Implementation in PyBullet is still a bunch of Copy&Pastes from Tutorials. 
 
-## Credits and thanks
-Deok-yeon Kim creator of SpotMicro, 
-Boston Dynamics who built this incredible SpotMini,
-Ivan Krasin - https://ivankrasin.com/about/ - thanks for inspiration and chatting
+You can find a [first Video on YouTube](https://www.youtube.com/watch?v=VSkqhFok17Q).
 
+This example can be found in the Repository. You need a GamePad for this to work:
+```
+pip3 install numpy
+pip3 install pybullet
+
+cd Core/
+python3 gamepad.py
+```
+
+## Credits and thanks
+- Deok-yeon Kim creator of SpotMicro
+- Boston Dynamics who built this incredible SpotMini,
+- Ivan Krasin - https://ivankrasin.com/about/ - thanks for inspiration and chatting
+- Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
+Google Brain,Google DeepMind 
 

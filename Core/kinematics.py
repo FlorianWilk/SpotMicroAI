@@ -55,8 +55,11 @@ class Kinematic:
     def legIK(self,point):
         (x,y,z)=(point[0],point[1],point[2])
         (l1,l2,l3,l4)=(self.l1,self.l2,self.l3,self.l4)
-        
-        F=sqrt(x**2+y**2-l1**2)
+        try:        
+            F=sqrt(x**2+y**2-l1**2)
+        except ValueError:
+            print("Error in legIK with x {} y {} and l1 {}".format(x,y,l1))
+            F=l1
         G=F-l2  
         H=sqrt(G**2+z**2)
         theta1=-atan2(y,x)-atan2(F,-l1)
