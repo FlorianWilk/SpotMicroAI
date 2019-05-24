@@ -1,6 +1,5 @@
 # SpotMicro AI 
 ![urdf](/Images/SpotMicroAI_rviz_2.png)
-## How to build a cheap four-legged Robot and make it learn how to walk
 
 This Project is heavily work in progress and documenting my progress on the goal of making a four-legged robot walk.
 It is NOT a working or even finished Project you might want to use! 
@@ -12,18 +11,20 @@ My Goal is to create a) a working physical Robot with cheap components everyone 
 
 There are other ways of achiving this, i think. The use of InverseKinematics only, combined with a robust ground detection could also solve the problem and might be "more straight-forward" / yet already very challenging. 
 
-You can find [my first thoughts on SpotMicro's IK here](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics). There is also a [Jupyter Notebook explaining the Kinematics](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics/Kinematic.ipynb)
-
 I want to try a combination of both, because i believe that a well trained RL-Model could be move stable and
 robust in different situations where the physical robot leaves controlled environments or parts like Servos or Legs become unstable or may even break. 
 
 Nevertheless we will have to create a precise IK-Model to be able to have some kind of guided training. 
 
-## a) The Robot
+You can find [my first thoughts on SpotMicro's IK here](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics). There is also a [Jupyter Notebook explaining the Kinematics](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics/Kinematic.ipynb) and a [YouTube-Video](https://www.youtube.com/watch?v=VSkqhFok17Q).
+
+
+## a) The physical Robot
 
 ![SpotMicroAI](/Images/SpotMicroAI_1.jpg)
 
 First of all thanks to Deok-yeon Kim aka KDY0523 who made [this incredible work](https://www.thingiverse.com/thing:3445283)
+
 This basically is the physical Robot. It will take some Days to print and assemble all the Parts, but it's worth all the effort. I also sanded, primed and painted all the Parts to give it a nicer Look.
 
 [Here is my Make](https://www.thingiverse.com/make:654812)
@@ -32,6 +33,7 @@ Since my setup required some additional Hardware, i recreated some parts using F
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
 I will use a NVIDIA Jetson Nano as Locomotion-Controller, which will be connected to the ArduinoMega via UART. 
+UPDATE: The Arduino simply takes too much space when acting as Servo-Controller only. I replaced the Arduino with the Jetson Nano + 16 Channel PCA9685 I2C-Servo Driver. Pictures still show the Arduino-Version.
 
 ![JetsonNano](/Images/jetsonNano.jpg)
 
@@ -40,6 +42,7 @@ To have some Protection for the NVIDIA, i printed [this Case](https://www.thingi
 ![JetsonNano-Case](/Images/jetsonNanoCase.jpg)
 
 The Controller-Firmware for the Arduino-Mega can be found in /Controller. It will receive and send Commands and Information via UART(Serial) to our Locomotion-Controller.
+UPDATE: Not used anymore.
 
 ### Sensors
 
@@ -55,21 +58,17 @@ An additional NodeMCU or WemosD1 (not yet decided because of 3V/5V issues) will 
 
 I am not sure if the Hardware i use here will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
-UPDATE: The Arduino simply takes too much space when acting as Servo-Controller only. I think i will completely replace the Arduino with the Jetson Nano + 16 Channel PCA9685 I2C-Servo Driver.
-
-## b) Simulation and c) Training
+## b) Simulation
 
 ![urdf](/Images/SpotMicroAI_urdf2.png)
 
-I will try to implement [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
+I implemented the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
 
 ![PyBullet](/Images/SpotMicroAI_pybullet_2.png)
 
 The URDF Model is very basic and work in progress. Masses and Inertias are guesses and not correct. I will have to disassemble the Robot to have correct weights. And i am still exploring PyBullet, so a lot of code is still Try-Outs.
-
-The Simulation-Implementation in PyBullet is still a bunch of Copy&Pastes from Tutorials. 
 
 You can find a [first Video on YouTube](https://www.youtube.com/watch?v=VSkqhFok17Q).
 
@@ -81,6 +80,11 @@ pip3 install pybullet
 cd Core/
 python3 gamepad.py
 ```
+
+## c) Training
+
+There is no real Training-Code yet. I am still playing around with Kinematics. 
+My current idea is to do the RL-Training Outputs not on Velocity or even Position-Values, but on Bezier(?)-Curves/combination of linear? which can describe the trajectories of Body and Legs.
 
 ## Credits and thanks
 - Deok-yeon Kim creator of SpotMicro
