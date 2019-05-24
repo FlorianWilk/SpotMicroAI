@@ -73,7 +73,6 @@ def handleCamera(cubePos, cubeOrn):
     # Rotate vectors with body
     rot_matrix = p.getMatrixFromQuaternion(cubeOrn)
     rot_matrix = np.array(rot_matrix).reshape(3, 3)
-    addV = (30, 0, 0)
     camera_vector = rot_matrix.dot(init_camera_vector)
     up_vector = rot_matrix.dot(init_up_vector)
     view_matrix = p.computeViewMatrix(
@@ -83,7 +82,7 @@ def handleCamera(cubePos, cubeOrn):
 def checkSimulationReset():
     global quadruped
     rot = p.getEulerFromQuaternion(bodyOrn)
-    (xr, yr, zr) = rot
+    (xr, yr, _) = rot
     if(abs(xr) > math.pi/2 or abs(yr) > math.pi/2):
         p.resetSimulation()
         quadruped = loadModels()
@@ -139,7 +138,12 @@ gamepadInputs = {'ABS_X': 128, 'ABS_RZ': 127,
                  'BTN_PINKIE': 116, 'BTN_BASE2': 115
                  }
 
-joy_x, joy_y, joy_z, joy_rz = 128, 128, 128, 128
+def resetPose():
+    global joy_x, joy_z, joy_y, joy_rz,joy_z
+    joy_x, joy_y, joy_z, joy_rz = 128, 128, 128, 128
+
+
+resetPose()
 
 # Initialise the gamepad object using the gamepad inputs Python package
 gamepad = ThreadedInputs()
@@ -159,7 +163,8 @@ def handleGamepad():
         joy_z = commandValue
     if commandInput == 'ABS_RZ':
         joy_rz = commandValue
-
+    if commandInput == 'BTN_TOP2':
+        resetPose()
 
 if plot:
     initPlot()
@@ -168,6 +173,9 @@ if plot:
 
 IDheight = p.addUserDebugParameter("height", -40, 60, 0)
 IDroll = p.addUserDebugParameter("roll", -20, 20, 0)
+IDkp = p.addUserDebugParameter("Kp", 0, 0.05, 0.012) # 0.05
+IDkd = p.addUserDebugParameter("Kd", 0, 1, 0.2) # 0.5
+IDmaxForce = p.addUserDebugParameter("MaxForce", 0, 50, 12.5)
 
 quadruped = loadModels()
 changeDynamics(quadruped)
@@ -187,8 +195,7 @@ textId = addInfoText("")
 
 # Camera Settings
 fov, aspect, nearplane, farplane = 90, 1.3, .0111, 100
-projection_matrix = p.computeProjectionMatrixFOV(
-    fov, aspect, nearplane, farplane)
+projection_matrix = p.computeProjectionMatrixFOV(fov, aspect, nearplane, farplane)
 
 while True:
 
@@ -202,6 +209,9 @@ while True:
 
     height = p.readUserDebugParameter(IDheight)
     roll = p.readUserDebugParameter(IDroll)
+    kp=p.readUserDebugParameter(IDkp)
+    kd=p.readUserDebugParameter(IDkd)
+    maxForce=p.readUserDebugParameter(IDmaxForce)
 
     handleCamera(bodyPos, bodyOrn)
     handleGamepad()
