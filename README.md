@@ -61,13 +61,13 @@ I am not sure if the Hardware i use here will be enough to finally have a very s
 
 ![urdf](/Images/SpotMicroAI_urdf2.png)
 
-I implemented the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
+I try to implement the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
 
 ![PyBullet](/Images/SpotMicroAI_pybullet_2.png)
 
-The URDF Model is very basic and work in progress. Masses and Inertias are guesses and not correct. I will have to disassemble the Robot to have correct weights. And i am still exploring PyBullet, so a lot of code is still Try-Outs.
+The URDF Model is very basic and work in progress. Masses and Inertias are guesses and not correct. I will have to disassemble the Robot to have correct weights. 
 
 You can find a [first Video on YouTube](https://www.youtube.com/watch?v=VSkqhFok17Q).
 
@@ -83,10 +83,10 @@ python3 gamepad.py
 
 ## c) Training
 
-There is no real Training-Code yet. I am still playing around with Kinematics. 
-My current idea is to do the RL-Training Outputs not on Velocity or even Position-Values, but on Bezier(?)-Curves/combination of linear? which can describe the trajectories of Body and Legs.
+There is no real Training-Code yet.
 
 ## Credits and thanks
+
 - Deok-yeon Kim creator of SpotMicro
 - Boston Dynamics who built this incredible SpotMini,
 - Ivan Krasin - https://ivankrasin.com/about/ - thanks for inspiration and chatting
