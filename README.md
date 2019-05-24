@@ -43,9 +43,6 @@ To have some Protection for the NVIDIA, i printed [this Case](https://www.thingi
 
 ![JetsonNano-Case](/Images/jetsonNanoCase.jpg)
 
-The Controller-Firmware for the Arduino-Mega can be found in /Controller. It will receive and send Commands and Information via UART(Serial) to our Locomotion-Controller.
-UPDATE: Not used anymore.
-
 ### Sensors
 
 Since i am not a robotics company, i can't easily invest some hundreds of Euros/Dollars. So i will use Sonar Sensors instead of visual sensors like RGB or RGBD-Cams. Maybe i will try with ESPEyes or something in the near future.
