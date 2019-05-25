@@ -74,12 +74,14 @@ def handleCamera(cubePos, cubeOrn):
     init_camera_vector = (-1, 0, 0)
     init_up_vector = (0, 0, 1)
     # Rotate vectors with body
+    orn = p.getMatrixFromQuaternion(p.getQuaternionFromEuler([0, -math.pi/180*25,0]))
+    orn = np.array(orn).reshape(3, 3)
     rot_matrix = p.getMatrixFromQuaternion(cubeOrn)
     rot_matrix = np.array(rot_matrix).reshape(3, 3)
-    camera_vector = rot_matrix.dot(init_camera_vector)
-    up_vector = rot_matrix.dot(init_up_vector)
+    camera_vector = rot_matrix.dot(orn.dot(init_camera_vector))
+    up_vector = rot_matrix.dot(orn.dot(init_up_vector))
     view_matrix = p.computeViewMatrix(
-        cubePos + 0.15 * camera_vector, cubePos + 3 * camera_vector,  up_vector)
+        cubePos + 0.17 * camera_vector, cubePos + 3 * camera_vector,  up_vector)
     img = p.getCameraImage(320, 200, view_matrix, projection_matrix)
 
 def checkSimulationReset():
@@ -174,7 +176,7 @@ if plot:
 
 # Main
 
-IDheight = p.addUserDebugParameter("height", -40, 60, 0)
+IDheight = p.addUserDebugParameter("height", -40, 90, 0)
 IDroll = p.addUserDebugParameter("roll", -20, 20, 0)
 IDkp = p.addUserDebugParameter("Kp", 0, 0.05, 0.012) # 0.05
 IDkd = p.addUserDebugParameter("Kd", 0, 1, 0.2) # 0.5
@@ -183,10 +185,13 @@ IDmaxForce = p.addUserDebugParameter("MaxForce", 0, 50, 12.5)
 quadruped = loadModels()
 changeDynamics(quadruped)
 jointNameToId = getJointNames(quadruped)
-
+L=140
+W=75+5+40
 # Initial FootPositions lf,rf,lb,rb and directions of motors (lf and lb had to be inverted)
-Lp = np.array([[120, -100, 140, 1], [120, -100, -140, 1],
-               [-120, -100, 140, 1], [-120, -100, -140, 1]])
+#Lp = np.array([[120, -100, 140, 1], [120, -100, -140, 1],
+#               [-120, -100, 140, 1], [-120, -100, -140, 1]])
+Lp = np.array([[120, -100, W/2, 1], [120, -100, -W/2, 1],
+               [-50, -100, W/2, 1], [-50, -100, -W/2, 1]])
 dirs = [[-1, 1, 1], [1, 1, 1], [-1, 1, 1], [1, 1, 1]]
 
 kin = Kinematic()
@@ -220,7 +225,7 @@ while True:
     handleGamepad()
 
     angles = kin.calcIK(Lp, (math.pi/180*roll, 0.6/256*joy_x-0.3, -(0.9/256*joy_y-0.45)),  # (0,20,0))
-                        (100/256*-joy_rz-20+100, 40+height, 60/256*joy_z-30))
+                        (100/256*-joy_rz-20+120, 40+height, 60/256*joy_z-30))
 
     if checkSimulationReset():
         continue

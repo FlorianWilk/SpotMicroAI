@@ -37,16 +37,17 @@
   <link name="rear_link">
     <visual>
       <geometry>
-        <box size="0.057 0.11 0.07"/>
+        <mesh filename="../STL/files/R_cover.stl" scale="0.001 0.001 0.001"/>
+        <!--<box size="${rear_length} ${body_width} ${body_height}"/> -->
       </geometry>
-      <origin rpy="0 0 0" xyz="0.145 0 0"/>
+      <origin rpy="0 0 0" xyz="0.120 0 0"/>
       <material name="yellow"/>
     </visual>
     <collision>
       <geometry>
-        <box size="0.057 0.11 0.07"/>
+        <box size="0.04 0.11 0.07"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0.145 0 0"/>
+      <origin rpy="0 0 0" xyz="0.135 0 0"/>
     </collision>
     <inertial>
       <mass value="0.20"/>
@@ -60,9 +61,10 @@
   <link name="front_link">
     <visual>
       <geometry>
-        <box size="0.058 0.11 0.07"/>
+        <mesh filename="../STL/files/F_cover.stl" scale="0.001 0.001 0.001"/>
+        <!--        <box size="${front_length} ${body_width} ${body_height}"/> -->
       </geometry>
-      <origin rpy="0 0 0" xyz="-0.145 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.130 0 0"/>
       <material name="yellow"/>
     </visual>
     <collision>
