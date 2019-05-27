@@ -131,7 +131,7 @@ class Kinematic:
         return np.array([self.legIK(np.linalg.inv(Tlf).dot(Lp[0])),
         self.legIK(Ix.dot(np.linalg.inv(Trf).dot(Lp[1]))),
         self.legIK(np.linalg.inv(Tlb).dot(Lp[2])),
-        self.legIK(Ix.dot(np.linalg.inv(Trb).dotLp[3]))])
+        self.legIK(Ix.dot(np.linalg.inv(Trb).dot(Lp[3])))])
 
 
 if __name__=="__main__":
