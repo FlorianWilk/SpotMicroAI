@@ -144,9 +144,9 @@ gamepadInputs = {'ABS_X': 128, 'ABS_RZ': 127,
                  }
 
 def resetPose():
+    # TODO: globals are bad
     global joy_x, joy_z, joy_y, joy_rz,joy_z
     joy_x, joy_y, joy_z, joy_rz = 128, 128, 128, 128
-
 
 resetPose()
 
@@ -157,6 +157,7 @@ for gamepadInput in gamepadInputs:
 gamepad.start()
 
 def handleGamepad():
+    # TODO: globals are bad
     global joy_x, joy_z, joy_y, joy_rz
     commandInput, commandValue = gamepad.read()
     # Gamepad button command filter
@@ -224,7 +225,9 @@ while True:
     handleCamera(bodyPos, bodyOrn)
     handleGamepad()
 
-    angles = kin.calcIK(Lp, (math.pi/180*roll, 0.6/256*joy_x-0.3, -(0.9/256*joy_y-0.45)),  # (0,20,0))
+    # map the Gamepad Inputs to Pose-Values. Still very hardcoded ranges. 
+    # TODO: Make ranges depend on height or smth to keep them valid all the time
+    angles = kin.calcIK(Lp, (math.pi/180*roll, 1/256*joy_x-0.5, -(0.9/256*joy_y-0.45)), 
                         (100/256*-joy_rz-20+120, 40+height, 60/256*joy_z-30))
 
     if checkSimulationReset():
