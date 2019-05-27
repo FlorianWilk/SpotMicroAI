@@ -4,6 +4,7 @@ from math import *
 import random
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+from mpl_toolkits.mplot3d import Axes3D
 fig = plt.figure()
 data = np.random.rand(2, 25)
 
@@ -37,7 +38,8 @@ class Kinematic:
                     [-np.sin(phi),0,np.cos(phi),0],[0,0,0,1]])
         Rz = np.array([[np.cos(psi),-np.sin(psi),0,0],
                     [np.sin(psi),np.cos(psi),0,0],[0,0,1,0],[0,0,0,1]])
-        Rxyz=Rx@Ry@Rz
+        # Rxyz=Rx@Ry@Rz
+        Rxyz = Rx.dot(Ry.dot(Rz))
 
         T = np.array([[0,0,0,xm],[0,0,0,ym],[0,0,0,zm],[0,0,0,0]])
         Tm = T+Rxyz
@@ -46,17 +48,24 @@ class Kinematic:
         cHp=np.cos(pi/2)
         (L,W)=(self.L,self.W)
 
-        return([Tm @ np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]]),
-            Tm @ np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]]),
-            Tm @ np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]]),
-            Tm @ np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]])
-            ])
+        # return([Tm @ np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]]),
+        #     Tm @ np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]]),
+        #     Tm @ np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]]),
+        #     Tm @ np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]])
+        #     ])
+        return([Tm.dot(np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]])),
+                Tm.dot(np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]])),
+                Tm.dot(np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]])),
+                Tm.dot(np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]]))])
 
     def legIK(self,point):
         (x,y,z)=(point[0],point[1],point[2])
         (l1,l2,l3,l4)=(self.l1,self.l2,self.l3,self.l4)
-        
-        F=sqrt(x**2+y**2-l1**2)
+        try:        
+            F=sqrt(x**2+y**2-l1**2)
+        except ValueError:
+            print("Error in legIK with x {} y {} and l1 {}".format(x,y,l1))
+            F=l1
         G=F-l2  
         H=sqrt(G**2+z**2)
         theta1=-atan2(y,x)-atan2(F,-l1)
@@ -88,8 +97,10 @@ class Kinematic:
 
     def drawLegPair(self,Tl,Tr,Ll,Lr):
         Ix=np.array([[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
-        self.drawLegPoints([Tl@x for x in self.calcLegPoints(self.legIK(np.linalg.inv(Tl)@Ll))])
-        self.drawLegPoints([Tr@Ix@x for x in self.calcLegPoints(self.legIK(Ix@np.linalg.inv(Tr)@Lr))])
+        # self.drawLegPoints([Tl@x for x in self.calcLegPoints(self.legIK(np.linalg.inv(Tl)@Ll))])
+        # self.drawLegPoints([Tr@Ix@x for x in self.calcLegPoints(self.legIK(Ix@np.linalg.inv(Tr)@Lr))])
+        self.drawLegPoints([Tl.dot(x) for x in self.calcLegPoints(self.legIK(np.linalg.inv(Tl).dot(Ll)))])
+        self.drawLegPoints([Tr.dot(Ix.dot(x)) for x in self.calcLegPoints(self.legIK(Ix.dot(np.linalg.inv(Tr).dot(Lr))))])
         
     def drawRobot(self,Lp,angles,center):
         (omega,phi,psi)=angles
@@ -97,7 +108,8 @@ class Kinematic:
         
         FP=[0,0,0,1]
         (Tlf,Trf,Tlb,Trb)= self.bodyIK(omega,phi,psi,xm,ym,zm)
-        CP=[x@FP for x in [Tlf,Trf,Tlb,Trb]]
+        # CP=[x@FP for x in [Tlf,Trf,Tlb,Trb]]
+        CP=[x.dot(FP) for x in [Tlf,Trf,Tlb,Trb]]
 
         CPs=[CP[x] for x in [0,1,3,2,0]]
         plt.plot([x[0] for x in CPs],[x[2] for x in CPs],[x[1] for x in CPs], 'bo-', lw=2)
@@ -112,10 +124,14 @@ class Kinematic:
         (Tlf,Trf,Tlb,Trb)= self.bodyIK(omega,phi,psi,xm,ym,zm)
 
         Ix=np.array([[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
-        return np.array([self.legIK(np.linalg.inv(Tlf)@Lp[0]),
-        self.legIK(Ix@np.linalg.inv(Trf)@Lp[1]),
-        self.legIK(np.linalg.inv(Tlb)@Lp[2]),
-        self.legIK(Ix@np.linalg.inv(Trb)@Lp[3])])
+        # return np.array([self.legIK(np.linalg.inv(Tlf)@Lp[0]),
+        # self.legIK(Ix@np.linalg.inv(Trf)@Lp[1]),
+        # self.legIK(np.linalg.inv(Tlb)@Lp[2]),
+        # self.legIK(Ix@np.linalg.inv(Trb)@Lp[3])])
+        return np.array([self.legIK(np.linalg.inv(Tlf).dot(Lp[0])),
+        self.legIK(Ix.dot(np.linalg.inv(Trf).dot(Lp[1]))),
+        self.legIK(np.linalg.inv(Tlb).dot(Lp[2])),
+        self.legIK(Ix.dot(np.linalg.inv(Trb).dotLp[3]))])
 
 
 if __name__=="__main__":
