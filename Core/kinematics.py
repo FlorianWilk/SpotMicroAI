@@ -38,7 +38,6 @@ class Kinematic:
                     [-np.sin(phi),0,np.cos(phi),0],[0,0,0,1]])
         Rz = np.array([[np.cos(psi),-np.sin(psi),0,0],
                     [np.sin(psi),np.cos(psi),0,0],[0,0,1,0],[0,0,0,1]])
-        # Rxyz=Rx@Ry@Rz
         Rxyz = Rx.dot(Ry.dot(Rz))
 
         T = np.array([[0,0,0,xm],[0,0,0,ym],[0,0,0,zm],[0,0,0,0]])
@@ -48,11 +47,6 @@ class Kinematic:
         cHp=np.cos(pi/2)
         (L,W)=(self.L,self.W)
 
-        # return([Tm @ np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]]),
-        #     Tm @ np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]]),
-        #     Tm @ np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]]),
-        #     Tm @ np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]])
-        #     ])
         return([Tm.dot(np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]])),
                 Tm.dot(np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,-W/2],[0,0,0,1]])),
                 Tm.dot(np.array([[cHp,0,sHp,-L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]])),
@@ -97,8 +91,6 @@ class Kinematic:
 
     def drawLegPair(self,Tl,Tr,Ll,Lr):
         Ix=np.array([[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
-        # self.drawLegPoints([Tl@x for x in self.calcLegPoints(self.legIK(np.linalg.inv(Tl)@Ll))])
-        # self.drawLegPoints([Tr@Ix@x for x in self.calcLegPoints(self.legIK(Ix@np.linalg.inv(Tr)@Lr))])
         self.drawLegPoints([Tl.dot(x) for x in self.calcLegPoints(self.legIK(np.linalg.inv(Tl).dot(Ll)))])
         self.drawLegPoints([Tr.dot(Ix.dot(x)) for x in self.calcLegPoints(self.legIK(Ix.dot(np.linalg.inv(Tr).dot(Lr))))])
         
@@ -108,7 +100,6 @@ class Kinematic:
         
         FP=[0,0,0,1]
         (Tlf,Trf,Tlb,Trb)= self.bodyIK(omega,phi,psi,xm,ym,zm)
-        # CP=[x@FP for x in [Tlf,Trf,Tlb,Trb]]
         CP=[x.dot(FP) for x in [Tlf,Trf,Tlb,Trb]]
 
         CPs=[CP[x] for x in [0,1,3,2,0]]
@@ -124,10 +115,6 @@ class Kinematic:
         (Tlf,Trf,Tlb,Trb)= self.bodyIK(omega,phi,psi,xm,ym,zm)
 
         Ix=np.array([[-1,0,0,0],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
-        # return np.array([self.legIK(np.linalg.inv(Tlf)@Lp[0]),
-        # self.legIK(Ix@np.linalg.inv(Trf)@Lp[1]),
-        # self.legIK(np.linalg.inv(Tlb)@Lp[2]),
-        # self.legIK(Ix@np.linalg.inv(Trb)@Lp[3])])
         return np.array([self.legIK(np.linalg.inv(Tlf).dot(Lp[0])),
         self.legIK(Ix.dot(np.linalg.inv(Trf).dot(Lp[1]))),
         self.legIK(np.linalg.inv(Tlb).dot(Lp[2])),
