@@ -37,7 +37,7 @@ Since my setup required some additional Hardware, i recreated some parts using F
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
-To have some Protection for the NVIDIA, i printed [this Case](https://www.thingiverse.com/thing:3603594).
+To have some Protection for the NVIDIA Jetson Nano i printed [this Case from Thingiverse](https://www.thingiverse.com/thing:3603594).
 
 ![JetsonNano-Case](/Images/jetsonNanoCase.jpg)
 
