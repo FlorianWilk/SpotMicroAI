@@ -65,8 +65,11 @@ class Kinematic:
         theta1=-atan2(y,x)-atan2(F,-l1)
         
         D=(H**2-l3**2-l4**2)/(2*l3*l4)
-        theta3=acos(D) 
-        
+        try:        
+            theta3=acos(D) 
+        except ValueError:
+            print("Error in legIK with x {} y {} and D {}".format(x,y,D))
+            theta3=0
         theta2=atan2(z,G)-atan2(l4*sin(theta3),l3+l4*cos(theta3))
         
         return(theta1,theta2,theta3)

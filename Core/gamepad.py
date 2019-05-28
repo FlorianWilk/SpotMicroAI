@@ -29,6 +29,11 @@ if (physId < 0):
     p.connect(p.GUI)
 angle = 90
 
+INIT_ORIENTATION=p.getQuaternionFromEuler([0, 0, 90.0])
+INIT_POSITION=[0, 0, 0.5]
+
+REFLECTION=False
+
 def loadModels():
     p.setGravity(0, 0, -9.81)
     p.setPhysicsEngineParameter(numSolverIterations=numSolverIterations)
@@ -36,17 +41,15 @@ def loadModels():
 
     orn = p.getQuaternionFromEuler([0, 0, 0])
     p.setAdditionalSearchPath(pybullet_data.getDataPath())
-    planeUid = p.loadURDF("plane.urdf", [0, 0, 0], orn)
+    planeUid = p.loadURDF("plane_transparent.urdf", [0, 0, 0], orn)
     texUid = p.loadTexture("concrete.png")
     p.changeVisualShape(planeUid, -1, textureUniqueId=texUid)
 
     stairsUid = p.loadURDF("../urdf/stairs_gen.urdf.xml", [0, -1, 0], orn)
 
-
-    orn = p.getQuaternionFromEuler([0, 0, 90.0])
     p.setRealTimeSimulation(useRealTime)
-    quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", [0, 0, 0.5],
-                           orn,
+    quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", INIT_POSITION,
+                           INIT_ORIENTATION,
                            useFixedBase=False,
                            useMaximalCoordinates=useMaximalCoordinates,
                            flags=p.URDF_USE_IMPLICIT_CYLINDER)
@@ -67,8 +70,30 @@ def getJointNames(quadruped):
         jointNameToId[jointInfo[1].decode('UTF-8')] = jointInfo[0]
     return jointNameToId
 
-def addInfoText(text):
-    return p.addUserDebugText(text, [0, 0, 0.45], textColorRGB=[1, 1, 1], textSize=1.5, parentObjectUniqueId=quadruped, parentLinkIndex=1)
+oldTextId=0
+textId=0
+oldDebugInfo=[]
+
+def addInfoText(bodyPos,bodyEuler,linearVel,angularVel):
+    global textId,oldDebugInfo
+    text="Distance: {:.1f}m".format(math.sqrt(bodyPos[0]**2+bodyPos[1]**2))
+    text2="Roll/Pitch: {:.1f} / {:.1f}".format(math.degrees(bodyEuler[0]),math.degrees(bodyEuler[1]))
+    text3="Vl: {:.1f} / {:.1f} / {:.1f} Va: {:.1f} / {:.1f} / {:.1f}".format(linearVel[0],linearVel[1],linearVel[2],
+        angularVel[0],angularVel[1],angularVel[2])
+    x,y=bodyPos[0],bodyPos[1]
+    newDebugInfo=[
+    p.addUserDebugLine([x, y, 0], [x, y, 1], [0,1,0]),
+    p.addUserDebugText(text, [x+0.03, y, 0.6], textColorRGB=[1, 1, 1], textSize=1.0),
+    p.addUserDebugText(text2, [x+0.03, y, 0.5], textColorRGB=[1, 1, 1], textSize=1.0),
+    p.addUserDebugText(text3, [x+0.03, y, 0.4], textColorRGB=[1, 1, 1], textSize=1.0)]
+    p.addUserDebugLine([-0.3, 0, 0], [0.3, 0, 0], [0,1,0], parentObjectUniqueId=quadruped, parentLinkIndex=1 ),
+    p.addUserDebugLine([0, -0.2, 0], [0, 0.2, 0], [0,1,0], parentObjectUniqueId=quadruped, parentLinkIndex=1 ),
+
+    if len(oldDebugInfo)>0:
+        for x in oldDebugInfo:
+            p.removeUserDebugItem(x)
+    oldDebugInfo=newDebugInfo
+
 
 def handleCamera(cubePos, cubeOrn):
     init_camera_vector = (-1, 0, 0)
@@ -88,9 +113,11 @@ def checkSimulationReset():
     global quadruped
     rot = p.getEulerFromQuaternion(bodyOrn)
     (xr, yr, _) = rot
-    if(abs(xr) > math.pi/2 or abs(yr) > math.pi/2):
-        p.resetSimulation()
-        quadruped = loadModels()
+    if(abs(xr) > math.pi/3 or abs(yr) > math.pi/3):
+        #p.resetSimulation()
+        p.resetBasePositionAndOrientation(quadruped, INIT_POSITION,INIT_ORIENTATION)
+        p.resetBaseVelocity(quadruped, [0, 0, 0], [0, 0, 0])
+        #quadruped = loadModels()
         return True
     return False
 
@@ -176,7 +203,10 @@ if plot:
     initPlot()
 
 # Main
-
+p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
+if REFLECTION:
+    p.configureDebugVisualizer(p.COV_ENABLE_PLANAR_REFLECTION, 1)
+p.configureDebugVisualizer(p.COV_ENABLE_TINY_RENDERER, 1)
 IDheight = p.addUserDebugParameter("height", -40, 90, 0)
 IDroll = p.addUserDebugParameter("roll", -20, 20, 0)
 IDkp = p.addUserDebugParameter("Kp", 0, 0.05, 0.012) # 0.05
@@ -200,21 +230,33 @@ kin = Kinematic()
 p.setRealTimeSimulation(useRealTime)
 ref_time = time.time()
 
-textId = addInfoText("")
-
 # Camera Settings
 fov, aspect, nearplane, farplane = 90, 1.3, .0111, 100
 projection_matrix = p.computeProjectionMatrixFOV(fov, aspect, nearplane, farplane)
 
-while True:
+p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
 
+while True:
+    if (useRealTime):
+        t = time.time() - ref_time
+    else:
+        t = t + fixedTimeStep
+
+    if (useRealTime == False):
+        p.stepSimulation()
+        time.sleep(fixedTimeStep)
+
+    """
+    a=math.cos(t*10)*20-100
+    b=math.sin(t*10+math.pi)*20-100
+    Lp[0][1]=a
+    Lp[2][1]=a
+    Lp[1][1]=b
+    Lp[3][1]=b
+    """
     bodyPos, bodyOrn = p.getBasePositionAndOrientation(quadruped)
     linearVel, angularVel = p.getBaseVelocity(quadruped)
-
-    oldTextId = textId
-    textId = addInfoText("{:.1f} m Distance".format(
-        math.sqrt(bodyPos[0]**2+bodyPos[1]**2)))
-    p.removeUserDebugItem(oldTextId)
+    bodyEuler=p.getEulerFromQuaternion(bodyOrn)
 
     height = p.readUserDebugParameter(IDheight)
     roll = p.readUserDebugParameter(IDroll)
@@ -230,6 +272,8 @@ while True:
     angles = kin.calcIK(Lp, (math.pi/180*roll, 1/256*joy_x-0.5, -(0.9/256*joy_y-0.45)), 
                         (100/256*-joy_rz-20+120, 40+height, 60/256*joy_z-30))
 
+    addInfoText(bodyPos,bodyEuler,linearVel,angularVel)
+
     if checkSimulationReset():
         continue
 
@@ -244,13 +288,5 @@ while True:
                                     velocityGain=kd,
                                     force=maxForce)
 
-    if (useRealTime):
-        t = time.time() - ref_time
-    else:
-        t = t + fixedTimeStep
-
-    if (useRealTime == False):
-        p.stepSimulation()
-        time.sleep(fixedTimeStep)
 
 gamepad.stop()
