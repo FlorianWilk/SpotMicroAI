@@ -84,7 +84,7 @@ pip3 install pybullet
 pip3 install inputs
 
 cd Core/
-python3 gamepad.py
+python3 example_gamepad.py
 ```
 
 ## 3. Training

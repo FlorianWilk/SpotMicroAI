@@ -11,13 +11,14 @@ from kinematics import Kinematic
 
 class Robot:
 
-    def __init__(self):      
+    def __init__(self,useFixedBase=False):      
 
         # Simulation Configuration
         self.useMaximalCoordinates = False
         self.useRealTime = True
         self.fixedTimeStep = 1. / 100
         self.numSolverIterations = 200
+        self.useFixedBase =useFixedBase
 
         self.init_oritentation=p.getQuaternionFromEuler([0, 0, 90.0])
         self.init_position=[0, 0, 0.3]
@@ -88,7 +89,7 @@ class Robot:
 
         quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", self.init_position,
                             self.init_oritentation,
-                            useFixedBase=False,
+                            useFixedBase=self.useFixedBase,
                             useMaximalCoordinates=self.useMaximalCoordinates,
                             flags=p.URDF_USE_IMPLICIT_CYLINDER)
         p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
