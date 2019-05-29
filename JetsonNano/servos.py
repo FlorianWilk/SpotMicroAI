@@ -18,7 +18,11 @@ class Servo:
         # I2C set calculated Value 
     
     def getLastValue(self):
-        self.lastValue
+        return self.lastValue
+
+    def setOffset(self,offset):
+        self.offset=offset
+        self.setValue(self.getLastValue())
 
 class AcceleratedServo(Servo):
     def __init__(self,direction,servoId):
@@ -37,7 +41,7 @@ class Servos:
     def __init__(self):
         print("Servos init")
 
-        self.pwm = Adafruit_PCA9685.PCA9685(address=0x40)
+        #self.pwm = Adafruit_PCA9685.PCA9685(address=0x40)
         # Front_left,Front_right,Back_left,Back_right
         # each leg has shoulder, leg, foot
         directions=[-1,1,1,1,1,1,-1,1,1,1,1,1]
@@ -45,4 +49,9 @@ class Servos:
 
     def setServoPositions(self,positions):
         [self.leg_servos[x].moveTo(positions[x],100) for x in range(0,12)]
+    
+    def getServoOffset(self,servo):
+        return self.leg_servos[servo].offset
 
+    def setServoOffset(self,servo,offset):
+        self.leg_servos[servo].setOffset(offset)

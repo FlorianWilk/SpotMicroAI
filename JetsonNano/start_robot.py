@@ -12,7 +12,12 @@ class RobotRunner:
 
         self.servos.setServoPositions([0 for _ in range(0,12)])
 
-    def run(self):
+    def calibrate(self):
         print("Running")
+        servo=int(input("Enter Servo to calibrate (0-12)"))
+        print("Current Offset is {}".format(self.servos.getServoOffset(servo)))
+        offset=int(input("Enter new Offset:"))
+        self.servos.setServoOffset(servo,offset)
 
-RobotRunner().run()
+
+RobotRunner().calibrate()
