@@ -155,8 +155,6 @@ class Robot:
         #TODO: Use the camera image
 
     def checkSimulationReset(self,bodyOrn):
-        if True:
-            return False
         (xr, yr, _) = p.getEulerFromQuaternion(bodyOrn)
         
         # If our Body rotated more than pi/3: reset
