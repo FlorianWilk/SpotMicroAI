@@ -1,5 +1,5 @@
 # SpotMicro AI 
-![urdf](/Images/SpotMicroAI_rviz_2.png)
+![PyBullet Simulation](/Images/SpotMicroAI_pybullet_lidar2.png)
 
 This Project is heavily work in progress and documenting my progress on the goal of making a four-legged robot walk.
 It is NOT a working or even finished Project you might want to use! 
