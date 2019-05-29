@@ -1,0 +1,4 @@
+numpy==1.15.4
+numpy-stl==2.3.2
+pybullet==2.5.0
+inputs==0.5

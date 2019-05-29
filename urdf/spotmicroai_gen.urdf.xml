@@ -113,6 +113,21 @@
         <box size="0.044 0.038 0.07"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0"/>
+      <!--
+        <xacro:if value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
+        </xacro:unless>
+        -->
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
     <collision>
@@ -167,16 +182,16 @@
   <link name="front_left_toe_link">
     <visual>
       <geometry>
-        <sphere radius="0.02"/>
+        <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
       <geometry>
         <sphere radius="0.02"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <contact_coefficients mu="0.8"/>
     </collision>
     <inertial>
@@ -218,6 +233,21 @@
       <geometry>
         <box size="0.044 0.038 0.07"/>
       </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <!--
+        <xacro:if value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
+        </xacro:unless>
+        -->
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
@@ -273,16 +303,16 @@
   <link name="front_right_toe_link">
     <visual>
       <geometry>
-        <sphere radius="0.02"/>
+        <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
       <geometry>
         <sphere radius="0.02"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <contact_coefficients mu="0.8"/>
     </collision>
     <inertial>
@@ -324,6 +354,21 @@
       <geometry>
         <box size="0.044 0.038 0.07"/>
       </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <!--
+        <xacro:if value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
+        </xacro:unless>
+        -->
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
@@ -379,16 +424,16 @@
   <link name="rear_left_toe_link">
     <visual>
       <geometry>
-        <sphere radius="0.02"/>
+        <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
       <geometry>
         <sphere radius="0.02"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <contact_coefficients mu="0.8"/>
     </collision>
     <inertial>
@@ -430,6 +475,21 @@
       <geometry>
         <box size="0.044 0.038 0.07"/>
       </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <!--
+        <xacro:if value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
+        </xacro:unless>
+        -->
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <material name="black"/>
     </visual>
@@ -485,16 +545,16 @@
   <link name="rear_right_toe_link">
     <visual>
       <geometry>
-        <sphere radius="0.02"/>
+        <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
       <geometry>
         <sphere radius="0.02"/>
       </geometry>
-      <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
       <contact_coefficients mu="0.8"/>
     </collision>
     <inertial>

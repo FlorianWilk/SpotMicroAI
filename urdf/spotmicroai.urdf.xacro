@@ -40,12 +40,28 @@
 
   <!-- Macros -->
 
-  <xacro:macro name="gen_shoulder" params="name">
+  <xacro:macro name="gen_shoulder" params="name left">
     <link name="${name}">
       <visual>
         <geometry>
           <box size="${shoulder_length} ${shoulder_width} ${body_height}"/>
         </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+
+<!--
+        <xacro:if value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
+        </xacro:unless>
+        -->
         <origin rpy="0 0 0" xyz="0 0 0"/>
         <material name="black"/>
       </visual>
@@ -143,16 +159,16 @@
     <link name="${name}">
       <visual>
         <geometry>
-          <sphere radius="${toe_radius}" />
+        <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 -0.01 0"/>
         <material name="grey"/>
       </visual>
       <collision>
         <geometry>
           <sphere radius="${toe_radius}" />
         </geometry>
-        <origin rpy="1.5708 0 0" xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
         <contact_coefficients mu="0.8" />
       </collision>
       <inertial>
@@ -170,8 +186,8 @@
     </joint>
   </xacro:macro>
 
-  <xacro:macro name="gen_full_leg_joint" params="pos shiftx shifty shift">
-    <xacro:gen_shoulder name="${pos}_shoulder_link"/>
+  <xacro:macro name="gen_full_leg_joint" params="pos shiftx shifty shift left">
+    <xacro:gen_shoulder name="${pos}_shoulder_link" left="${left}"/>
     <xacro:gen_leg name="${pos}_leg_link"/>
     <xacro:gen_foot name="${pos}_foot_link"/>
     <xacro:gen_toe name="${pos}_toe_link"/>
@@ -283,9 +299,9 @@
 
   <!-- create Legs -->
 
-  <xacro:gen_full_leg_joint pos="front_left" shiftx="-${shiftx}" shifty="-${shifty}" shift="-${shift}"/>
-  <xacro:gen_full_leg_joint pos="front_right" shiftx="-${shiftx}" shifty="${shifty}" shift="${shift}"/>
-  <xacro:gen_full_leg_joint pos="rear_left" shiftx="${shiftx}" shifty="-${shifty}" shift="-${shift}"/>
-  <xacro:gen_full_leg_joint pos="rear_right" shiftx="${shiftx}" shifty="${shifty}" shift="${shift}"/>
+  <xacro:gen_full_leg_joint pos="front_left" shiftx="-${shiftx}" shifty="-${shifty}" shift="-${shift}" left="true"/>
+  <xacro:gen_full_leg_joint pos="front_right" shiftx="-${shiftx}" shifty="${shifty}" shift="${shift}" left="false"/>
+  <xacro:gen_full_leg_joint pos="rear_left" shiftx="${shiftx}" shifty="-${shifty}" shift="-${shift}" left="true"/>
+  <xacro:gen_full_leg_joint pos="rear_right" shiftx="${shiftx}" shifty="${shifty}" shift="${shift}" left="false"/>
 
 </robot>

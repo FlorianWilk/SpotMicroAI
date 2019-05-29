@@ -23,8 +23,6 @@ You can find [my first thoughts on SpotMicro's IK here](https://github.com/Flori
 
 ## 1. The physical Robot
 
-UPDATE: I replaced the ArduinoMega with the Jetson Nano + 16 Channel PCA9685 I2C-Servo Driver. Pictures still show the Arduino-Version.
-
 ![SpotMicroAI](/Images/SpotMicroAI_1.jpg)
 
 First of all thanks to Deok-yeon Kim aka KDY0523 who made [this incredible work on Thingiverse](https://www.thingiverse.com/thing:3445283)
@@ -37,9 +35,16 @@ Since my setup required some additional Hardware, i recreated some parts using F
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
+### NVIDIA Jetson Nano
+
 To have some Protection for the NVIDIA Jetson Nano i printed [this Case from Thingiverse](https://www.thingiverse.com/thing:3603594).
 
 ![JetsonNano-Case](/Images/jetsonNanoCase.jpg)
+
+The Jetson Nano is connected to a 16 Channel PCA9685 I2C-Servo Driver which controls all the Servos. 
+I will also try to connect the I2C OLED Display and the LED-Circle to it.
+
+[Here you can find the all the Code for the Jetson Nano](/JetsonNano)
 
 ### Sensors
 
