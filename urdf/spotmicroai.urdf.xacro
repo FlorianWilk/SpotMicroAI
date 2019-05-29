@@ -17,6 +17,11 @@
   <xacro:property name="body_width" value="0.110" />
   <xacro:property name="body_height" value="0.070" />
 
+  <xacro:property name="lidar_length" value="0.0985" />
+  <xacro:property name="lidar_width" value="0.0577" />
+  <xacro:property name="lidar_height" value="0.070" />
+
+
   <xacro:property name="front_length" value="0.058" />
   <xacro:property name="rear_length" value="0.040" />
 
@@ -197,6 +202,32 @@
       <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
     </inertial>
   </link>
+
+  <!-- Lidar Backpack -->
+
+   <link name="lidar_link">
+    <visual>
+      <geometry>
+        <mesh filename="../STL/lidar/rplidar_main.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="black"/> 
+      <origin rpy="1.57075 0 0" xyz="${-lidar_length/2-0.015} ${lidar_width/2} ${body_height/2}"/>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="${lidar_length} ${lidar_width} ${lidar_height}"/>
+      </geometry>
+      <origin rpy="0 0 0" xyz="0 0 ${body_height/2}"/>
+    </collision>
+    <inertial>
+      <mass value="0.50"/>
+      <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+  </link>
+  <joint name="base_lidar" type="fixed">
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+  </joint>  
 
   <link name="rear_link">
     <visual>
