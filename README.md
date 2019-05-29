@@ -4,6 +4,8 @@ It is NOT a working or even finished Project you might want to use! **
 
 ![PyBullet Simulation](/Images/SpotMicroAI_pybullet_lidar3.png)
 
+[See the first walk of SpotMicroAI on YouTube](https://www.youtube.com/watch?v=vayiiII4xVQ)
+
 I started this Project because i got inspired by some very smart People/Companies and Projects out there and want to 
 understand and adapt their work on my personal wish to create a small "clone" of a "BostonDynamics   SpotMini"-kind-of-looking but self-learning Robot.
 
