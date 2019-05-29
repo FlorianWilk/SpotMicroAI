@@ -1,3 +1,7 @@
+"""
+SpotMicroAI Simulation
+"""
+
 import pybullet_data
 import time
 import pybullet as p
@@ -169,6 +173,11 @@ class Robot:
     def feetPosition(self,Lp):
         self.Lp=Lp
   
+    def getIMU(self):
+        _, bodyOrn = p.getBasePositionAndOrientation(self.quadruped)
+        linearVel, angularVel = p.getBaseVelocity(self.quadruped)
+        return bodyOrn,linearVel,angularVel
+
     def step(self):
         quadruped=self.quadruped
         bodyPos, bodyOrn = p.getBasePositionAndOrientation(quadruped)
