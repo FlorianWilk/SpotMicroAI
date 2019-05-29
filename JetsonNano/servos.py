@@ -2,6 +2,8 @@
 Class to Control the Servos for all Legs
 """
 import Adafruit_PCA9685
+import board
+import busio
 
 class Servo:
     def __init__(self,direction,servoId):
@@ -41,7 +43,10 @@ class Servos:
     def __init__(self):
         print("Servos init")
 
-        #self.pwm = Adafruit_PCA9685.PCA9685(address=0x40)
+        i2c = busio.I2C(board.SCL, board.SDA)
+        self.pca = Adafruit_PCA9685.PCA9685(i2c)
+        #self.pca = Adafruit_PCA9685.PCA9685(address=0x40)
+        
         # Front_left,Front_right,Back_left,Back_right
         # each leg has shoulder, leg, foot
         directions=[-1,1,1,1,1,1,-1,1,1,1,1,1]
