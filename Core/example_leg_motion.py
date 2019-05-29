@@ -15,17 +15,21 @@ from kinematicMotion import KinematicMotion
 import matplotlib.pyplot as plt
 
 
-robot=spotmicroai.Robot(False)
-
+robot=spotmicroai.Robot(False,False)
+speed1=240
+speed2=170
+speed3=300
 spurWidth=robot.W/2+20
-IDspurWidth = p.addUserDebugParameter("spur width", 0, robot.W, spurWidth)
-IDstepLength = p.addUserDebugParameter("step length", 0, 100, 80)
-IDstepHeight = p.addUserDebugParameter("step height", 0, 100, 50)
-stepLength=70
-stepHeight=50
+stepLength=87
+stepHeight=72
 iXf=140
-
-
+IDspurWidth = p.addUserDebugParameter("spur width", 0, robot.W, spurWidth)
+IDstepLength = p.addUserDebugParameter("step length", 0, 200, stepLength)
+IDstepHeight = p.addUserDebugParameter("step height", 0, 100, stepHeight)
+IDspeed1 = p.addUserDebugParameter("speed 1", 100, 1000, speed1)
+IDspeed2 = p.addUserDebugParameter("speed 2", 100, 1000, speed2)
+IDspeed3 = p.addUserDebugParameter("speed 3", 100, 1000, speed3)
+IDixf = p.addUserDebugParameter("iXf", 0, 400, iXf)
 
 
 Lp2 = np.array([[120, -100, robot.W, 1], [120, -100, -robot.W, 1],
@@ -59,15 +63,27 @@ def func(p,LLp):
     #nlp=LLp[2]; LLp[2]+10*math.sin(math.pi*2*p)
     #return [LLp[0],LLp[1],nlp,0]
 
+def func3(p,LLp):
+    LLp[0]+=0*math.sin(math.pi*p)
+    return LLp
+    #nlp=LLp[2]; LLp[2]+10*math.sin(math.pi*2*p)
+    #return [LLp[0],LLp[1],nlp,0]
+def func2(p,LLp):
+    LLp[0]-=0*math.sin(math.pi*p)
+    return LLp
+    #nlp=LLp[2]; LLp[2]+10*math.sin(math.pi*2*p)
+    #return [LLp[0],LLp[1],nlp,0]
+
+
 
 def action():
     #motion.moveLegsTo(Lp2,100)
     
-    motion.moveLegTo(0,Lpa[0],300,func=func)
-    motion.moveLegTo(3,Lpa[3],300,func=func)
+    motion.moveLegTo(0,Lpa[0],speed2,func=func)
+    motion.moveLegTo(3,Lpa[3],speed2,func=func)
 #    time.sleep(500)
-    motion.moveLegTo(1,Lpf[1],400)
-    motion.moveLegTo(2,Lpf[2],400)
+    motion.moveLegTo(1,Lpf[1],speed1,func=func3)
+    motion.moveLegTo(2,Lpf[2],speed1,func=func2)
 
 def action2():
     motion.moveLegsTo(Lp,400)
@@ -75,11 +91,11 @@ def action2():
 def action3():
     #motion.moveLegsTo(Lp2,100)
     
-    motion.moveLegTo(0,Lpf[0],400)
-    motion.moveLegTo(3,Lpf[3],400)
+    motion.moveLegTo(0,Lpf[0],speed1,func=func3)
+    motion.moveLegTo(3,Lpf[3],speed1,func=func2)
 #    time.sleep(500)
-    motion.moveLegTo(1,Lpa[1],400,func=func)
-    motion.moveLegTo(2,Lpa[2],400,func=func)
+    motion.moveLegTo(1,Lpa[1],speed2,func=func)
+    motion.moveLegTo(2,Lpa[2],speed2,func=func)
 
 def handleGamepad():
     # TODO: globals are bad
@@ -97,7 +113,8 @@ def handleGamepad():
     if commandInput == 'BTN_TOP2':
         resetPose()
     if commandInput == 'BTN_PINKIE':
-        walk=True
+        if commandValue:
+            walk=not walk
     if commandInput == 'BTN_BASE':
         action2()
     if commandInput == 'BTN_BASE2':
@@ -105,8 +122,7 @@ def handleGamepad():
 
 
 
-IDheight = p.addUserDebugParameter("height", -40, 90, 0)
-IDroll = p.addUserDebugParameter("roll", -20, 20, 0)
+IDheight = p.addUserDebugParameter("height", -40, 90, 40)
 
 Lp = np.array([[iXf, -100,spurWidth, 1], [iXf, -100, -spurWidth, 1],
 [-50, -100, spurWidth, 1], [-50, -100, -spurWidth, 1]])
@@ -127,8 +143,17 @@ while True:
     spurWidth = p.readUserDebugParameter(IDspurWidth)
     stepLength = p.readUserDebugParameter(IDstepLength)
     stepHeight = p.readUserDebugParameter(IDstepHeight)
+    speed1=p.readUserDebugParameter(IDspeed1)
+    speed2=p.readUserDebugParameter(IDspeed2)
+    speed3=p.readUserDebugParameter(IDspeed3)
+    iXf=p.readUserDebugParameter(IDixf)
 
-
+    bodyPos=robot.getPos()
+    bodyOrn,_,_=robot.getIMU()
+    xr,yr,_= p.getEulerFromQuaternion(bodyOrn)
+    distance=math.sqrt(bodyPos[0]**2+bodyPos[1]**2)
+    if distance>5:
+        robot.resetBody()
 
     Lpa = np.array([[iXf+stepLength, -100,spurWidth, 1], [iXf+stepLength, -100, -spurWidth, 1],
     [-50+stepLength, -100, spurWidth, 1], [-50+stepLength, -100, -spurWidth, 1]])
@@ -139,26 +164,25 @@ while True:
 
     handleGamepad()
     d=time.time()-rtime
-    if d>0.60 and walk:
+    if d>speed3/1000 and walk:
         if(s):
-            print("Action 1")
             action3()
             s=False
         else:
-            print("Action 2")
             action()
             s=True
         rtime=time.time()
 
 
     height = p.readUserDebugParameter(IDheight)
-    roll = p.readUserDebugParameter(IDroll)
 
     # map the Gamepad Inputs to Pose-Values. Still very hardcoded ranges. 
     # TODO: Make ranges depend on height or smth to keep them valid all the time
     robot.feetPosition(motion.step())
-    robot.bodyRotation((math.pi/180*roll,1/256*joy_x-0.5,-(0.9/256*joy_y-0.45)))
-    robot.bodyPosition((100/256*-joy_rz-20+140, 40+height, -(joy_z-128)*0.4))
+    roll=-xr*3
+
+    robot.bodyRotation((roll,1/256*joy_x-0.5,-(0.9/256*joy_y-0.45)))
+    robot.bodyPosition((100/256*-joy_rz-20+140, 40+height, 10*xr))
     robot.step()
 #    print(joy_z)
 gamepad.stop()

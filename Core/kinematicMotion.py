@@ -29,7 +29,6 @@ class KinematicLegMotion:
 
         if time.time()>self.endTime and self.running:
             self.running=False
-            print("Finished move")
             p=1
         self.LLp=self.startLLp+ldiff*p
         if self.func:

@@ -11,7 +11,7 @@ from kinematics import Kinematic
 
 class Robot:
 
-    def __init__(self,useFixedBase=False):      
+    def __init__(self,useFixedBase=False,useStairs=True):      
 
         # Simulation Configuration
         self.useMaximalCoordinates = False
@@ -19,6 +19,7 @@ class Robot:
         self.fixedTimeStep = 1. / 100
         self.numSolverIterations = 200
         self.useFixedBase =useFixedBase
+        self.useStairs=useStairs
 
         self.init_oritentation=p.getQuaternionFromEuler([0, 0, 90.0])
         self.init_position=[0, 0, 0.3]
@@ -26,8 +27,8 @@ class Robot:
         self.reflection=False
 
         # Parameters for Servos - still wrong
-        self.kp = 0.012
-        self.kd = .2
+        self.kp = 0.027#0.012
+        self.kd = .4#.2
         self.maxForce = 12.5
 
         self.physId = p.connect(p.SHARED_MEMORY)
@@ -44,8 +45,8 @@ class Robot:
         if self.reflection:
             p.configureDebugVisualizer(p.COV_ENABLE_PLANAR_reflection, 1)
         p.configureDebugVisualizer(p.COV_ENABLE_TINY_RENDERER, 1)
-        self.IDkp = p.addUserDebugParameter("Kp", 0, 0.05, 0.012) # 0.05
-        self.IDkd = p.addUserDebugParameter("Kd", 0, 1, 0.2) # 0.5
+        self.IDkp = p.addUserDebugParameter("Kp", 0, 0.05, self.kp) # 0.05
+        self.IDkd = p.addUserDebugParameter("Kd", 0, 1, self.kd) # 0.5
         self.IDmaxForce = p.addUserDebugParameter("MaxForce", 0, 50, 12.5)
 
         p.setRealTimeSimulation(self.useRealTime)
@@ -84,8 +85,8 @@ class Robot:
         planeUid = p.loadURDF("plane_transparent.urdf", [0, 0, 0], orn)
         texUid = p.loadTexture("concrete.png")
         p.changeVisualShape(planeUid, -1, textureUniqueId=texUid)
-
-        stairsUid = p.loadURDF("../urdf/stairs_gen.urdf.xml", [0, -1, 0], orn)
+        if self.useStairs:
+            stairsUid = p.loadURDF("../urdf/stairs_gen.urdf.xml", [0, -1, 0], orn)
 
         quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", self.init_position,
                             self.init_oritentation,
@@ -155,13 +156,15 @@ class Robot:
         img = p.getCameraImage(320, 200, view_matrix, self.projection_matrix)
         #TODO: Use the camera image
 
+    def resetBody(self):
+        p.resetBasePositionAndOrientation(self.quadruped, self.init_position,self.init_oritentation)
+        p.resetBaseVelocity(self.quadruped, [0, 0, 0], [0, 0, 0])
+
     def checkSimulationReset(self,bodyOrn):
         (xr, yr, _) = p.getEulerFromQuaternion(bodyOrn)
-        
         # If our Body rotated more than pi/3: reset
         if(abs(xr) > math.pi/3 or abs(yr) > math.pi/3):
-            p.resetBasePositionAndOrientation(self.quadruped, self.init_position,self.init_oritentation)
-            p.resetBaseVelocity(self.quadruped, [0, 0, 0], [0, 0, 0])
+            self.resetBody()
             return True
         return False
 
@@ -174,6 +177,10 @@ class Robot:
     def feetPosition(self,Lp):
         self.Lp=Lp
   
+    def getPos(self):
+        bodyPos,_=p.getBasePositionAndOrientation(self.quadruped)
+        return bodyPos
+
     def getIMU(self):
         _, bodyOrn = p.getBasePositionAndOrientation(self.quadruped)
         linearVel, angularVel = p.getBaseVelocity(self.quadruped)
