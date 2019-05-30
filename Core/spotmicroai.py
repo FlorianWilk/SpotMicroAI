@@ -16,7 +16,9 @@ class Robot:
         # Simulation Configuration
         self.useMaximalCoordinates = False
         self.useRealTime = True
-        self.fixedTimeStep = 1. / 100
+        self.debugLidar=False
+        self.debug=False
+        self.fixedTimeStep = 1. / 500
         self.numSolverIterations = 200
         self.useFixedBase =useFixedBase
         self.useStairs=useStairs
@@ -41,7 +43,7 @@ class Robot:
         self.oldDebugInfo=[]
         self.rot=(0,0,0)
         self.pos=(0,0,0)
-
+        self.t=0
         if self.reflection:
             p.configureDebugVisualizer(p.COV_ENABLE_PLANAR_reflection, 1)
         p.configureDebugVisualizer(p.COV_ENABLE_TINY_RENDERER, 1)
@@ -54,7 +56,26 @@ class Robot:
         self.quadruped = self.loadModels()
         self.changeDynamics(self.quadruped)
         self.jointNameToId = self.getJointNames(self.quadruped)
-
+        replaceLines=True
+        self.numRays=360
+        self.rayFrom=[]
+        self.rayTo=[]
+        self.rayIds=[]
+        self.rayHitColor = [1,0,0]
+        self.rayMissColor = [0,1,0]
+        rayLen = 12
+        rayStartLen=0.12
+        
+        for i in range (self.numRays):
+            #rayFrom.append([0,0,0])
+            h=0.045
+            self.rayFrom.append([rayStartLen*math.sin(math.pi*2*float(i)/self.numRays), rayStartLen*math.cos(math.pi*2*float(i)/self.numRays),h])
+            self.rayTo.append([rayLen*math.sin(math.pi*2*float(i)/self.numRays), rayLen*math.cos(math.pi*2*float(i)/self.numRays),h])
+            if self.debugLidar:
+                if (replaceLines):
+                    self.rayIds.append(p.addUserDebugLine(self.rayFrom[i], self.rayTo[i], self.rayMissColor,parentObjectUniqueId=self.quadruped, parentLinkIndex=self.jointNameToId["base_lidar"]))
+                else:
+                    self.rayIds.append(-1) 
         self.L=140
         self.W=75+5+40
 
@@ -68,32 +89,38 @@ class Robot:
 
         p.setRealTimeSimulation(self.useRealTime)
         self.ref_time = time.time()
-
+        p.getCameraImage(320,200)#160,100)
+        p.resetDebugVisualizerCamera(1,85.6,0,[-0.61,0.12,0.25])
         # Camera Settings
         fov, aspect, nearplane, farplane = 90, 1.3, .0111, 100
         self.projection_matrix = p.computeProjectionMatrixFOV(fov, aspect, nearplane, farplane)
+
+        self.lastLidarTime=0
 
 
     def loadModels(self):
         p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
         p.setGravity(0, 0, -9.81)
-        p.setPhysicsEngineParameter(numSolverIterations=self.numSolverIterations)
-        p.setTimeStep(self.fixedTimeStep)
+#        p.setPhysicsEngineParameter(numSolverIterations=self.numSolverIterations)
+        #p.setTimeStep(self.fixedTimeStep)
 
-        orn = p.getQuaternionFromEuler([0, 0, 0])
+        orn = p.getQuaternionFromEuler([math.pi/30*0, 0*math.pi/50, 0])
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         planeUid = p.loadURDF("plane_transparent.urdf", [0, 0, 0], orn)
+        p.changeDynamics(planeUid, -1, lateralFriction=1)
         texUid = p.loadTexture("concrete.png")
         p.changeVisualShape(planeUid, -1, textureUniqueId=texUid)
         if self.useStairs:
             stairsUid = p.loadURDF("../urdf/stairs_gen.urdf.xml", [0, -1, 0], orn)
-
+        flags=p.URDF_USE_SELF_COLLISION
         quadruped = p.loadURDF("../urdf/spotmicroai_gen.urdf.xml", self.init_position,
                             self.init_oritentation,
                             useFixedBase=self.useFixedBase,
                             useMaximalCoordinates=self.useMaximalCoordinates,
-                            flags=p.URDF_USE_IMPLICIT_CYLINDER)
+                            flags=flags) #p.URDF_USE_IMPLICIT_CYLINDER)
         p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
+        p.changeDynamics(quadruped, -1, lateralFriction=0.8)
+       
         return quadruped
 
     def changeDynamics(self,quadruped):
@@ -113,6 +140,8 @@ class Robot:
 
     
     def addInfoText(self,bodyPos,bodyEuler,linearVel,angularVel):
+        if not self.debug:
+            return
         text="Distance: {:.1f}m".format(math.sqrt(bodyPos[0]**2+bodyPos[1]**2))
         text2="Roll/Pitch: {:.1f} / {:.1f}".format(math.degrees(bodyEuler[0]),math.degrees(bodyEuler[1]))
         text3="Vl: {:.1f} / {:.1f} / {:.1f} Va: {:.1f} / {:.1f} / {:.1f}".format(linearVel[0],linearVel[1],linearVel[2],
@@ -157,6 +186,9 @@ class Robot:
         #TODO: Use the camera image
 
     def resetBody(self):
+        if len(self.oldDebugInfo)>0:
+            for x in self.oldDebugInfo:
+                p.removeUserDebugItem(x)        
         p.resetBasePositionAndOrientation(self.quadruped, self.init_position,self.init_oritentation)
         p.resetBaseVelocity(self.quadruped, [0, 0, 0], [0, 0, 0])
 
@@ -213,12 +245,34 @@ class Robot:
                                         targetPosition=angles[lx][px]*self.dirs[lx][px],
                                         positionGain=kp,
                                         velocityGain=kd,
-                                        force=maxForce)        
+                                        force=maxForce)  
+        
+        nowLidarTime = time.time()
+        if (nowLidarTime-self.lastLidarTime>.2):
+            numThreads=0
+            results = p.rayTestBatch(self.rayFrom,self.rayTo,numThreads, parentObjectUniqueId=quadruped, parentLinkIndex=0)
+            for i in range (self.numRays):
+                hitObjectUid=results[i][0]
+                hitFraction = results[i][2]
+                hitPosition = results[i][3]
+                if (hitFraction==1.):
+                    if self.debugLidar:
+                        p.addUserDebugLine(self.rayFrom[i],self.rayTo[i], self.rayMissColor,replaceItemUniqueId=self.rayIds[i],parentObjectUniqueId=quadruped, parentLinkIndex=0)
+                else:
+                    localHitTo = [self.rayFrom[i][0]+hitFraction*(self.rayTo[i][0]-self.rayFrom[i][0]),
+                                                self.rayFrom[i][1]+hitFraction*(self.rayTo[i][1]-self.rayFrom[i][1]),
+                                                self.rayFrom[i][2]+hitFraction*(self.rayTo[i][2]-self.rayFrom[i][2])]
+                    dis=math.sqrt(localHitTo[0]**2+localHitTo[1]**2+localHitTo[2]**2)
+                    print(dis)
+                    if self.debugLidar:
+                        p.addUserDebugLine(self.rayFrom[i],localHitTo, self.rayHitColor,replaceItemUniqueId=self.rayIds[i],parentObjectUniqueId=quadruped, parentLinkIndex=0)
+            lastLidarTime = nowLidarTime                                        
+
         # let the Simulator do the rest    
         if (self.useRealTime):
-            t = time.time() - self.ref_time
+            self.t = time.time() - self.ref_time
         else:
-            t = t + self.fixedTimeStep
+            self.t = self.t + self.fixedTimeStep
         if (self.useRealTime == False):
             p.stepSimulation()
             time.sleep(self.fixedTimeStep)

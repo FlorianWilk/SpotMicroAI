@@ -227,13 +227,13 @@
         <mesh filename="../STL/lidar/rplidar_main.STL" scale="0.001 0.001 0.001"/>
       </geometry>
       <material name="black"/> 
-      <origin rpy="1.57075 0 0" xyz="${-lidar_length/2-0.015} ${lidar_width/2} ${body_height/2}"/>
+      <origin rpy="1.57075 0 0" xyz="${-lidar_length/2-0.015} ${lidar_width/2} 0"/>
     </visual>
     <collision>
       <geometry>
         <box size="${lidar_length} ${lidar_width} ${lidar_height}"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 ${body_height/2}"/>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
     <inertial>
       <mass value="0.50"/>
@@ -243,6 +243,7 @@
   <joint name="base_lidar" type="fixed">
     <parent link="base_link"/>
     <child link="lidar_link"/>
+        <origin xyz="0 0 ${body_height/2}"/>
   </joint>  
 
   <link name="rear_link">

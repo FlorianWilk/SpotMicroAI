@@ -12,13 +12,14 @@ class KinematicLegMotion:
         if self.running:
             # TODO: Queue the Requests
             print("Movement already running, please try again later.")
-            return
+            return False
         self.startTime=time.time()
         self.startLLp=self.LLp
         self.func=func
         self.targetLLp=newLLp
         self.endTime=time.time()+rtime/1000
         self.running=True
+        return True
     
     def update(self):
         diff=time.time()-self.startTime
@@ -49,7 +50,7 @@ class KinematicMotion:
         [self.legs[x].moveTo(newLp[x],rtime) for x in range(4)]
 
     def moveLegTo(self,leg,newLLp,rtime,func=None):
-        self.legs[leg].moveTo(newLLp,rtime,func)
+        return self.legs[leg].moveTo(newLLp,rtime,func)
 
     def step(self):
         return [x.step() for x in self.legs]

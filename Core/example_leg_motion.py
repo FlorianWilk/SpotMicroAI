@@ -8,11 +8,18 @@ import numpy as np
 import pybullet_data
 import time
 import math
+import datetime as dt
+import matplotlib.animation as animation
+import random
 from inputs import devices, get_gamepad
 from thinputs import ThreadedInputs
 import spotmicroai
 from kinematicMotion import KinematicMotion
+import matplotlib
+matplotlib.use('GTKAgg')
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.animation import TimedAnimation
 
 
 robot=spotmicroai.Robot(False,False)
@@ -22,7 +29,8 @@ speed3=300
 spurWidth=robot.W/2+20
 stepLength=87
 stepHeight=72
-iXf=140
+iXf=110
+iXb=-82
 IDspurWidth = p.addUserDebugParameter("spur width", 0, robot.W, spurWidth)
 IDstepLength = p.addUserDebugParameter("step length", 0, 200, stepLength)
 IDstepHeight = p.addUserDebugParameter("step height", 0, 100, stepHeight)
@@ -30,16 +38,7 @@ IDspeed1 = p.addUserDebugParameter("speed 1", 100, 1000, speed1)
 IDspeed2 = p.addUserDebugParameter("speed 2", 100, 1000, speed2)
 IDspeed3 = p.addUserDebugParameter("speed 3", 100, 1000, speed3)
 IDixf = p.addUserDebugParameter("iXf", 0, 400, iXf)
-
-
-Lp2 = np.array([[120, -100, robot.W, 1], [120, -100, -robot.W, 1],
-   [-50, -100, robot.W, 1], [-50, -100, -robot.W, 1]])
-
-Lpm1 = np.array([[100, -50, robot.W/2, 1], [120, -100, -robot.W/2, 1],
-   [-70, -50, robot.W/2, 1], [-50, -100, -robot.W/2, 1]])
-
-Lpm2 = np.array([[80, -100, robot.W/2, 1], [120, -100, -robot.W/2, 1],
-   [-90, -100, robot.W/2, 1], [-50, -100, -robot.W/2, 1]])
+IDixb = p.addUserDebugParameter("iXb", -200, 200, iXb)
 
 walk=False
 
@@ -58,43 +57,32 @@ def resetPose():
     joy_x, joy_y, joy_z, joy_rz = 128, 128, 128, 128
 
 def func(p,LLp):
-    LLp[1]+=stepHeight*math.sin(math.pi*math.sin(math.pi/2*p))
+#    LLp[1]+=stepHeight*math.sin(math.pi*math.sin(math.pi/2*p))
+    LLp[1]+=stepHeight*math.sin(math.pi*p)
     return LLp
-    #nlp=LLp[2]; LLp[2]+10*math.sin(math.pi*2*p)
-    #return [LLp[0],LLp[1],nlp,0]
 
 def func3(p,LLp):
     LLp[0]+=0*math.sin(math.pi*p)
     return LLp
-    #nlp=LLp[2]; LLp[2]+10*math.sin(math.pi*2*p)
-    #return [LLp[0],LLp[1],nlp,0]
+
 def func2(p,LLp):
     LLp[0]-=0*math.sin(math.pi*p)
     return LLp
-    #nlp=LLp[2]; LLp[2]+10*math.sin(math.pi*2*p)
-    #return [LLp[0],LLp[1],nlp,0]
-
-
 
 def action():
-    #motion.moveLegsTo(Lp2,100)
+    return motion.moveLegTo(0,Lpa[0],speed2,func=func) and motion.moveLegTo(3,Lpa[3],speed2,func=func) \
+            and motion.moveLegTo(1,Lpf[1],speed1,func=func3) \
+            and motion.moveLegTo(2,Lpf[2],speed1,func=func2)
     
-    motion.moveLegTo(0,Lpa[0],speed2,func=func)
-    motion.moveLegTo(3,Lpa[3],speed2,func=func)
-#    time.sleep(500)
-    motion.moveLegTo(1,Lpf[1],speed1,func=func3)
-    motion.moveLegTo(2,Lpf[2],speed1,func=func2)
 
 def action2():
     motion.moveLegsTo(Lp,400)
 
 def action3():
-    #motion.moveLegsTo(Lp2,100)
-    
-    motion.moveLegTo(0,Lpf[0],speed1,func=func3)
-    motion.moveLegTo(3,Lpf[3],speed1,func=func2)
-#    time.sleep(500)
-    motion.moveLegTo(1,Lpa[1],speed2,func=func)
+    return \
+    motion.moveLegTo(0,Lpf[0],speed1,func=func3) and \
+    motion.moveLegTo(3,Lpf[3],speed1,func=func2) and \
+    motion.moveLegTo(1,Lpa[1],speed2,func=func) and \
     motion.moveLegTo(2,Lpa[2],speed2,func=func)
 
 def handleGamepad():
@@ -139,7 +127,47 @@ gamepad.start()
 rtime=time.time()
 s=False
 while True:
+    """
+    # Read temperature (Celsius) from TMP102
+    temp_c = round(random.randint(9,10), 2)
 
+    # Add x and y to lists
+    #xs.append(dt.datetime.now().strftime('%H:%M:%S.%f'))
+    #ys.append(temp_c)
+
+    # Limit x and y lists to 20 items
+    xs = xs[-20:]
+    ys = ys[-20:]
+    x, y = rw.__next__()
+    # Draw x and y lists
+    ax.clear()
+    ax.plot(x, y)
+
+    # Format plot
+    plt.xticks(rotation=45, ha='right')
+    plt.subplots_adjust(bottom=0.30)
+    plt.title('SpotMicroAI Telemetry')
+    plt.ylabel('IMU Pitch')
+
+    # update the xy data
+ #   x, y = rw.__next__()
+    points.set_data(x, y)
+
+    if doblit:
+        # restore background
+        fig.canvas.restore_region(background)
+
+        # redraw just the points
+        ax.draw_artist(points)
+        #ax.draw_list(points)
+        
+        # fill in the axes rectangle
+        fig.canvas.blit(ax.bbox)
+
+    else:
+        # redraw everything
+        fig.canvas.draw()
+    """
     spurWidth = p.readUserDebugParameter(IDspurWidth)
     stepLength = p.readUserDebugParameter(IDstepLength)
     stepHeight = p.readUserDebugParameter(IDstepHeight)
@@ -147,6 +175,7 @@ while True:
     speed2=p.readUserDebugParameter(IDspeed2)
     speed3=p.readUserDebugParameter(IDspeed3)
     iXf=p.readUserDebugParameter(IDixf)
+    iXb=p.readUserDebugParameter(IDixb)
 
     bodyPos=robot.getPos()
     bodyOrn,_,_=robot.getIMU()
@@ -156,21 +185,48 @@ while True:
         robot.resetBody()
 
     Lpa = np.array([[iXf+stepLength, -100,spurWidth, 1], [iXf+stepLength, -100, -spurWidth, 1],
-    [-50+stepLength, -100, spurWidth, 1], [-50+stepLength, -100, -spurWidth, 1]])
+    [iXb+stepLength, -100, spurWidth, 1], [iXb+stepLength, -100, -spurWidth, 1]])
 
     Lpf = np.array([[iXf-stepLength, -100, spurWidth, 1], [iXf-stepLength, -100, -spurWidth, 1],
-    [-50-stepLength, -100, spurWidth, 1], [-50-stepLength, -100, -spurWidth, 1]])
+    [iXb-stepLength, -100, spurWidth, 1], [iXb-stepLength, -100, -spurWidth, 1]])
+    q = p.getQuaternionFromEuler((0,0,math.pi/180*1))
+    orn=p.getMatrixFromQuaternion(q)
 
+    psi=0
+    omega=0
+    phi=-math.pi/180*-(joy_z-128)/10
+    Rx = np.array([[1,0,0,0],
+                [0,np.cos(omega),-np.sin(omega),0],
+                [0,np.sin(omega),np.cos(omega),0],[0,0,0,1]])
+    Ry = np.array([[np.cos(phi),0,np.sin(phi),0],
+                [0,1,0,0],
+                [-np.sin(phi),0,np.cos(phi),0],[0,0,0,1]])
+    Rz = np.array([[np.cos(psi),-np.sin(psi),0,0],
+                [np.sin(psi),np.cos(psi),0,0],[0,0,1,0],[0,0,0,1]])
+    Rxyz = Rx.dot(Ry.dot(Rz))
+    Lpa=[Rxyz.dot(x) for x in Lpa]
+
+    phi=math.pi/180*-(joy_z-128)/10
+    Rx = np.array([[1,0,0,0],
+                [0,np.cos(omega),-np.sin(omega),0],
+                [0,np.sin(omega),np.cos(omega),0],[0,0,0,1]])
+    Ry = np.array([[np.cos(phi),0,np.sin(phi),0],
+                [0,1,0,0],
+                [-np.sin(phi),0,np.cos(phi),0],[0,0,0,1]])
+    Rz = np.array([[np.cos(psi),-np.sin(psi),0,0],
+                [np.sin(psi),np.cos(psi),0,0],[0,0,1,0],[0,0,0,1]])
+    Rxyz = Rx.dot(Ry.dot(Rz))
+    Lpf=[Rxyz.dot(x) for x in Lpf]
 
     handleGamepad()
     d=time.time()-rtime
     if d>speed3/1000 and walk:
         if(s):
-            action3()
-            s=False
+            if action3():
+                s=False
         else:
-            action()
-            s=True
+            if action():
+                s=True
         rtime=time.time()
 
 
@@ -179,10 +235,10 @@ while True:
     # map the Gamepad Inputs to Pose-Values. Still very hardcoded ranges. 
     # TODO: Make ranges depend on height or smth to keep them valid all the time
     robot.feetPosition(motion.step())
-    roll=-xr*3
-
-    robot.bodyRotation((roll,1/256*joy_x-0.5,-(0.9/256*joy_y-0.45)))
-    robot.bodyPosition((100/256*-joy_rz-20+140, 40+height, 10*xr))
+    roll=-xr
+    #roll=0
+    robot.bodyRotation((roll,math.pi/180*((joy_z-128)/20),-(0.9/256*joy_y-0.45)))
+    bodyX=50+yr*10
+    robot.bodyPosition((bodyX, 40+height, 10*xr-(joy_z-128)*0.3))
     robot.step()
-#    print(joy_z)
 gamepad.stop()
