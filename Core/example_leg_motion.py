@@ -27,13 +27,13 @@ speed1=240
 speed2=170
 speed3=300
 spurWidth=robot.W/2+20
-stepLength=87
+stepLength=0
 stepHeight=72
-iXf=110
-iXb=-82
+iXf=120
+iXb=-132
 IDspurWidth = p.addUserDebugParameter("spur width", 0, robot.W, spurWidth)
-IDstepLength = p.addUserDebugParameter("step length", 0, 200, stepLength)
-IDstepHeight = p.addUserDebugParameter("step height", 0, 100, stepHeight)
+IDstepLength = p.addUserDebugParameter("step length", -70, 115, stepLength)
+IDstepHeight = p.addUserDebugParameter("step height", 0, 150, stepHeight)
 IDspeed1 = p.addUserDebugParameter("speed 1", 100, 1000, speed1)
 IDspeed2 = p.addUserDebugParameter("speed 2", 100, 1000, speed2)
 IDspeed3 = p.addUserDebugParameter("speed 3", 100, 1000, speed3)
@@ -168,14 +168,23 @@ while True:
         # redraw everything
         fig.canvas.draw()
     """
-    spurWidth = p.readUserDebugParameter(IDspurWidth)
-    stepLength = p.readUserDebugParameter(IDstepLength)
     stepHeight = p.readUserDebugParameter(IDstepHeight)
+    spurWidth = p.readUserDebugParameter(IDspurWidth)
+    #stepLength = p.readUserDebugParameter(IDstepLength)
     speed1=p.readUserDebugParameter(IDspeed1)
     speed2=p.readUserDebugParameter(IDspeed2)
     speed3=p.readUserDebugParameter(IDspeed3)
     iXf=p.readUserDebugParameter(IDixf)
     iXb=p.readUserDebugParameter(IDixb)
+
+    stepLength=-(joy_rz-128)*1.5
+    if(stepLength<0):
+        stepLength=stepLength/3
+    else:
+        stepLength=stepLength/2
+    if stepLength==0:
+        stepHeight=0
+
 
     bodyPos=robot.getPos()
     bodyOrn,_,_=robot.getIMU()
@@ -235,9 +244,9 @@ while True:
     # map the Gamepad Inputs to Pose-Values. Still very hardcoded ranges. 
     # TODO: Make ranges depend on height or smth to keep them valid all the time
     robot.feetPosition(motion.step())
-    roll=-xr
+    roll=-xr-math.pi/180*((joy_x)-128)/3
     #roll=0
-    robot.bodyRotation((roll,math.pi/180*((joy_z-128)/20),-(0.9/256*joy_y-0.45)))
+    robot.bodyRotation((roll,math.pi/180*((joy_z-128)/20),-(1/256*joy_y-0.5)))
     bodyX=50+yr*10
     robot.bodyPosition((bodyX, 40+height, 10*xr-(joy_z-128)*0.3))
     robot.step()

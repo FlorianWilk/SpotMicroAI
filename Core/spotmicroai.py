@@ -8,6 +8,15 @@ import pybullet as p
 import math
 import numpy as np
 from kinematics import Kinematic
+from enum import Enum
+
+class RobotState(Enum):
+    OFF = 0     # don't do anything
+    READY = 1   # compact, legs together, waiting
+    STAND = 2   # standing, feet to the ground
+    TROTTING_GAIT=3 # legs alway moving up/down 0/3,1/2 / 2 Step
+    CRAWL = 4   # 4 Stepped, 1,2,3,0
+    CRAWL2 = 5  #4 Stepped, Back first, 2,1,3,0
 
 class Robot:
 
@@ -27,7 +36,7 @@ class Robot:
         self.init_position=[0, 0, 0.3]
 
         self.reflection=False
-
+        self.state=RobotState.OFF
         # Parameters for Servos - still wrong
         self.kp = 0.027#0.012
         self.kd = .4#.2
@@ -85,6 +94,7 @@ class Robot:
         self.Lp = np.array([[120, -100, self.W/2, 1], [120, -100, -self.W/2, 1],
         [-50, -100, self.W/2, 1], [-50, -100, -self.W/2, 1]])
 
+        
         self.kin = Kinematic()
 
         p.setRealTimeSimulation(self.useRealTime)
@@ -140,13 +150,13 @@ class Robot:
 
     
     def addInfoText(self,bodyPos,bodyEuler,linearVel,angularVel):
+        # TODO: use replacementId instead of deleting the old views. seems to have memleak issues?
         if not self.debug:
             return
         text="Distance: {:.1f}m".format(math.sqrt(bodyPos[0]**2+bodyPos[1]**2))
         text2="Roll/Pitch: {:.1f} / {:.1f}".format(math.degrees(bodyEuler[0]),math.degrees(bodyEuler[1]))
         text3="Vl: {:.1f} / {:.1f} / {:.1f} Va: {:.1f} / {:.1f} / {:.1f}".format(linearVel[0],linearVel[1],linearVel[2],
             angularVel[0],angularVel[1],angularVel[2])
-        
         x,y=bodyPos[0],bodyPos[1]
         newDebugInfo=[
         p.addUserDebugLine([x, y, 0], [x, y, 1], [0,1,0]),
@@ -189,7 +199,7 @@ class Robot:
         if len(self.oldDebugInfo)>0:
             for x in self.oldDebugInfo:
                 p.removeUserDebugItem(x)        
-        p.resetBasePositionAndOrientation(self.quadruped, self.init_position,self.init_oritentation)
+        p.resetBasePositionAndOrientation(self.quadruped, self.init_position,[0,0,0,1])
         p.resetBaseVelocity(self.quadruped, [0, 0, 0], [0, 0, 0])
 
     def checkSimulationReset(self,bodyOrn):
