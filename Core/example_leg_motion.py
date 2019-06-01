@@ -149,12 +149,18 @@ while True:
     distance=math.sqrt(bodyPos[0]**2+bodyPos[1]**2)
     if distance>5:
         robot.resetBody()
+    lspurWidth=spurWidth
+    rspurWidth=spurWidth
+    ir=xr/(math.pi/180)
+    if(ir<-8):
+        rspurWidth=spurWidth*2
+    if(ir>8):
+        lspurWidth=spurWidth*2
+    Lpa = np.array([[iXf+stepLength, -100,lspurWidth+frontSideStepLength, 1], [iXf+stepLength, -100, -rspurWidth+frontSideStepLength, 1],
+    [iXb+stepLength, -100, lspurWidth-backSideStepLength, 1], [iXb+stepLength, -100, -rspurWidth-backSideStepLength, 1]])
 
-    Lpa = np.array([[iXf+stepLength, -100,spurWidth+frontSideStepLength, 1], [iXf+stepLength, -100, -spurWidth+frontSideStepLength, 1],
-    [iXb+stepLength, -100, spurWidth-backSideStepLength, 1], [iXb+stepLength, -100, -spurWidth-backSideStepLength, 1]])
-
-    Lpf = np.array([[iXf-stepLength, -100, spurWidth-frontSideStepLength, 1], [iXf-stepLength, -100, -spurWidth-frontSideStepLength, 1],
-    [iXb-stepLength, -100, spurWidth+backSideStepLength, 1], [iXb-stepLength, -100, -spurWidth+backSideStepLength, 1]])
+    Lpf = np.array([[iXf-stepLength, -100, lspurWidth-frontSideStepLength, 1], [iXf-stepLength, -100, -rspurWidth-frontSideStepLength, 1],
+    [iXb-stepLength, -100, lspurWidth+backSideStepLength, 1], [iXb-stepLength, -100, -rspurWidth+backSideStepLength, 1]])
    
     handleGamepad()
     d=time.time()-rtime

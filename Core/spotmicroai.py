@@ -273,7 +273,6 @@ class Robot:
                                                 self.rayFrom[i][1]+hitFraction*(self.rayTo[i][1]-self.rayFrom[i][1]),
                                                 self.rayFrom[i][2]+hitFraction*(self.rayTo[i][2]-self.rayFrom[i][2])]
                     dis=math.sqrt(localHitTo[0]**2+localHitTo[1]**2+localHitTo[2]**2)
-                    print(dis)
                     if self.debugLidar:
                         p.addUserDebugLine(self.rayFrom[i],localHitTo, self.rayHitColor,replaceItemUniqueId=self.rayIds[i],parentObjectUniqueId=quadruped, parentLinkIndex=0)
             lastLidarTime = nowLidarTime                                        
