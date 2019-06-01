@@ -15,12 +15,6 @@ from inputs import devices, get_gamepad
 from thinputs import ThreadedInputs
 import spotmicroai
 from kinematicMotion import KinematicMotion
-import matplotlib
-matplotlib.use('GTKAgg')
-import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
-from matplotlib.animation import TimedAnimation
-
 
 robot=spotmicroai.Robot(False,False)
 speed1=240
@@ -127,47 +121,7 @@ gamepad.start()
 rtime=time.time()
 s=False
 while True:
-    """
-    # Read temperature (Celsius) from TMP102
-    temp_c = round(random.randint(9,10), 2)
 
-    # Add x and y to lists
-    #xs.append(dt.datetime.now().strftime('%H:%M:%S.%f'))
-    #ys.append(temp_c)
-
-    # Limit x and y lists to 20 items
-    xs = xs[-20:]
-    ys = ys[-20:]
-    x, y = rw.__next__()
-    # Draw x and y lists
-    ax.clear()
-    ax.plot(x, y)
-
-    # Format plot
-    plt.xticks(rotation=45, ha='right')
-    plt.subplots_adjust(bottom=0.30)
-    plt.title('SpotMicroAI Telemetry')
-    plt.ylabel('IMU Pitch')
-
-    # update the xy data
- #   x, y = rw.__next__()
-    points.set_data(x, y)
-
-    if doblit:
-        # restore background
-        fig.canvas.restore_region(background)
-
-        # redraw just the points
-        ax.draw_artist(points)
-        #ax.draw_list(points)
-        
-        # fill in the axes rectangle
-        fig.canvas.blit(ax.bbox)
-
-    else:
-        # redraw everything
-        fig.canvas.draw()
-    """
     stepHeight = p.readUserDebugParameter(IDstepHeight)
     spurWidth = p.readUserDebugParameter(IDspurWidth)
     #stepLength = p.readUserDebugParameter(IDstepLength)
@@ -196,43 +150,12 @@ while True:
     if distance>5:
         robot.resetBody()
 
-    
-
-
     Lpa = np.array([[iXf+stepLength, -100,spurWidth+frontSideStepLength, 1], [iXf+stepLength, -100, -spurWidth+frontSideStepLength, 1],
     [iXb+stepLength, -100, spurWidth-backSideStepLength, 1], [iXb+stepLength, -100, -spurWidth-backSideStepLength, 1]])
 
     Lpf = np.array([[iXf-stepLength, -100, spurWidth-frontSideStepLength, 1], [iXf-stepLength, -100, -spurWidth-frontSideStepLength, 1],
     [iXb-stepLength, -100, spurWidth+backSideStepLength, 1], [iXb-stepLength, -100, -spurWidth+backSideStepLength, 1]])
-    q = p.getQuaternionFromEuler((0,0,math.pi/180*1))
-    orn=p.getMatrixFromQuaternion(q)
-
-    psi=0
-    omega=0
-    phi=-math.pi/180*-(joy_z-128)/10
-    Rx = np.array([[1,0,0,0],
-                [0,np.cos(omega),-np.sin(omega),0],
-                [0,np.sin(omega),np.cos(omega),0],[0,0,0,1]])
-    Ry = np.array([[np.cos(phi),0,np.sin(phi),0],
-                [0,1,0,0],
-                [-np.sin(phi),0,np.cos(phi),0],[0,0,0,1]])
-    Rz = np.array([[np.cos(psi),-np.sin(psi),0,0],
-                [np.sin(psi),np.cos(psi),0,0],[0,0,1,0],[0,0,0,1]])
-    Rxyz = Rx.dot(Ry.dot(Rz))
-    Lpa=[Rxyz.dot(x) for x in Lpa]
-
-    phi=math.pi/180*-(joy_z-128)/10
-    Rx = np.array([[1,0,0,0],
-                [0,np.cos(omega),-np.sin(omega),0],
-                [0,np.sin(omega),np.cos(omega),0],[0,0,0,1]])
-    Ry = np.array([[np.cos(phi),0,np.sin(phi),0],
-                [0,1,0,0],
-                [-np.sin(phi),0,np.cos(phi),0],[0,0,0,1]])
-    Rz = np.array([[np.cos(psi),-np.sin(psi),0,0],
-                [np.sin(psi),np.cos(psi),0,0],[0,0,1,0],[0,0,0,1]])
-    Rxyz = Rx.dot(Ry.dot(Rz))
-    Lpf=[Rxyz.dot(x) for x in Lpf]
-
+   
     handleGamepad()
     d=time.time()-rtime
     if d>speed3/1000 and walk:
