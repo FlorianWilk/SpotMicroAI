@@ -177,13 +177,16 @@ while True:
     iXf=p.readUserDebugParameter(IDixf)
     iXb=p.readUserDebugParameter(IDixb)
 
+    frontSideStepLength=-(joy_z-128)*0.5
+    backSideStepLength=frontSideStepLength
     stepLength=-(joy_rz-128)*1.5
+
     if(stepLength<0):
         stepLength=stepLength/3
     else:
         stepLength=stepLength/2
-    if stepLength==0:
-        stepHeight=0
+#    if stepLength==0 and frontSideStepLength==0:
+#        stepHeight=0
 
 
     bodyPos=robot.getPos()
@@ -193,11 +196,14 @@ while True:
     if distance>5:
         robot.resetBody()
 
-    Lpa = np.array([[iXf+stepLength, -100,spurWidth, 1], [iXf+stepLength, -100, -spurWidth, 1],
-    [iXb+stepLength, -100, spurWidth, 1], [iXb+stepLength, -100, -spurWidth, 1]])
+    
 
-    Lpf = np.array([[iXf-stepLength, -100, spurWidth, 1], [iXf-stepLength, -100, -spurWidth, 1],
-    [iXb-stepLength, -100, spurWidth, 1], [iXb-stepLength, -100, -spurWidth, 1]])
+
+    Lpa = np.array([[iXf+stepLength, -100,spurWidth+frontSideStepLength, 1], [iXf+stepLength, -100, -spurWidth+frontSideStepLength, 1],
+    [iXb+stepLength, -100, spurWidth-backSideStepLength, 1], [iXb+stepLength, -100, -spurWidth-backSideStepLength, 1]])
+
+    Lpf = np.array([[iXf-stepLength, -100, spurWidth-frontSideStepLength, 1], [iXf-stepLength, -100, -spurWidth-frontSideStepLength, 1],
+    [iXb-stepLength, -100, spurWidth+backSideStepLength, 1], [iXb-stepLength, -100, -spurWidth+backSideStepLength, 1]])
     q = p.getQuaternionFromEuler((0,0,math.pi/180*1))
     orn=p.getMatrixFromQuaternion(q)
 
@@ -244,10 +250,10 @@ while True:
     # map the Gamepad Inputs to Pose-Values. Still very hardcoded ranges. 
     # TODO: Make ranges depend on height or smth to keep them valid all the time
     robot.feetPosition(motion.step())
-    roll=-xr-math.pi/180*((joy_x)-128)/3
+    roll=-xr
     #roll=0
-    robot.bodyRotation((roll,math.pi/180*((joy_z-128)/20),-(1/256*joy_y-0.5)))
+    robot.bodyRotation((roll,math.pi/180*((joy_x)-128)/3,-(1/256*joy_y-0.5)))
     bodyX=50+yr*10
-    robot.bodyPosition((bodyX, 40+height, 10*xr-(joy_z-128)*0.3))
+    robot.bodyPosition((bodyX, 40+height, 0))
     robot.step()
 gamepad.stop()
