@@ -38,7 +38,7 @@ class Robot:
         self.reflection=False
         self.state=RobotState.OFF
         # Parameters for Servos - still wrong
-        self.kp = 0.027#0.012
+        self.kp = 0.045#0.012
         self.kd = .4#.2
         self.maxForce = 12.5
 

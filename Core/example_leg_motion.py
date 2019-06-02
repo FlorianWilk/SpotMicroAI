@@ -1,7 +1,7 @@
 """
 Simulation of SpotMicroAI and it's Kinematics 
 Use a Gamepad to see how it works
-In this example the Bot has a fixed base
+Use Gamepad-Button to switch betweek walk on static-mode
 """
 import pybullet as p
 import numpy as np
@@ -17,9 +17,16 @@ import spotmicroai
 from kinematicMotion import KinematicMotion
 
 robot=spotmicroai.Robot(False,False)
+
+# TODO: Needs refactoring
 speed1=240
 speed2=170
 speed3=300
+
+speed1=322
+speed2=237
+speed3=436
+
 spurWidth=robot.W/2+20
 stepLength=0
 stepHeight=72
@@ -131,16 +138,16 @@ while True:
     iXf=p.readUserDebugParameter(IDixf)
     iXb=p.readUserDebugParameter(IDixb)
 
-    frontSideStepLength=-(joy_z-128)*0.5
+    frontSideStepLength=-(joy_z-128)*0.4
     backSideStepLength=frontSideStepLength
-    stepLength=-(joy_rz-128)*1.5
+    stepLength=-(joy_rz-128)*1.3
 
     if(stepLength<0):
         stepLength=stepLength/3
     else:
         stepLength=stepLength/2
-#    if stepLength==0 and frontSideStepLength==0:
-#        stepHeight=0
+    if stepLength==0 and frontSideStepLength==0:
+        stepHeight=0
 
 
     bodyPos=robot.getPos()
@@ -149,6 +156,9 @@ while True:
     distance=math.sqrt(bodyPos[0]**2+bodyPos[1]**2)
     if distance>5:
         robot.resetBody()
+
+    # if yaw > threshold > make step more outwards
+    # TODO: very static, use a function
     lspurWidth=spurWidth
     rspurWidth=spurWidth
     ir=xr/(math.pi/180)
@@ -156,13 +166,15 @@ while True:
         rspurWidth=spurWidth*2
     if(ir>8):
         lspurWidth=spurWidth*2
-    Lpa = np.array([[iXf+stepLength, -100,lspurWidth+frontSideStepLength, 1], [iXf+stepLength, -100, -rspurWidth+frontSideStepLength, 1],
-    [iXb+stepLength, -100, lspurWidth-backSideStepLength, 1], [iXb+stepLength, -100, -rspurWidth-backSideStepLength, 1]])
+    Lpa = np.array([[iXf+stepLength, -100,lspurWidth+frontSideStepLength, 1], [iXf+stepLength, -100, -spurWidth+frontSideStepLength, 1],
+    [iXb+stepLength, -100, lspurWidth-backSideStepLength, 1], [iXb+stepLength, -100, -spurWidth-backSideStepLength, 1]])
 
-    Lpf = np.array([[iXf-stepLength, -100, lspurWidth-frontSideStepLength, 1], [iXf-stepLength, -100, -rspurWidth-frontSideStepLength, 1],
-    [iXb-stepLength, -100, lspurWidth+backSideStepLength, 1], [iXb-stepLength, -100, -rspurWidth+backSideStepLength, 1]])
+    Lpf = np.array([[iXf-stepLength, -100, spurWidth-frontSideStepLength, 1], [iXf-stepLength, -100, -rspurWidth-frontSideStepLength, 1],
+    [iXb-stepLength, -100, spurWidth+backSideStepLength, 1], [iXb-stepLength, -100, -rspurWidth+backSideStepLength, 1]])
    
     handleGamepad()
+
+    # TODO: Ugly and wrong (no wait in sector3), use function
     d=time.time()-rtime
     if d>speed3/1000 and walk:
         if(s):
@@ -176,13 +188,11 @@ while True:
 
     height = p.readUserDebugParameter(IDheight)
 
-    # map the Gamepad Inputs to Pose-Values. Still very hardcoded ranges. 
-    # TODO: Make ranges depend on height or smth to keep them valid all the time
     robot.feetPosition(motion.step())
-    roll=-xr
-    #roll=0
+    #roll=-xr
+    roll=0
     robot.bodyRotation((roll,math.pi/180*((joy_x)-128)/3,-(1/256*joy_y-0.5)))
     bodyX=50+yr*10
-    robot.bodyPosition((bodyX, 40+height, 0))
+    robot.bodyPosition((bodyX, 40+height, -ir))
     robot.step()
 gamepad.stop()
