@@ -14,7 +14,7 @@ import random
 from inputs import devices, get_gamepad
 from thinputs import ThreadedInputs
 import spotmicroai
-from kinematicMotion import KinematicMotion
+from kinematicMotion import KinematicMotion,TrottingGait
 
 robot=spotmicroai.Robot(False,False)
 
@@ -124,6 +124,7 @@ gamepad = ThreadedInputs()
 for gamepadInput in gamepadInputs:
     gamepad.append_command(gamepadInput, gamepadInputs[gamepadInput])
 gamepad.start()
+trotting=TrottingGait()
 
 rtime=time.time()
 s=False
@@ -188,7 +189,8 @@ while True:
 
     height = p.readUserDebugParameter(IDheight)
 
-    robot.feetPosition(motion.step())
+    #robot.feetPosition(motion.step())
+    robot.feetPosition(trotting.positions(d))
     #roll=-xr
     roll=0
     robot.bodyRotation((roll,math.pi/180*((joy_x)-128)/3,-(1/256*joy_y-0.5)))
