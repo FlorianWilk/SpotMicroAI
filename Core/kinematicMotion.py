@@ -2,6 +2,7 @@ import time
 import numpy as np
 import math
 from kinematics import Kinematic
+import pybullet as p
 
 class KinematicLegMotion:
 
@@ -73,12 +74,26 @@ class TrottingGait:
         self.maxSl=2
         self.bodyPos=(0,100,0)
         self.bodyRot=(0,0,0)
-        self.t0=0
-        self.t1=500
+        self.t0=172
+        self.t1=510
         self.t2=00
-        self.t3=300
+        self.t3=185
         self.Sl=-150 
-        self.Sh=40
+        self.Sh=60
+        self.Spf=87
+        self.Spr=77
+
+        self.IDspurFront= p.addUserDebugParameter("spur front", 20, 150, self.Spf)
+        self.IDspurRear= p.addUserDebugParameter("spur rear", 20, 150, self.Spr)
+        self.IDstepHeight = p.addUserDebugParameter("step height", 0, 150, self.Sh)
+        self.IDt0 = p.addUserDebugParameter("t0", 0, 1000, self.t0)
+        self.IDt1 = p.addUserDebugParameter("t1", 0, 1000, self.t1)
+        self.IDt2 = p.addUserDebugParameter("t2", 0, 1000, self.t2)
+        self.IDt3 = p.addUserDebugParameter("t3", 0, 1000, self.t3)
+        self.IDfrontOffset = p.addUserDebugParameter("front Offset", 0,200, 120)
+        self.IDrearOffset = p.addUserDebugParameter("rear Offset", 0,200, 120)
+        #self.IDixf = p.addUserDebugParameter("front X", 0, 400, iXf)
+        #self.IDixb = p.addUserDebugParameter("rear X", -200, 200, iXb)
 
     def calcLeg(self,t,x,y,z):
         startLp=np.array([x-self.Sl/2.0,y,z,1])
@@ -102,23 +117,27 @@ class TrottingGait:
             curLp=endLp+diffLp*tp
             curLp[1]+=self.Sh*math.sin(math.pi*tp)
             return curLp
+    def stepLength(self,len):
+        self.Sl=len
 
     def positions(self,t):
-        spurWidth=80 # Todo: ugly and wrong
+        spf= p.readUserDebugParameter(self.IDspurFront)
+        spr= p.readUserDebugParameter(self.IDspurRear)
+        self.Sh=p.readUserDebugParameter(self.IDstepHeight)
+        self.t0=p.readUserDebugParameter(self.IDt0)
+        self.t1=p.readUserDebugParameter(self.IDt1)
+        self.t2=p.readUserDebugParameter(self.IDt2)
+        self.t3=p.readUserDebugParameter(self.IDt3)
         Tt=self.t0+self.t1+self.t2+self.t3
-        rd=-2 # rear delta
+        rd=0 # rear delta
         td=(t*1000)%Tt
         t2=(t*1000-Tt/2)%Tt
         rtd=(t*1000-rd)%Tt # rear time delta
         rt2=(t*1000-Tt/2-rd)%Tt
-        lz=spurWidth
-        rz=-spurWidth
-        #td=0
-        #t2=0
-        Fx=120
+        Fx=p.readUserDebugParameter(self.IDfrontOffset)
+        Rx=-p.readUserDebugParameter(self.IDrearOffset)
         Fy=-100
-        Rx=-100
         Ry=-100
-        r=np.array([self.calcLeg(td,Fx,Fy,lz),self.calcLeg(t2,Fx,Fy,rz),self.calcLeg(rt2,Rx,Ry,lz),self.calcLeg(rtd,Rx,Ry,rz)])
+        r=np.array([self.calcLeg(td,Fx,Fy,spf),self.calcLeg(t2,Fx,Fy,-spf),self.calcLeg(rt2,Rx,Ry,spr),self.calcLeg(rtd,Rx,Ry,-spr)])
         #print(r)
         return r

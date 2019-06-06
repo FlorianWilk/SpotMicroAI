@@ -16,7 +16,14 @@ from thinputs import ThreadedInputs
 import spotmicroai
 from kinematicMotion import KinematicMotion,TrottingGait
 
-robot=spotmicroai.Robot(False,False)
+
+rtime=time.time()
+
+def reset():
+    global rtime
+    rtime=time.time()    
+
+robot=spotmicroai.Robot(False,False,reset)
 
 # TODO: Needs refactoring
 speed1=240
@@ -126,7 +133,7 @@ for gamepadInput in gamepadInputs:
 gamepad.start()
 trotting=TrottingGait()
 
-rtime=time.time()
+
 s=False
 while True:
 
@@ -155,7 +162,7 @@ while True:
     bodyOrn,_,_=robot.getIMU()
     xr,yr,_= p.getEulerFromQuaternion(bodyOrn)
     distance=math.sqrt(bodyPos[0]**2+bodyPos[1]**2)
-    if distance>5:
+    if distance>50:
         robot.resetBody()
 
     # if yaw > threshold > make step more outwards
@@ -177,6 +184,7 @@ while True:
 
     # TODO: Ugly and wrong (no wait in sector3), use function
     d=time.time()-rtime
+    """
     if d>speed3/1000 and walk:
         if(s):
             if action3():
@@ -185,12 +193,15 @@ while True:
             if action():
                 s=True
         rtime=time.time()
-
+    """
 
     height = p.readUserDebugParameter(IDheight)
 
-    #robot.feetPosition(motion.step())
-    robot.feetPosition(trotting.positions(d))
+    if d>3:
+        trotting.stepLength(max(-d*10,-100))
+        robot.feetPosition(trotting.positions(d-3))
+    else:
+        robot.feetPosition(Lp)
     #roll=-xr
     roll=0
     robot.bodyRotation((roll,math.pi/180*((joy_x)-128)/3,-(1/256*joy_y-0.5)))

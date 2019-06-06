@@ -20,10 +20,11 @@ class RobotState(Enum):
 
 class Robot:
 
-    def __init__(self,useFixedBase=False,useStairs=True):      
+    def __init__(self,useFixedBase=False,useStairs=True,resetFunc=None):      
 
         # Simulation Configuration
         self.useMaximalCoordinates = False
+        self.resetFunc=resetFunc
         self.useRealTime = True
         self.debugLidar=False
         self.debug=False
@@ -74,7 +75,6 @@ class Robot:
         self.rayMissColor = [0,1,0]
         rayLen = 12
         rayStartLen=0.12
-        
         for i in range (self.numRays):
             #rayFrom.append([0,0,0])
             h=0.045
@@ -196,11 +196,14 @@ class Robot:
         #TODO: Use the camera image
 
     def resetBody(self):
+        self.ref_time=time.time()
         if len(self.oldDebugInfo)>0:
             for x in self.oldDebugInfo:
                 p.removeUserDebugItem(x)        
         p.resetBasePositionAndOrientation(self.quadruped, self.init_position,[0,0,0,1])
         p.resetBaseVelocity(self.quadruped, [0, 0, 0], [0, 0, 0])
+        if(self.resetFunc):
+            self.resetFunc()
 
     def checkSimulationReset(self,bodyOrn):
         (xr, yr, _) = p.getEulerFromQuaternion(bodyOrn)
@@ -229,6 +232,12 @@ class Robot:
         return bodyOrn,linearVel,angularVel
 
     def step(self):
+
+        if (self.useRealTime):
+            self.t = time.time() - self.ref_time
+        else:
+            self.t = self.t + self.fixedTimeStep
+
         quadruped=self.quadruped
         bodyPos, bodyOrn = p.getBasePositionAndOrientation(quadruped)
         linearVel, angularVel = p.getBaseVelocity(quadruped)
@@ -242,7 +251,7 @@ class Robot:
 
         if self.checkSimulationReset(bodyOrn):
             return False
-        p.resetDebugVisualizerCamera(0.7,math.degrees(bodyEuler[2])-20,-5,bodyPos)
+        p.resetDebugVisualizerCamera(0.7,math.degrees(bodyEuler[2])-self.t*10,-5,bodyPos)
         # Calculate Angles with the input of FeetPos,BodyRotation and BodyPosition
         angles = self.kin.calcIK(self.Lp, self.rot, self.pos)
 
@@ -275,13 +284,9 @@ class Robot:
                     dis=math.sqrt(localHitTo[0]**2+localHitTo[1]**2+localHitTo[2]**2)
                     if self.debugLidar:
                         p.addUserDebugLine(self.rayFrom[i],localHitTo, self.rayHitColor,replaceItemUniqueId=self.rayIds[i],parentObjectUniqueId=quadruped, parentLinkIndex=0)
-            lastLidarTime = nowLidarTime                                        
+            self.lastLidarTime = nowLidarTime                                        
 
-        # let the Simulator do the rest    
-        if (self.useRealTime):
-            self.t = time.time() - self.ref_time
-        else:
-            self.t = self.t + self.fixedTimeStep
+
         if (self.useRealTime == False):
             p.stepSimulation()
             time.sleep(self.fixedTimeStep)
