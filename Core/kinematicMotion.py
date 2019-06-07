@@ -78,13 +78,14 @@ class TrottingGait:
         self.t1=510
         self.t2=00
         self.t3=185
-        self.Sl=-150 
+        self.Sl=-124
         self.Sh=60
         self.Spf=87
         self.Spr=77
 
         self.IDspurFront= p.addUserDebugParameter("spur front", 20, 150, self.Spf)
         self.IDspurRear= p.addUserDebugParameter("spur rear", 20, 150, self.Spr)
+        self.IDstepLength = p.addUserDebugParameter("step length", -150, 150, self.Sl)
         self.IDstepHeight = p.addUserDebugParameter("step height", 0, 150, self.Sh)
         self.IDt0 = p.addUserDebugParameter("t0", 0, 1000, self.t0)
         self.IDt1 = p.addUserDebugParameter("t1", 0, 1000, self.t1)
@@ -124,6 +125,7 @@ class TrottingGait:
         spf= p.readUserDebugParameter(self.IDspurFront)
         spr= p.readUserDebugParameter(self.IDspurRear)
         self.Sh=p.readUserDebugParameter(self.IDstepHeight)
+        self.Sl=p.readUserDebugParameter(self.IDstepLength)
         self.t0=p.readUserDebugParameter(self.IDt0)
         self.t1=p.readUserDebugParameter(self.IDt1)
         self.t2=p.readUserDebugParameter(self.IDt2)
