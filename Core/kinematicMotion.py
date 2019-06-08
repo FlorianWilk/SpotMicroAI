@@ -79,6 +79,7 @@ class TrottingGait:
         self.t2=00
         self.t3=185
         self.Sl=-124
+        self.Sw=0
         self.Sh=60
         self.Spf=87
         self.Spr=77
@@ -86,6 +87,7 @@ class TrottingGait:
         self.IDspurFront= p.addUserDebugParameter("spur front", 20, 150, self.Spf)
         self.IDspurRear= p.addUserDebugParameter("spur rear", 20, 150, self.Spr)
         self.IDstepLength = p.addUserDebugParameter("step length", -150, 150, self.Sl)
+        self.IDstepWidth = p.addUserDebugParameter("step width", -150, 150, self.Sw)
         self.IDstepHeight = p.addUserDebugParameter("step height", 0, 150, self.Sh)
         self.IDt0 = p.addUserDebugParameter("t0", 0, 1000, self.t0)
         self.IDt1 = p.addUserDebugParameter("t1", 0, 1000, self.t1)
@@ -97,9 +99,9 @@ class TrottingGait:
         #self.IDixb = p.addUserDebugParameter("rear X", -200, 200, iXb)
 
     def calcLeg(self,t,x,y,z):
-        startLp=np.array([x-self.Sl/2.0,y,z,1])
+        startLp=np.array([x-self.Sl/2.0,y,z-self.Sw,1])
         endY=0 #-0.8 # delta y to jump a bit before lifting legs
-        endLp=np.array([x+self.Sl/2,y+endY,z,1])
+        endLp=np.array([x+self.Sl/2,y+endY,z+self.Sw,1])
         if(t<self.t0):
             return startLp
         elif(t<self.t0+self.t1):
@@ -126,6 +128,7 @@ class TrottingGait:
         spr= p.readUserDebugParameter(self.IDspurRear)
         self.Sh=p.readUserDebugParameter(self.IDstepHeight)
         self.Sl=p.readUserDebugParameter(self.IDstepLength)
+        self.Sw=p.readUserDebugParameter(self.IDstepWidth)
         self.t0=p.readUserDebugParameter(self.IDt0)
         self.t1=p.readUserDebugParameter(self.IDt1)
         self.t2=p.readUserDebugParameter(self.IDt2)

@@ -251,7 +251,7 @@ class Robot:
 
         if self.checkSimulationReset(bodyOrn):
             return False
-        p.resetDebugVisualizerCamera(0.7,math.degrees(bodyEuler[2])-self.t*10,-5,bodyPos)
+        p.resetDebugVisualizerCamera(0.7,self.t*10,-5,bodyPos)
         # Calculate Angles with the input of FeetPos,BodyRotation and BodyPosition
         angles = self.kin.calcIK(self.Lp, self.rot, self.pos)
 
