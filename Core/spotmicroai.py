@@ -64,6 +64,7 @@ class Robot:
         p.setRealTimeSimulation(self.useRealTime)
 
         self.quadruped = self.loadModels()
+        self.createEnv()
         self.changeDynamics(self.quadruped)
         self.jointNameToId = self.getJointNames(self.quadruped)
         replaceLines=True
@@ -106,6 +107,30 @@ class Robot:
         self.projection_matrix = p.computeProjectionMatrixFOV(fov, aspect, nearplane, farplane)
 
         self.lastLidarTime=0
+    
+    def createEnv(self):
+        shift = [0, -0.0, 0]
+        meshScale = [0.1, 0.1, 0.1]
+        visualShapeId = p.createVisualShape(shapeType=p.GEOM_BOX,
+                                            rgbaColor=[1, 1, 1, 1],
+                                            specularColor=[0.4, .4, 0],
+                                            halfExtents=[1,1,.2],
+                                            visualFramePosition=shift)
+        collisionShapeId = p.createCollisionShape(shapeType=p.GEOM_BOX,
+                                            collisionFramePosition=shift,
+                                            halfExtents=[1,1,.2])
+
+        rangex = 5
+        rangey = 5
+        for i in range(rangex):
+            for j in range(rangey):
+                p.createMultiBody(baseMass=10,
+                                baseInertialFramePosition=[0, 0, 0],
+                                baseCollisionShapeIndex=collisionShapeId,
+                                baseVisualShapeIndex=visualShapeId,
+                                basePosition=[((-rangex / 2) + i) * 5,
+                                                (-rangey / 2 + j) * 5, 1],
+                                useMaximalCoordinates=True)
 
 
     def loadModels(self):

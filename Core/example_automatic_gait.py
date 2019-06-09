@@ -15,10 +15,10 @@ from inputs import devices, get_gamepad
 from thinputs import ThreadedInputs
 import spotmicroai
 from kinematicMotion import KinematicMotion,TrottingGait
-
+from environment import environment
 
 rtime=time.time()
-
+env=environment()
 def reset():
     global rtime
     rtime=time.time()    
@@ -73,9 +73,7 @@ def handleGamepad():
         joy_rz = commandValue
     if commandInput == 'BTN_TOP2':
         resetPose()
-    if commandInput == 'BTN_PINKIE':
-        if commandValue:
-            walk=not walk
+
 
 
 IDheight = p.addUserDebugParameter("height", -40, 90, 40)
@@ -97,21 +95,16 @@ trotting=TrottingGait()
 s=False
 while True:
 
-
     bodyPos=robot.getPos()
     bodyOrn,_,_=robot.getIMU()
     xr,yr,_= p.getEulerFromQuaternion(bodyOrn)
     distance=math.sqrt(bodyPos[0]**2+bodyPos[1]**2)
     if distance>50:
         robot.resetBody()
-
    
     ir=xr/(math.pi/180)
-   
     handleGamepad()
-
     d=time.time()-rtime
-   
     height = p.readUserDebugParameter(IDheight)
 
     # wait 3 seconds to start
