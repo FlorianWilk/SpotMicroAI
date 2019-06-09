@@ -114,23 +114,24 @@ class Robot:
         visualShapeId = p.createVisualShape(shapeType=p.GEOM_BOX,
                                             rgbaColor=[1, 1, 1, 1],
                                             specularColor=[0.4, .4, 0],
-                                            halfExtents=[1,1,.2],
+                                            halfExtents=[1,1,.5],
                                             visualFramePosition=shift)
         collisionShapeId = p.createCollisionShape(shapeType=p.GEOM_BOX,
                                             collisionFramePosition=shift,
-                                            halfExtents=[1,1,.2])
-
+                                            halfExtents=[1,1,.5])
+        atexUid = p.loadTexture("concrete2.png")
         rangex = 5
         rangey = 5
         for i in range(rangex):
             for j in range(rangey):
-                p.createMultiBody(baseMass=10,
+                s=p.createMultiBody(baseMass=10,
                                 baseInertialFramePosition=[0, 0, 0],
                                 baseCollisionShapeIndex=collisionShapeId,
                                 baseVisualShapeIndex=visualShapeId,
                                 basePosition=[((-rangex / 2) + i) * 5,
                                                 (-rangey / 2 + j) * 5, 1],
                                 useMaximalCoordinates=True)
+                p.changeVisualShape(s, -1, textureUniqueId=atexUid)
 
 
     def loadModels(self):
