@@ -28,7 +28,7 @@ class Robot:
         self.useRealTime = True
         self.debugLidar=False
         self.debug=False
-        self.fixedTimeStep = 1. / 500
+        self.fixedTimeStep = 1. / 1250
         self.numSolverIterations = 200
         self.useFixedBase =useFixedBase
         self.useStairs=useStairs
@@ -124,7 +124,7 @@ class Robot:
         rangey = 5
         for i in range(rangex):
             for j in range(rangey):
-                s=p.createMultiBody(baseMass=10,
+                s=p.createMultiBody(baseMass=1000,
                                 baseInertialFramePosition=[0, 0, 0],
                                 baseCollisionShapeIndex=collisionShapeId,
                                 baseVisualShapeIndex=visualShapeId,

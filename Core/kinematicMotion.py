@@ -74,13 +74,14 @@ class TrottingGait:
         self.maxSl=2
         self.bodyPos=(0,100,0)
         self.bodyRot=(0,0,0)
-        self.t0=172
+        self.t0=0 # senseless i guess
         self.t1=510
         self.t2=00
         self.t3=185
         self.Sl=-124
         self.Sw=0
         self.Sh=60
+        self.Sa=0
         self.Spf=87
         self.Spr=77
 
@@ -89,31 +90,48 @@ class TrottingGait:
         self.IDstepLength = p.addUserDebugParameter("step length", -150, 150, self.Sl)
         self.IDstepWidth = p.addUserDebugParameter("step width", -150, 150, self.Sw)
         self.IDstepHeight = p.addUserDebugParameter("step height", 0, 150, self.Sh)
+        self.IDstepAlpha = p.addUserDebugParameter("step alpha", -60, 60, self.Sa)
         self.IDt0 = p.addUserDebugParameter("t0", 0, 1000, self.t0)
         self.IDt1 = p.addUserDebugParameter("t1", 0, 1000, self.t1)
         self.IDt2 = p.addUserDebugParameter("t2", 0, 1000, self.t2)
         self.IDt3 = p.addUserDebugParameter("t3", 0, 1000, self.t3)
         self.IDfrontOffset = p.addUserDebugParameter("front Offset", 0,200, 120)
         self.IDrearOffset = p.addUserDebugParameter("rear Offset", 0,200, 120)
-        #self.IDixf = p.addUserDebugParameter("front X", 0, 400, iXf)
-        #self.IDixb = p.addUserDebugParameter("rear X", -200, 200, iXb)
+        self.Rc=[0,0,0,1] # rotation center
 
+
+    """
+    calculates the Lp - LegPosition for the configured gait for time t and original Lp of x,y,z
+    """
     def calcLeg(self,t,x,y,z):
+
+      
+
+        #att=Tm.dot(np.array([[cHp,0,sHp,L/2],[0,1,0,0],[-sHp,0,cHp,W/2],[0,0,0,1]]))
+
         startLp=np.array([x-self.Sl/2.0,y,z-self.Sw,1])
         endY=0 #-0.8 # delta y to jump a bit before lifting legs
         endLp=np.array([x+self.Sl/2,y+endY,z+self.Sw,1])
-        if(t<self.t0):
+        
+        if(t<self.t0): # TODO: remove t0 and t2 - not practical
             return startLp
-        elif(t<self.t0+self.t1):
+        elif(t<self.t0+self.t1): # drag foot over ground
+
             td=t-self.t0
-#            print(td)
             tp=1/(self.t1/td)
             diffLp=endLp-startLp
             curLp=startLp+diffLp*tp
+            psi=-((math.pi/180*self.Sa)/2)+(math.pi/180*self.Sa)*tp
+            Ry = np.array([[np.cos(psi),0,np.sin(psi),0],
+                    [0,1,0,0],
+                    [-np.sin(psi),0,np.cos(psi),0],[0,0,0,1]])
+            Tlm = np.array([[0,0,0,self.Rc[0]],[0,0,0,self.Rc[1]],[0,0,0,self.Rc[2]],[0,0,0,0]])
+            Tm = Ry-Tlm
+            curLp=Tm.dot(curLp)
             return curLp
         elif(t<self.t0+self.t1+self.t2):
             return endLp
-        elif(t<self.t0+self.t1+self.t2+self.t3):
+        elif(t<self.t0+self.t1+self.t2+self.t3): # Lift foot
             td=t-(self.t0+self.t1+self.t2)
             tp=1/(self.t3/td)
             diffLp=startLp-endLp
@@ -129,12 +147,13 @@ class TrottingGait:
         self.Sh=p.readUserDebugParameter(self.IDstepHeight)
         self.Sl=p.readUserDebugParameter(self.IDstepLength)
         self.Sw=p.readUserDebugParameter(self.IDstepWidth)
+        self.Sa=p.readUserDebugParameter(self.IDstepAlpha)
         self.t0=p.readUserDebugParameter(self.IDt0)
         self.t1=p.readUserDebugParameter(self.IDt1)
         self.t2=p.readUserDebugParameter(self.IDt2)
         self.t3=p.readUserDebugParameter(self.IDt3)
         Tt=self.t0+self.t1+self.t2+self.t3
-        rd=0 # rear delta
+        rd=0 # rear delta - unused - maybe stupid
         td=(t*1000)%Tt
         t2=(t*1000-Tt/2)%Tt
         rtd=(t*1000-rd)%Tt # rear time delta
