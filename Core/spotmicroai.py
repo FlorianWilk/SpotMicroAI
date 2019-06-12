@@ -26,7 +26,7 @@ class Robot:
         self.useMaximalCoordinates = False
         self.resetFunc=resetFunc
         self.useRealTime = True
-        self.debugLidar=False
+        self.debugLidar=True
         self.debug=False
         self.fixedTimeStep = 1. / 1250
         self.numSolverIterations = 200
