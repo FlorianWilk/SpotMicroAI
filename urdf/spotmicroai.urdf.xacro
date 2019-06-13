@@ -29,7 +29,7 @@
   <xacro:property name="shoulder_width" value="0.038" />
 
   <xacro:property name="leg_length" value="0.120" />
-  <xacro:property name="foot_length" value="0.155" />
+  <xacro:property name="foot_length" value="0.105" />
 
   <xacro:property name="toe_radius" value="0.020" />
   <!--  <xacro:property name="toe_radius" value="0.014" /> -->
@@ -43,26 +43,18 @@
   <xacro:macro name="gen_shoulder" params="name left">
     <link name="${name}">
       <visual>
-        <geometry>
-          <box size="${shoulder_length} ${shoulder_width} ${body_height}"/>
-        </geometry>
-        <origin rpy="0 0 0" xyz="0 0 0"/>
-
-<!--
         <xacro:if value="${left}">
         <geometry>
-          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="../Parts/lshoulder.stl" scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
+        <origin rpy="0 0 0" xyz="-0.135 -0.02 -0.01"/>
         </xacro:if>
         <xacro:unless value="${left}">
         <geometry>
-          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
+          <mesh filename="../Parts/rshoulder.stl" scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
+        <origin rpy="0 0 0" xyz="-0.135 -0.09 -0.01"/>
         </xacro:unless>
-        -->
-        <origin rpy="0 0 0" xyz="0 0 0"/>
         <material name="black"/>
       </visual>
       <collision>
@@ -125,10 +117,18 @@
   <xacro:macro name="gen_foot" params="name">
     <link name="${name}">
       <visual>
+        <xacro:if value="${left}">
         <geometry>
-          <box size="0.026 0.020 ${foot_length}"/>
+          <mesh filename="../Parts/lfoot.stl" scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
+        <origin rpy="0 0 0" xyz="-0.120 0.04 0.1"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../Parts/rfoot.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="-0.120 -0.15 0.1"/>
+        </xacro:unless>
         <material name="black"/>
       </visual>
       <collision>
@@ -161,7 +161,7 @@
         <geometry>
         <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
         </geometry>
-        <origin rpy="0 0 0" xyz="0 -0.01 0"/>
+        <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
         <material name="grey"/>
       </visual>
       <collision>
@@ -203,18 +203,19 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <box size="${body_length} ${body_width} ${body_height}"/>
+        <mesh filename="../Parts/mainbody.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="yellow"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="black"/> 
+      <origin rpy="0 0 0" xyz="-0.045 -0.060 -0.015"/>
     </visual>
     <collision>
       <geometry>
         <box size="${body_length} ${body_width} ${body_height}"/>
       </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="0.80"/>
+      <mass value="2.80"/>
       <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100" />
     </inertial>
   </link>
@@ -249,10 +250,9 @@
   <link name="rear_link">
     <visual>
       <geometry>
-              <mesh filename="../STL/files/R_cover.stl" scale="0.001 0.001 0.001"/>
-        <!--<box size="${rear_length} ${body_width} ${body_height}"/> -->
+        <mesh filename="../Parts/backpart.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0.120 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.040 -0.060 -0.0140"/>
       <material name="yellow"/>
     </visual>
     <collision>
@@ -274,11 +274,9 @@
   <link name="front_link">
     <visual>
       <geometry>
-        <mesh filename="../STL/files/F_cover.stl" scale="0.001 0.001 0.001"/>
-       
-<!--        <box size="${front_length} ${body_width} ${body_height}"/> -->
+        <mesh filename="../Parts/frontpart.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="-0.130 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.040 -0.060 -0.0140"/>
       <material name="yellow"/>
     </visual>
     <collision>

@@ -26,9 +26,9 @@ class Robot:
         self.useMaximalCoordinates = False
         self.resetFunc=resetFunc
         self.useRealTime = True
-        self.debugLidar=True
+        self.debugLidar=False
         self.debug=False
-        self.fixedTimeStep = 1. / 1250
+        self.fixedTimeStep = 1. / 550
         self.numSolverIterations = 200
         self.useFixedBase =useFixedBase
         self.useStairs=useStairs
@@ -97,6 +97,8 @@ class Robot:
 
         
         self.kin = Kinematic()
+        p.setPhysicsEngineParameter(numSolverIterations=self.numSolverIterations)
+        #p.setTimeStep(self.fixedTimeStep)
 
         p.setRealTimeSimulation(self.useRealTime)
         self.ref_time = time.time()
@@ -137,8 +139,6 @@ class Robot:
     def loadModels(self):
         p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
         p.setGravity(0, 0, -9.81)
-#        p.setPhysicsEngineParameter(numSolverIterations=self.numSolverIterations)
-        #p.setTimeStep(self.fixedTimeStep)
 
         orn = p.getQuaternionFromEuler([math.pi/30*0, 0*math.pi/50, 0])
         p.setAdditionalSearchPath(pybullet_data.getDataPath())

@@ -19,18 +19,19 @@
   <link name="base_link">
     <visual>
       <geometry>
-        <box size="0.14 0.11 0.07"/>
+        <mesh filename="../Parts/mainbody.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <material name="yellow"/>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <material name="black"/>
+      <origin rpy="0 0 0" xyz="-0.045 -0.060 -0.015"/>
     </visual>
     <collision>
       <geometry>
         <box size="0.14 0.11 0.07"/>
       </geometry>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
     </collision>
     <inertial>
-      <mass value="0.80"/>
+      <mass value="2.80"/>
       <inertia ixx="100" ixy="0" ixz="0" iyy="100" iyz="0" izz="100"/>
     </inertial>
   </link>
@@ -62,10 +63,9 @@
   <link name="rear_link">
     <visual>
       <geometry>
-        <mesh filename="../STL/files/R_cover.stl" scale="0.001 0.001 0.001"/>
-        <!--<box size="${rear_length} ${body_width} ${body_height}"/> -->
+        <mesh filename="../Parts/backpart.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0.120 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.040 -0.060 -0.0140"/>
       <material name="yellow"/>
     </visual>
     <collision>
@@ -86,10 +86,9 @@
   <link name="front_link">
     <visual>
       <geometry>
-        <mesh filename="../STL/files/F_cover.stl" scale="0.001 0.001 0.001"/>
-        <!--        <box size="${front_length} ${body_width} ${body_height}"/> -->
+        <mesh filename="../Parts/frontpart.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="-0.130 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.040 -0.060 -0.0140"/>
       <material name="yellow"/>
     </visual>
     <collision>
@@ -111,24 +110,9 @@
   <link name="front_left_shoulder_link">
     <visual>
       <geometry>
-        <box size="0.044 0.038 0.07"/>
+        <mesh filename="../Parts/lshoulder.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <!--
-        <xacro:if value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
-        </xacro:if>
-        <xacro:unless value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
-        </xacro:unless>
-        -->
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.135 -0.02 -0.01"/>
       <material name="black"/>
     </visual>
     <collision>
@@ -164,14 +148,14 @@
   <link name="front_left_foot_link">
     <visual>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <mesh filename="../Parts/lfoot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
+      <origin rpy="0 0 0" xyz="-0.120 0.04 0.1"/>
       <material name="black"/>
     </visual>
     <collision>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <box size="0.026 0.020 0.105"/>
       </geometry>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
     </collision>
@@ -185,7 +169,7 @@
       <geometry>
         <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
+      <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
@@ -227,29 +211,14 @@
   <joint name="front_left_toe" type="fixed">
     <parent link="front_left_foot_link"/>
     <child link="front_left_toe_link"/>
-    <origin xyz="0 0 -0.165"/>
+    <origin xyz="0 0 -0.115"/>
   </joint>
   <link name="front_right_shoulder_link">
     <visual>
       <geometry>
-        <box size="0.044 0.038 0.07"/>
+        <mesh filename="../Parts/rshoulder.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <!--
-        <xacro:if value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
-        </xacro:if>
-        <xacro:unless value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
-        </xacro:unless>
-        -->
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.135 -0.09 -0.01"/>
       <material name="black"/>
     </visual>
     <collision>
@@ -285,14 +254,14 @@
   <link name="front_right_foot_link">
     <visual>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <mesh filename="../Parts/rfoot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
+      <origin rpy="0 0 0" xyz="-0.120 -0.15 0.1"/>
       <material name="black"/>
     </visual>
     <collision>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <box size="0.026 0.020 0.105"/>
       </geometry>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
     </collision>
@@ -306,7 +275,7 @@
       <geometry>
         <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
+      <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
@@ -348,29 +317,14 @@
   <joint name="front_right_toe" type="fixed">
     <parent link="front_right_foot_link"/>
     <child link="front_right_toe_link"/>
-    <origin xyz="0 0 -0.165"/>
+    <origin xyz="0 0 -0.115"/>
   </joint>
   <link name="rear_left_shoulder_link">
     <visual>
       <geometry>
-        <box size="0.044 0.038 0.07"/>
+        <mesh filename="../Parts/lshoulder.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <!--
-        <xacro:if value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
-        </xacro:if>
-        <xacro:unless value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
-        </xacro:unless>
-        -->
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.135 -0.02 -0.01"/>
       <material name="black"/>
     </visual>
     <collision>
@@ -406,14 +360,14 @@
   <link name="rear_left_foot_link">
     <visual>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <mesh filename="../Parts/lfoot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
+      <origin rpy="0 0 0" xyz="-0.120 0.04 0.1"/>
       <material name="black"/>
     </visual>
     <collision>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <box size="0.026 0.020 0.105"/>
       </geometry>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
     </collision>
@@ -427,7 +381,7 @@
       <geometry>
         <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
+      <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
@@ -469,29 +423,14 @@
   <joint name="rear_left_toe" type="fixed">
     <parent link="rear_left_foot_link"/>
     <child link="rear_left_toe_link"/>
-    <origin xyz="0 0 -0.165"/>
+    <origin xyz="0 0 -0.115"/>
   </joint>
   <link name="rear_right_shoulder_link">
     <visual>
       <geometry>
-        <box size="0.044 0.038 0.07"/>
+        <mesh filename="../Parts/rshoulder.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
-      <!--
-        <xacro:if value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/L_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0.01 -0.02"/>
-        </xacro:if>
-        <xacro:unless value="${left}">
-        <geometry>
-          <mesh filename="../STL/files/R_arm_joint.stl" scale="0.001 0.001 0.001"/>
-        </geometry>
-        <origin rpy="0 0 -1.57075" xyz="0 0 0"/>
-        </xacro:unless>
-        -->
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="-0.135 -0.09 -0.01"/>
       <material name="black"/>
     </visual>
     <collision>
@@ -527,14 +466,14 @@
   <link name="rear_right_foot_link">
     <visual>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <mesh filename="../Parts/rfoot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
+      <origin rpy="0 0 0" xyz="-0.120 -0.15 0.1"/>
       <material name="black"/>
     </visual>
     <collision>
       <geometry>
-        <box size="0.026 0.020 0.155"/>
+        <box size="0.026 0.020 0.105"/>
       </geometry>
       <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
     </collision>
@@ -548,7 +487,7 @@
       <geometry>
         <mesh filename="../STL/files/foot.stl" scale="0.001 0.001 0.001"/>
       </geometry>
-      <origin rpy="0 0 0" xyz="0 -0.01 0"/>
+      <origin rpy="0 -0.40010 0" xyz="0 -0.01 0"/>
       <material name="grey"/>
     </visual>
     <collision>
@@ -590,7 +529,7 @@
   <joint name="rear_right_toe" type="fixed">
     <parent link="rear_right_foot_link"/>
     <child link="rear_right_toe_link"/>
-    <origin xyz="0 0 -0.165"/>
+    <origin xyz="0 0 -0.115"/>
   </joint>
 </robot>
 
