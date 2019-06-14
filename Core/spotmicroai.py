@@ -27,6 +27,7 @@ class Robot:
         self.resetFunc=resetFunc
         self.useRealTime = True
         self.debugLidar=False
+        self.rotateCamera=False
         self.debug=False
         self.fixedTimeStep = 1. / 550
         self.numSolverIterations = 200
@@ -277,7 +278,8 @@ class Robot:
 
         if self.checkSimulationReset(bodyOrn):
             return False
-        p.resetDebugVisualizerCamera(0.7,self.t*10,-5,bodyPos)
+        if self.rotateCamera:
+            p.resetDebugVisualizerCamera(0.7,self.t*10,-5,bodyPos)
         # Calculate Angles with the input of FeetPos,BodyRotation and BodyPosition
         angles = self.kin.calcIK(self.Lp, self.rot, self.pos)
 

@@ -29,7 +29,7 @@
   <xacro:property name="shoulder_width" value="0.038" />
 
   <xacro:property name="leg_length" value="0.120" />
-  <xacro:property name="foot_length" value="0.105" />
+  <xacro:property name="foot_length" value="0.115" />
 
   <xacro:property name="toe_radius" value="0.020" />
   <!--  <xacro:property name="toe_radius" value="0.014" /> -->
@@ -81,14 +81,44 @@
     </joint>
   </xacro:macro>
 
-  <xacro:macro name="gen_leg" params="name">
+  <xacro:macro name="gen_leg" params="name left">
+    <link name="${name}_cover">
+      <visual>
+        <xacro:if value="${left}">
+        <geometry>
+          <mesh filename="../Parts/larm_cover.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="-0.125 0.04 -0.02"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../Parts/rarm_cover.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="-0.125 -0.15 -0.02"/>
+        </xacro:unless>
+        <material name="yellow"/>
+      </visual>
+    </link>
     <link name="${name}">
       <visual>
+        <xacro:if value="${left}">
         <geometry>
+          <mesh filename="../Parts/larm.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="-0.125 0.04 -0.02"/>
+        </xacro:if>
+        <xacro:unless value="${left}">
+        <geometry>
+          <mesh filename="../Parts/rarm.stl" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="-0.125 -0.15 -0.02"/>
+        </xacro:unless>
+        <material name="black"/>
+<!--        <geometry>
           <box size="0.028 0.036 ${leg_length}"/>
         </geometry>
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
-        <material name="yellow"/>
+        <material name="yellow"/>-->
       </visual>
       <collision>
         <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
@@ -112,9 +142,15 @@
       <limit effort="1000.0" lower="-2.666" upper="1.548" velocity="0.5"/>
       <dynamics damping="0.0" friction="0.0"/>
     </joint>
+
+    <joint name="${pos}_leg_cover_joint" type="fixed">
+    <parent link="${pos}_leg_link"/>
+    <child link="${pos}_leg_link_cover"/>
+        <origin xyz="0 0 0"/>
+  </joint>  
   </xacro:macro>
 
-  <xacro:macro name="gen_foot" params="name">
+  <xacro:macro name="gen_foot" params="name left">
     <link name="${name}">
       <visual>
         <xacro:if value="${left}">
@@ -135,7 +171,7 @@
         <geometry>
           <box size="0.026 0.020 ${foot_length}"/>
         </geometry>
-        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.090"/>
+        <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 -0.050"/>
       </collision>
       <inertial>
         <mass value="0.1"/>
@@ -169,7 +205,7 @@
           <sphere radius="${toe_radius}" />
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0"/>
-        <contact_coefficients mu="0.8" />
+        <contact_coefficients mu="1.1" />
       </collision>
       <inertial>
         <mass value="0.05"/>
@@ -182,14 +218,14 @@
     <joint name="${pos}_toe" type="fixed">
       <parent link="${pos}_foot_link"/>
       <child link="${pos}_toe_link"/>
-      <origin xyz="0 0 -${foot_length+0.01}"/>
+      <origin xyz="0 0 -${foot_length}"/>
     </joint>
   </xacro:macro>
 
   <xacro:macro name="gen_full_leg_joint" params="pos shiftx shifty shift left">
     <xacro:gen_shoulder name="${pos}_shoulder_link" left="${left}"/>
-    <xacro:gen_leg name="${pos}_leg_link"/>
-    <xacro:gen_foot name="${pos}_foot_link"/>
+    <xacro:gen_leg name="${pos}_leg_link" left="${left}"/>
+    <xacro:gen_foot name="${pos}_foot_link" left="${left}"/>
     <xacro:gen_toe name="${pos}_toe_link"/>
 
     <xacro:gen_shoulder_joint pos="${pos}" shiftx="${shiftx}" shifty="${shifty}"/>

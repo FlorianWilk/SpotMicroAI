@@ -5,6 +5,7 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/*
+*.blend1
 .ipynb_checkpoints
 .ipynb_checkpoints/*
 __pycache__
