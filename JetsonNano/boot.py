@@ -15,6 +15,7 @@ See: http://fontawesome.io/license/ for license details of included
 fontawesome-webfont.ttf file
 """
 
+import time
 import os
 import sys
 import random
@@ -146,9 +147,15 @@ def infinite_shuffle(arr):
 
 def main(num_iterations=sys.maxsize):
     device = get_device()
-    regulator = framerate_regulator(fps=1)
+    regulator = framerate_regulator(fps=5)
     font = make_font("fontawesome-webfont.ttf", device.height - 10)
-
+    with canvas(device) as draw:
+        code="\uf186"
+        w, h = draw.textsize(text=code, font=font)
+        left = (device.width - w) / 2
+        top = (device.height - h) / 2        
+        draw.text((left,top),text=code,font=font,fill="white")
+    time.sleep(2)
     for code in infinite_shuffle(codes):
         with regulator:
             num_iterations -= 1
