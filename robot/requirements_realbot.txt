@@ -1,0 +1,4 @@
+numpy==1.15.4
+numpy-stl==2.3.2
+adafruit-circuitpython-servokit
+adafruit-circuitpython-pca9685
