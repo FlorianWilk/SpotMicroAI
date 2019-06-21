@@ -58,8 +58,10 @@ class RobotDisplay():
     
     def __init__(self):
         self.device=get_device()
-        self.font_fa=self.make_font("fontawesome-webfont.ttf", self.device.height - 10)
+        self.font_fa=self.make_font("fa-regular-400.ttf", self.device.height - 10)
         self.font2=self.make_font("C&C Red Alert [INET].ttf",12)
+        self.displayIcon("\uf599")
+        time.sleep(2)
 
     def make_font(self,name, size):
         font_path = os.path.abspath(os.path.join(
@@ -85,11 +87,14 @@ class RobotDisplay():
         self.stats(self.device)
 
     def bye(self):
-        code="\uf287"
+        self.displayIcon("\uf186")
+        time.sleep(2)
+
+    def displayIcon(self,code):
         with canvas(self.device) as draw:
             w, h = draw.textsize(text=code, font=self.font_fa)
             left = (self.device.width - w) / 2
-            top = (self.device.height - h) / 2
+            top = (self.device.height - h) / 1
             draw.text((left, top), text=code, font=self.font_fa, fill="white")
-
+        time.sleep(2)
 

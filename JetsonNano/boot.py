@@ -11,10 +11,9 @@ class RobotBoot():
 
     def __init__(self):
         self.display=None
-        atexit.register(self.exitHandler)
         print("Booting SpotMicroAI")
         self.display=RobotDisplay()
-        self.servos=Servos()
+#        self.servos=Servos()
 
     def exitHandler(self):
         print("Exiting SpotMicroAI")
@@ -28,6 +27,7 @@ class RobotBoot():
 if __name__ == "__main__":
     try:
        boot=RobotBoot()
+       atexit.register(boot.exitHandler)
        boot.run()
     except KeyboardInterrupt:
         pass

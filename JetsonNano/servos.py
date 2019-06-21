@@ -45,7 +45,7 @@ class Servos:
     def __init__(self):
         print("Servos init")
 
-        i2c = busio.I2C(board.SCL, board.SDA)
+        i2c = busio.I2C(board.SCL_1, board.SDA_1)
         self.pca = Adafruit_PCA9685.PCA9685(i2c)
         #self.pca = Adafruit_PCA9685.PCA9685(address=0x40)
         kit = ServoKit(channels=16)
