@@ -66,6 +66,7 @@ class RobotDisplay():
     def make_font(self,name, size):
         font_path = os.path.abspath(os.path.join(
             os.path.dirname(__file__), 'fonts', name))
+        print("looking up font {}".format(font_path))
         return ImageFont.truetype(font_path, size)
 
     def stats(self,device):
