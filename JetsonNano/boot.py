@@ -31,7 +31,7 @@ class RobotBoot():
             (x,y)=self.gyro.read()
             self.display.setAngles(x,y)
             self.display.run()
-            time.sleep(0.1)
+            time.sleep(0.02)
 
 if __name__ == "__main__":
     try:

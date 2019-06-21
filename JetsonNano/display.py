@@ -5,6 +5,7 @@ from datetime import datetime
 from demo_opts import get_device
 from luma.core.render import canvas
 from PIL import ImageFont
+import math
 try:
     import psutil
 except ImportError:
@@ -29,24 +30,46 @@ def bytes2human(n):
             return '%s%s' % (value, s)
     return "%sB" % n
 
+lastCpuUsageTime=0
+lastCpuUsage=""
+
 def cpu_usage():
+    global lastCpuUsageTime,lastCpuUsage
+    if(time.time()-lastCpuUsageTime<3):
+        return lastCpuUsage
     # load average, uptime
     uptime = datetime.now() - datetime.fromtimestamp(psutil.boot_time())
     av1, av2, av3 = os.getloadavg()
-    return "Ld:%.1f %.1f %.1f Up: %s" \
+    lastCpuUsage="Ld:%.1f %.1f %.1f Up: %s" \
         % (av1, av2, av3, str(uptime).split('.')[0])
+    lastCpuUsageTime=time.time()
+    return lastCpuUsage
 
+lastMemUsageTime=0
+lastMemUsage=""
 
 def mem_usage():
+    global lastMemUsageTime,lastMemUsage
+    if(time.time()-lastMemUsageTime<5):
+        return lastMemUsage
     usage = psutil.virtual_memory()
-    return "Mem: %s %.0f%%" \
+    lastMemUsageTime=time.time()
+    lastMemUsage="Mem: %s %.0f%%" \
         % (bytes2human(usage.used), 100 - usage.percent)
+    return lastMemUsage
 
+lastDiskUsageTime=0
+lastDiskUsage=""
 
 def disk_usage(dir):
+    global lastDiskUsageTime,lastDiskUsage
+    if(time.time()-lastDiskUsageTime<10.0):
+        return lastDiskUsage
     usage = psutil.disk_usage(dir)
-    return "SD: %s" \
+    lastDiskUsage="SD: %s" \
         % (bytes2human(usage.used))#, usage.percent)
+    lastDiskUsageTime=time.time()
+    return lastDiskUsage
 
 
 def network(iface):
@@ -74,28 +97,33 @@ class RobotDisplay():
     def setAngles(self,x,y):
         self.angles=(x,y)
 
+    def drawRot(self,draw,x,val):
+        x1=18*math.cos(math.pi/180*val)
+        y1=18*math.sin(math.pi/180*val)
+        d=10
+        e=3
+        draw.ellipse((4+x,29,38+x,63), outline="white")
+        #draw.line((x+21-x1,46-y1,x+22+x1,47+y1), width=2,fill="white")
+        draw.chord((4+x+e,29+e,38+x-e,63-e),0+val,180+val,fill="white",outline="white")
+        draw.ellipse((21-d+x,46-d,21+d+x,46+d), fill="black")
+        tx="{:0.0f}".format(val)
+        w, h = draw.textsize(text=tx, font=self.font2)
+        left = (22+x - w/2)
+        top = 40
+        draw.text((left,top),tx,font=self.font2,fill="white")
+        
+
     def stats(self,device):
         x,y=self.angles
         with canvas(device) as draw:
             draw.text((0, 0), cpu_usage(), font=self.font2, fill="white")
             if device.height >= 32:
-                draw.text((0, 14), mem_usage(), font=self.font2, fill="white")
+                draw.text((0, 13), mem_usage(), font=self.font2, fill="white")
 
             if device.height >= 64:
-                draw.text((78, 14), disk_usage('/'), font=self.font2, fill="white")
-                try:
-                    #            draw.text((0, 38), network('wlan0'), font=self.font2, fill="white")
-                    draw.line((5,30+33/2,38,30+33/2), fill="white")
-                    draw.ellipse((21-6,46-6,21+6,46+6), fill="black")
-                    tx="{:0.0f}".format(x)
-                    w, h = draw.textsize(text=tx, font=self.font2)
-                    left = (22 - w/2) 
-                    top = 40
-                    draw.text((left,top),tx,font=self.font2,fill="white")
-                    draw.ellipse((4,29,38,63), outline="white")
-                except KeyError:
-                    # no wifi enabled/available
-                    pass
+                draw.text((78, 13), disk_usage('/'), font=self.font2, fill="white")
+                self.drawRot(draw,-4,x)
+                self.drawRot(draw,36,y)
 
     def run(self):
         self.stats(self.device)
