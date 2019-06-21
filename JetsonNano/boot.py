@@ -17,6 +17,7 @@ class RobotBoot():
         self.display=None
         print("Booting SpotMicroAI")
         self.display=RobotDisplay()
+        self.gyro=Gyro()
 #        self.servos=Servos()
 
     def exitHandler(self):
@@ -27,6 +28,8 @@ class RobotBoot():
 
     def run(self):
         while True:
+            (x,y)=self.gyro.read()
+            self.display.setAngles(x,y)
             self.display.run()
             time.sleep(0.1)
 

@@ -45,8 +45,8 @@ def mem_usage():
 
 def disk_usage(dir):
     usage = psutil.disk_usage(dir)
-    return "SD:  %s %.0f%%" \
-        % (bytes2human(usage.used), usage.percent)
+    return "SD: %s" \
+        % (bytes2human(usage.used))#, usage.percent)
 
 
 def network(iface):
@@ -57,11 +57,13 @@ def network(iface):
 class RobotDisplay():
     
     def __init__(self):
+        self.angles=(0,0)
         self.device=get_device()
         self.font_fa=self.make_font("fa-regular-400.ttf", self.device.height - 10)
         self.font2=self.make_font("C&C Red Alert [INET].ttf",12)
         self.displayIcon("\uf599")
         time.sleep(2)
+
 
     def make_font(self,name, size):
         font_path = os.path.abspath(os.path.join(
@@ -69,17 +71,28 @@ class RobotDisplay():
         print("looking up font {}".format(font_path))
         return ImageFont.truetype(font_path, size)
 
-    def stats(self,device):
+    def setAngles(self,x,y):
+        self.angles=(x,y)
 
+    def stats(self,device):
+        x,y=self.angles
         with canvas(device) as draw:
             draw.text((0, 0), cpu_usage(), font=self.font2, fill="white")
             if device.height >= 32:
                 draw.text((0, 14), mem_usage(), font=self.font2, fill="white")
 
             if device.height >= 64:
-                draw.text((0, 26), disk_usage('/'), font=self.font2, fill="white")
+                draw.text((78, 14), disk_usage('/'), font=self.font2, fill="white")
                 try:
-                    draw.text((0, 38), network('wlan0'), font=self.font2, fill="white")
+                    #            draw.text((0, 38), network('wlan0'), font=self.font2, fill="white")
+                    draw.line((5,30+33/2,38,30+33/2), fill="white")
+                    draw.ellipse((21-6,46-6,21+6,46+6), fill="black")
+                    tx="{:0.0f}".format(x)
+                    w, h = draw.textsize(text=tx, font=self.font2)
+                    left = (22 - w/2) 
+                    top = 40
+                    draw.text((left,top),tx,font=self.font2,fill="white")
+                    draw.ellipse((4,29,38,63), outline="white")
                 except KeyError:
                     # no wifi enabled/available
                     pass
