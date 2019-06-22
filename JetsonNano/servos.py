@@ -1,65 +1,32 @@
 """
-Class to Control the Servos for all Legs
+SpotMicroAI - Servos
 """
-import Adafruit_PCA9685
-import board
+
+from board import SCL_1, SDA_1
+from adafruit_pca9685 import PCA9685
+from adafruit_motor import servo
+import time
 import busio
-from adafruit_servokit import ServoKit
 
-class Servo:
-    def __init__(self,direction,servo):
-        self.direction=direction
-        self.offset=0
-        self.min=0
-        self.max=180
-        self.servo=servo
-        self.lastValue=0
-
-    def setValue(self,value):
-        self.lastValue=value
-        realValue=self.offset+self.direction*value
-        # I2C set calculated Value - current dummy is servo center
-        self.servo.angle=realValue
+class AcceleratedServo():
     
-    def getLastValue(self):
-        return self.lastValue
+    def __init__(self,servo):
+        self.servo=servo
 
-    def setOffset(self,offset):
-        self.offset=offset
-        self.setValue(self.getLastValue())
+    def angle(self,angle):
+        self.servo.angle=angle
 
-class AcceleratedServo(Servo):
-    def __init__(self,direction,servo):
-        Servo.__init__(self,direction,servo)
-
-        # random values for now
-        self.kp=0.2
-        self.kd=0.2
-        self.max_acceleration=14
-
-    def moveTo(self,value,inTime):
-        print("Moving servo to {} in {}ms".format(value,inTime))
-
-class Servos:
+class Servos():
 
     def __init__(self):
-        print("Servos init")
+        self.i2c = busio.I2C(SCL_1, SDA_1)
+        self.pca = PCA9685(self.i2c)
+        self.pca.frequency = 50
+        self.servo = AcceleratedServo(servo.Servo(self.pca.channels[7],min_pulse=771,max_pulse=2740))
 
-        i2c = busio.I2C(board.SCL_1, board.SDA_1)
-        self.pca = Adafruit_PCA9685.PCA9685(i2c)
-        #self.pca = Adafruit_PCA9685.PCA9685(address=0x40)
-        kit = ServoKit(channels=16)
+    def deinit(self):
+        self.pca.deinit()
 
-        # Front_left,Front_right,Back_left,Back_right
-        # each leg has shoulder, leg, foot
-        directions=[-1,1,1,1,1,1,-1,1,1,1,1,1]
-        self.leg_servos=[AcceleratedServo(directions[x],kit.servo[x]) for x in range(0,12)]
+    def angle(self,servo,angle):
+        self.servo.angle(angle)
 
-    def setServoPositions(self,positions):
-        [self.leg_servos[x].moveTo(positions[x],100) for x in range(0,12)]
-    
-    def getServoOffset(self,servo):
-        return self.leg_servos[servo].offset
-
-    def setServoOffset(self,servo,offset):
-        self.leg_servos[servo].setOffset(offset)

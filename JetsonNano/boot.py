@@ -10,6 +10,7 @@ import atexit
 import sys
 import signal
 import time
+from kinematics import Kinematic
 
 class RobotBoot():
 
@@ -18,6 +19,7 @@ class RobotBoot():
         print("Booting SpotMicroAI")
         self.display=RobotDisplay()
 #        self.servos=Servos()
+        self.Kinematic=Kinematic()
 
     def exitHandler(self):
         print("Exiting SpotMicroAI")
