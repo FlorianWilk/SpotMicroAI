@@ -18,6 +18,7 @@ class RobotBoot():
         self.display=None
         print("Booting SpotMicroAI")
         self.display=RobotDisplay()
+        self.gyro=Gyro()
 #        self.servos=Servos()
         self.Kinematic=Kinematic()
 
@@ -29,8 +30,10 @@ class RobotBoot():
 
     def run(self):
         while True:
+            (x,y)=self.gyro.read()
+            self.display.setAngles(x,y)
             self.display.run()
-            time.sleep(0.1)
+            time.sleep(0.02)
 
 if __name__ == "__main__":
     try:
