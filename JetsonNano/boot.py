@@ -5,7 +5,7 @@ SpotMicroAI Bootscript
 
 from display import RobotDisplay
 from gyro import Gyro
-#from servos import Servos
+from servos import Servos
 import atexit
 import sys
 import signal

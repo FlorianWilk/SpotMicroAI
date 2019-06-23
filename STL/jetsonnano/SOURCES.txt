@@ -1,3 +1,0 @@
-Sources for Jetson Nano Case - Connectors' Edition
-
-Jetson Nano Case (http://www.thingiverse.com/thing:3518410)
