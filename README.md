@@ -30,14 +30,13 @@ Since my setup required some additional Hardware, i recreated some parts using F
 
 ### NVIDIA Jetson Nano
 
-To have some Protection for the NVIDIA Jetson Nano i printed [this Case from Thingiverse](https://www.thingiverse.com/thing:3603594).
+The Brain of all this is the JetsonNano. It has a 16 Channel PCA9685 I2C-Servo Driver connected, which is used to control the servos. The IMU (GY-521) is also connected via I2C and provides roll and pitch angles of the Robot.
+The OLED-Display is used to have some nice output. 
+I will provide a Fritzing-Layout in the near future.
 
-![JetsonNano-Case](/Images/jetsonNanoCase.jpg)
+![JetsonNano-Case](/Images/jetsonNano_connected_1.jpg)
 
-The Jetson Nano is connected to a 16 Channel PCA9685 I2C-Servo Driver which controls all the Servos. 
-I will also try to connect the I2C OLED Display and the LED-Circle to it.
-
-[Here you can find the all the Code for the Jetson Nano](/JetsonNano)
+[You can find the all the Code for the Jetson Nano here](/JetsonNano)
 
 ### Sensors
 
