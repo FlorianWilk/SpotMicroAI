@@ -1,4 +1,4 @@
-# SpotMicro AI 
+# SpotMicroAI 
 
 I started this Project because i got inspired by some very smart People/Companies and Projects out there and want to 
 understand and adapt their work. It is based on existing OpenSource-Projects and uses affordable Hardware to enable other people to build their own Bots and help us to understand how to control it the way we want.
@@ -45,6 +45,7 @@ We will use Sonar Sensors instead of visual sensors like RGB or RGBD-Cams. Maybe
 Sensors used:
 - 4 x HC-SR04-Sensors. 2x as in the original model in the front looking forward/down. 2x at the bottom (front/back) looking down to measure the ground-distance. 
 - An IMU MPU-6050 is used to measure pitch,roll and velocities. Yaw will be ignored since it drifts quickly. 
+- RPLidar A1 - the cheapest Lidar i could find. Works. Connected to the Jetson via USB. Speedcontrol via PWM/Jetson
 
 Also i have a SSD1306 OLED-Display and a NeoMatrix LED-Circle i want to include for the Style.
 In a first version i used an Arduino Mega as kind of Servo/Sensor-Controller and a Raspberry PI as Locomotion-Controller (communication via UART). But it showed up that the Arduino is too slow to handle Sensor-Signals and Servo-PWM properly at the same time. 
@@ -65,7 +66,9 @@ Here you can see the first version of the URDF-Model.
 
 And here the Model with working Kinematics in a PyBullet-Simulation.
 
-The URDF Model is very basic and work in progress. Masses and Inertias are guesses and not correct. I will have to disassemble the Robot to have correct weights. 
+Masses and Inertias of the URDF-Model are still not correct.
+There is also a Blender-File included which i used to create the STLs for the simulation. 
+Of course you could also do some nice renderings with it! :)
 
 ### Quickstart
 
@@ -76,7 +79,7 @@ pip3 install pybullet
 pip3 install inputs
 
 cd Core/
-python3 example_leg_motion.py
+python3 example_automatic_gait.py
 ```
 
 ### Kinematics
