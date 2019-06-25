@@ -77,6 +77,7 @@ This example can be found in the Repository. You need a GamePad for this to work
 pip3 install numpy
 pip3 install pybullet
 pip3 install inputs
+...TODO: provide setup.py
 
 cd Core/
 python3 example_automatic_gait.py
