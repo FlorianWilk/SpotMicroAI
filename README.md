@@ -16,7 +16,7 @@ Parts of this Project:
 
 ## 1. The physical Robot
 
-![SpotMicroAI](/Images/SpotMicroAI_1.jpg)
+![SpotMicroAI](/Images/SpotMicroAI_complete_1.jpg)
 
 First of all thanks to Deok-yeon Kim aka KDY0523 who made [this incredible work on Thingiverse](https://www.thingiverse.com/thing:3445283)
 
