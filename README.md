@@ -34,7 +34,7 @@ The Brain of all this is the JetsonNano. It has a 16 Channel PCA9685 I2C-Servo D
 The OLED-Display is used to have some nice output. 
 I will provide a Fritzing-Layout in the near future.
 
-![JetsonNano-Case](/Images/jetsonNano_connected_1.jpg)
+![JetsonNano-Case](/Images/SpotMicroAI_jetson.jpg)
 
 [You can find the all the Code for the Jetson Nano here](/JetsonNano)
 
