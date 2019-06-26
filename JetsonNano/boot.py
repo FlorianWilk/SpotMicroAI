@@ -11,6 +11,7 @@ import sys
 import signal
 import time
 from kinematics import Kinematic
+from network import Network
 
 class RobotBoot():
 
@@ -21,6 +22,7 @@ class RobotBoot():
         self.gyro=Gyro()
 #        self.servos=Servos()
         self.Kinematic=Kinematic()
+        self.network=Network()
 
     def exitHandler(self):
         print("Exiting SpotMicroAI")
@@ -32,16 +34,19 @@ class RobotBoot():
         while True:
             (x,y)=self.gyro.read()
             self.display.setAngles(x,y)
+            self.display.setNetworkState(self.network.result())
             self.display.run()
             time.sleep(0.02)
 
+    def cleanup(self):
+        self.network.cleanup()
+
 if __name__ == "__main__":
     try:
-       boot=RobotBoot()
+        boot=RobotBoot()
 #       atexit.register(boot.exitHandler)
-       signal.signal(signal.SIGTERM, boot.exitHandler)
-       boot.run()
-    except KeyboardInterrupt:
-        pass
-
+        signal.signal(signal.SIGTERM, boot.exitHandler)
+        boot.run()
+    except:
+        boot.cleanup()
 

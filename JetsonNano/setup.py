@@ -1,3 +1,4 @@
+# setup.py from Luma. TODO: create custom setup.py with luma + spot deps
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 

@@ -85,6 +85,7 @@ class RobotDisplay():
         self.font_fa=self.make_font("fa-regular-400.ttf", self.device.height - 10)
         self.font2=self.make_font("C&C Red Alert [INET].ttf",12)
         self.displayIcon("\uf599")
+        self.networkState=False
         time.sleep(2)
 
 
@@ -96,6 +97,9 @@ class RobotDisplay():
 
     def setAngles(self,x,y):
         self.angles=(x,y)
+
+    def setNetworkState(self,state):
+        self.networkState=state
 
     def drawRot(self,draw,x,val):
         x1=18*math.cos(math.pi/180*val)
@@ -124,6 +128,11 @@ class RobotDisplay():
                 draw.text((78, 13), disk_usage('/'), font=self.font2, fill="white")
                 self.drawRot(draw,-4,x)
                 self.drawRot(draw,36,y)
+            # TODO: Add more states like NC network connection or LN local network
+            state="NN"  # no network
+            if self.networkState:
+                state="IC" # internet connection
+            draw.text((100, 13),state, font=self.font2, fill="white")
 
     def run(self):
         self.stats(self.device)
