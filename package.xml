@@ -2,12 +2,12 @@
 <package format="2">
   <name>spotmicroai</name>
   <version>0.0.0</version>
-  <description>The spotmicroai package</description>
+  <description>SpotMicroAI ROS Package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="florian@todo.todo">florian</maintainer>
+  <maintainer email="florian.wilk@gmail.com">Florian Wilk</maintainer>
 
 
   <!-- One license tag required, multiple allowed, one license per tag -->
@@ -16,16 +16,8 @@
   <license>TODO</license>
 
 
-  <!-- Url tags are optional, but multiple are allowed, one per tag -->
-  <!-- Optional attribute type can be: website, bugtracker, or repository -->
-  <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/spotmicroai</url> -->
-
-
-  <!-- Author tags are optional, multiple are allowed, one per tag -->
-  <!-- Authors do not have to be maintainers, but could be -->
-  <!-- Example: -->
-  <!-- <author email="jane.doe@example.com">Jane Doe</author> -->
+  <url type="website">https://github.com/FlorianWilk/SpotMicroAI</url>
+  <author email="florian.wilk@gmail.com">Florian Wilk</author> 
 
 
   <!-- The *depend tags are used to specify dependencies -->
