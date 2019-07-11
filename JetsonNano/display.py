@@ -12,6 +12,7 @@ except ImportError:
     print("The psutil library was not found. Run 'sudo -H pip install psutil' to install it.")
     sys.exit()
 
+#TODO: Refactoring + Cleanups
 
 def bytes2human(n):
     """
@@ -84,6 +85,8 @@ class RobotDisplay():
         self.device=get_device()
         self.font_fa=self.make_font("fa-regular-400.ttf", self.device.height - 10)
         self.font2=self.make_font("C&C Red Alert [INET].ttf",12)
+
+        # Show the Smiley on Boot
         self.displayIcon("\uf599")
         self.networkState=False
         time.sleep(2)

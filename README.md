@@ -83,6 +83,16 @@ cd Core/
 python3 example_automatic_gait.py
 ```
 
+### Quickstart for ROS
+
+```
+cd ~/catkin_ws/src
+git clone https://github.com/FlorianWilk/SpotMicroAI.git
+cd ..
+catkin_make
+roslaunch spotmicroai showmodel.launch
+```
+
 ### Kinematics
 
 In order to be able to move the Robot or event make it walk, we need something which tells us what servo-angles
