@@ -12,6 +12,7 @@ import signal
 import time
 from kinematics import Kinematic
 from network import Network
+from mode_standby import ModeStandby
 
 class RobotBoot():
 
@@ -20,9 +21,12 @@ class RobotBoot():
         print("Booting SpotMicroAI")
         self.display=RobotDisplay()
         self.gyro=Gyro()
-#        self.servos=Servos()
+        self.servos=Servos()
         self.Kinematic=Kinematic()
         self.network=Network()
+
+        # For testing purposed
+        self.mode=ModeStandby(self.servos)
 
     def exitHandler(self):
         print("Exiting SpotMicroAI")
@@ -31,11 +35,13 @@ class RobotBoot():
         sys.exit()
 
     def run(self):
+        self.mode.init()
         while True:
             (x,y)=self.gyro.read()
             self.display.setAngles(x,y)
             self.display.setNetworkState(self.network.result())
             self.display.run()
+            self.mode.update()
             time.sleep(0.02)
 
     def cleanup(self):
