@@ -3,16 +3,17 @@
 I started this Project because i got inspired by some very smart People/Companies and Projects out there and want to 
 understand and adapt their work. It is based on existing OpenSource-Projects and uses affordable Hardware to enable other people to build their own Bots and help us to understand how to control it the way we want.
 
-This Project is heavily work in progress and may change every day. It is NOT a working or even finished Project you might want to use. 
+This Project is heavily work in progress and may change every day. It is NOT a working or even finished Project.
+It is intended to be a community-project, so please feel free to contribute.
 
 ![PyBullet Simulation](/Images/SpotMicroAI_pybullet_lidar3.png)
 
 [See the first movements of SpotMicroAI on YouTube](https://www.youtube.com/watch?v=vayiiII4xVQ)
 
 Parts of this Project:
-1. build a working physical Robot with cheap components everyone can build
+1. build a working physical Robot with cheap components everyone can build 
 2. create a simulated Environment and be able to control the Robot 
-3. to do RL training to make it learn how to stand/walk/run
+3. to do RL training to make it learn how to stand/walk/run 
 
 ## 1. The physical Robot
 
@@ -24,41 +25,41 @@ This basically is the physical Robot. It will take some Days to print and assemb
 
 [Here is my Thingiverse-Make](https://www.thingiverse.com/make:654812)
 
-Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /Parts-Directory.
+Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /urdf/FreeCAD-Directory.
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
 ### NVIDIA Jetson Nano
 
-The Brain of all this is the JetsonNano. It has a 16 Channel PCA9685 I2C-Servo Driver connected, which is used to control the servos. The IMU (GY-521) is also connected via I2C and provides roll and pitch angles of the Robot.
+The Brain of all this is the NVIDIA JetsonNano. It has a 16 Channel PCA9685 I2C-Servo Driver connected, which is used to control the servos. The IMU (GY-521) is also connected via I2C and provides roll and pitch angles of the Robot.
 The OLED-Display is used to have some nice output. 
 I will provide a Fritzing-Layout in the near future.
 
 ![JetsonNano-Case](/Images/SpotMicroAI_jetson.jpg)
 
-[You can find the all the Code for the Jetson Nano here](/JetsonNano)
+[You can find the all the Code for the Jetson Nano here](/JetsonNano).
+
+UPDATE: I discovered NVIDIA's Isaac SDK and will spend some time in exploring it.
 
 ### Sensors
 
-We will use Sonar Sensors instead of visual sensors like RGB or RGBD-Cams. Maybe i will try with ESPEyes or something in the near future.
+SpotMicroAI has a RPi-Cam, Sonar-Sensors and an IMU Gyro/Accel-Sensor (as designed by KDY). In one of the first versions i added two additional Sonars at the bottom, but i had to remove them again to have space for the voltage regulators. 
+TODO: We will need a Bottom-Case version 2 here.
 
-Sensors used:
-- 4 x HC-SR04-Sensors. 2x as in the original model in the front looking forward/down. 2x at the bottom (front/back) looking down to measure the ground-distance. 
-- An IMU MPU-6050 is used to measure pitch,roll and velocities. Yaw will be ignored since it drifts quickly. 
-- RPLidar A1 - the cheapest Lidar i could find. Works. Connected to the Jetson via USB. Speedcontrol via PWM/Jetson
+The Rear-Part has space for an OLED-Display (SSD-1306) and a LED Power-Button.
+In a first version i used an Arduino Mega as kind of Servo/Sensor-Controller and a Raspberry PI as Locomotion-Controller (communication via UART). But it showed up that the Arduino is too slow to handle Sensor-Signals and Servo-PWM properly at the same time. Now i use the Jetson with the PCA as described above.
 
-Also i have a SSD1306 OLED-Display and a NeoMatrix LED-Circle i want to include for the Style.
-In a first version i used an Arduino Mega as kind of Servo/Sensor-Controller and a Raspberry PI as Locomotion-Controller (communication via UART). But it showed up that the Arduino is too slow to handle Sensor-Signals and Servo-PWM properly at the same time. 
+I am not sure if the Hardware i use now will be enough to finally have a very smooth walking Robot like for example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
-I am not sure if the Hardware i use now will be enough to finally have a very smooth walking Robot like for Example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
+### Next Steps
+
+- I am still working on the PowerSupply. Currently SpotMicroAI is powered by two separate AC-Adapters for Jetson and PCA. I need another voltage-regulator for the Jetson (7,4v -> 5V). 
 
 ## 2. Simulation
 
-![PyBullet](/Images/SpotMicroAI_stairs.png)
+There is a working PyBullet-Simulation. You can find it in "Core/example*.py" - see Quickstart below.
 
-I try to implement the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
-Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
-Google Brain,Google DeepMind
+![PyBullet](/Images/SpotMicroAI_stairs.png)
 
 Here you can see the first version of the URDF-Model.
 
@@ -70,7 +71,7 @@ Masses and Inertias of the URDF-Model are still not correct.
 There is also a Blender-File included which i used to create the STLs for the simulation. 
 Of course you could also do some nice renderings with it! :)
 
-### Quickstart
+### Quickstart PyBullet
 
 This example can be found in the Repository. You need a GamePad for this to work:
 ```
@@ -85,17 +86,35 @@ python3 example_automatic_gait.py
 
 ### Quickstart for ROS
 
+There is also a first ROSification of SpotMicroAI.
+
+First of all install ROS. I use Melodic, but it should work with Kinetic, too.
+I will not go into detail on how to install ROS because there are many good Tutorials out there.
+
+When finished installing ROS:
+
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/FlorianWilk/SpotMicroAI.git
 cd ..
 catkin_make
+source ./devel/setup.bash
 roslaunch spotmicroai showmodel.launch
 ```
 
+This will show up RVIZ with the Model of SpotMicroAI. 
+Next steps will be to create a ROS-Sim-Adapter to map the joint_states to the leg_topic and
+to create an Implementation for the Jetson which handles leg_topics -> Servos.
+
+### Papers
+
+I try to implement the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
+Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
+Google Brain,Google DeepMind
+
 ### Kinematics
 
-In order to be able to move the Robot or event make it walk, we need something which tells us what servo-angles
+In order to be able to move the Robot or even make it walk, we need something which tells us what servo-angles
 will be needed for a Leg to reach position XYZ.
 This is what InverseKinematics does. We know all the constraints, the length of the legs, how the joints rotate and where they are positioned. 
 
@@ -110,6 +129,7 @@ There is no real Training-Code yet.
 - Deok-yeon Kim creator of SpotMicro
 - Boston Dynamics who built this incredible SpotMini,
 - Ivan Krasin - https://ivankrasin.com/about/ - thanks for inspiration and chatting
+- My colleagues at REWE digital / Research & Innovation for inspiration and feedback
 - Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind 
 
