@@ -8,8 +8,7 @@ It is intended to be a community-project, so please feel free to contribute.
 
 ![PyBullet Simulation](/Images/SpotMicroAI_pybullet_lidar3.png)
 
-[See the first movements of SpotMicroAI on YouTube](https://www.youtube.com/watch?v=vayiiII4xVQ)
-[and the first contact with the NVIDIA Jetson Nano](https://www.youtube.com/watch?v=no4voMsa7ZI)
+[See the first movements of SpotMicroAI on YouTube](https://www.youtube.com/watch?v=vayiiII4xVQ) and [the first contact with the NVIDIA Jetson Nano](https://www.youtube.com/watch?v=no4voMsa7ZI)
 
 Parts of this Project:
 1. build a working physical Robot with cheap components everyone can build 
