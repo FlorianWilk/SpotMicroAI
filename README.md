@@ -30,6 +30,8 @@ You might notice the redunancy of some STL-files, which is caused by the "ROSifi
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
+Kim Deok-Yeon has updated his model for use with CLS6336HV-Servos. I will keep using the MG996R-Servos because they are cheaper and i expect unwanted behaviours and servo-crashes for the first stages.
+
 ### NVIDIA Jetson Nano
 
 The Brain of all this is the NVIDIA JetsonNano. It has a 16 Channel PCA9685 I2C-Servo Driver connected, which is used to control the servos. The IMU (GY-521) is also connected via I2C and provides roll and pitch angles of the Robot.
@@ -39,8 +41,6 @@ I will provide a Fritzing-Layout in the near future.
 ![JetsonNano-Case](/Images/SpotMicroAI_jetson.jpg)
 
 [You can find the all the Code for the Jetson Nano here](/JetsonNano).
-
-UPDATE: I discovered NVIDIA's Isaac SDK and will spend some time in exploring it.
 
 ### Sensors
 
@@ -100,11 +100,6 @@ roslaunch spotmicroai showmodel.launch
 
 This will show up RVIZ with the Model of SpotMicroAI. 
 
-TODO: Next steps will be to create a ROS-Sim-Adapter to map the joint_states to the leg_topic and
-to create an Implementation for the Jetson which handles leg_topics -> Servos.
-Then i will write a Controller-Node, which uses the Kinematics/RL-Model to control the Bot via the leg_topics.
-This Controller-Node will just be a wrapper for the same logic we use for the PyBullet-Simulation. 
-
 ### Papers
 
 I like the Ideas of 
@@ -128,14 +123,25 @@ You can find [some a first draft of the calculations here](https://github.com/Fl
 
 There is no real Training-Code yet.
 I started to create a simple OpenAI-Gym-Environment, but have not finished it yet :/ 
-TODO: 
- - Finish the OpenAI-Gym-Env
- - write a basic RL-based Implementation to support example_automaticgait.py with a "BodyBalancer". ActionSpace is x,y,z of the Body, ObservationSpace pitch,roll,ground_distance,kinematic_motion_function_index
- - adapt the "Neural Network Walker"-Example from Bullet to SpotMicroAI? not sure..
+
+## my Hardware-Todos
+
+ - solve PowerSupply - use an additional VoltageRegulator 7,4->5V for the Jetson Nano
+ - build a PowerPack ? x 18650 7,4V 
+ - solve issues cable-length of all 12 Servos. Build a cool adapter-cable.
+
+## Software-Todos / Ideas 
  
+ - write a basic RL-based Implementation to support example_automaticgait.py with a "BodyBalancer". ActionSpace is x,y,z of the Body, ObservationSpace pitch,roll,ground_distance,kinematic_motion_function_index
+ - create a ROS-Sim-Adapter to map the joint_states to the leg_topic 
+ - create an Implementation for the Jetson/RealWorldBot which handles leg_topics -> Servos (incl. calibration)
+ - write a Controller-Node, which uses the Kinematics/RL-Model to control the Bot via the leg_topics. This Controller-Node will just be a wrapper for the same logic we use for the PyBullet-Simulation. 
+ - Finish the OpenAI-Gym-Env? or
+ - try to adapt the "Neural Network Walker"-Example from Bullet to SpotMicroAI? not sure..
+
 ## Credits and thanks
 
-- Deok-yeon Kim creator of SpotMicro
+- Kim Deok-yeon creator of SpotMicro
 - Boston Dynamics who built this incredible SpotMini,
 - Ivan Krasin - https://ivankrasin.com/about/ - thanks for inspiration and chatting
 - My colleagues at REWE digital / Research & Innovation for inspiration and feedback
