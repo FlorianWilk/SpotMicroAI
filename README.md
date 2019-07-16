@@ -9,6 +9,7 @@ It is intended to be a community-project, so please feel free to contribute.
 ![PyBullet Simulation](/Images/SpotMicroAI_pybullet_lidar3.png)
 
 [See the first movements of SpotMicroAI on YouTube](https://www.youtube.com/watch?v=vayiiII4xVQ)
+[and the first contact with the NVIDIA Jetson Nano](https://www.youtube.com/watch?v=no4voMsa7ZI)
 
 Parts of this Project:
 1. build a working physical Robot with cheap components everyone can build 
@@ -19,13 +20,14 @@ Parts of this Project:
 
 ![SpotMicroAI](/Images/SpotMicroAI_complete_1.jpg)
 
-First of all thanks to Deok-yeon Kim aka KDY0523 who made [this incredible work on Thingiverse](https://www.thingiverse.com/thing:3445283)
+First of all thanks to Kim Deok-Yeon aka KDY0523 who made [this incredible work on Thingiverse](https://www.thingiverse.com/thing:3445283)
 
-This basically is the physical Robot. It will take some Days to print and assemble all the Parts, but it's worth all the effort. I also sanded, primed and painted all the Parts to give it a nicer Look.
+This basically is the physical Robot. It will take some days to print and assemble all the parts, but it's worth all the effort. I also sanded, primed and painted all the Parts to give it a nicer look.
 
 [Here is my Thingiverse-Make](https://www.thingiverse.com/make:654812)
 
 Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /urdf/FreeCAD-Directory.
+You might notice the redunancy of some STL-files, which is caused by the "ROSification" and the slightly different Model-Structure. I will have to clean it up.
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
@@ -57,21 +59,14 @@ I am not sure if the Hardware i use now will be enough to finally have a very sm
 
 ## 2. Simulation
 
-There is a working PyBullet-Simulation. You can find it in "Core/example*.py" - see Quickstart below.
-
-![PyBullet](/Images/SpotMicroAI_stairs.png)
-
-Here you can see the first version of the URDF-Model.
-
-![urdf](/Images/SpotMicroAI_urdf2.png)
-
-And here the Model with working Kinematics in a PyBullet-Simulation.
-
 Masses and Inertias of the URDF-Model are still not correct.
+
 There is also a Blender-File included which i used to create the STLs for the simulation. 
 Of course you could also do some nice renderings with it! :)
 
 ### Quickstart PyBullet
+
+![PyBullet](/Images/SpotMicroAI_stairs.png)
 
 This example can be found in the Repository. You need a GamePad for this to work:
 ```
@@ -85,6 +80,8 @@ python3 example_automatic_gait.py
 ```
 
 ### Quickstart for ROS
+
+![urdf](/Images/SpotMicroAI_rviz_urdf.png)
 
 There is also a first ROSification of SpotMicroAI.
 
@@ -103,14 +100,22 @@ roslaunch spotmicroai showmodel.launch
 ```
 
 This will show up RVIZ with the Model of SpotMicroAI. 
-Next steps will be to create a ROS-Sim-Adapter to map the joint_states to the leg_topic and
+
+TODO: Next steps will be to create a ROS-Sim-Adapter to map the joint_states to the leg_topic and
 to create an Implementation for the Jetson which handles leg_topics -> Servos.
+Then i will write a Controller-Node, which uses the Kinematics/RL-Model to control the Bot via the leg_topics.
+This Controller-Node will just be a wrapper for the same logic we use for the PyBullet-Simulation. 
 
 ### Papers
 
-I try to implement the Ideas of [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
+I like the Ideas of 
+- [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
 Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind
+- [this Paper](https://openreview.net/pdf?id=BklHpjCqKm) by Michael Lutter, Christian Ritter & Jan Peters ∗
+- [and this one](https://arxiv.org/pdf/1810.03842.pdf) by Abhik Singla, Shounak Bhattacharya, Dhaivat Dholakiya,
+Shalabh Bhatnagar, Ashitava Ghosal, Bharadwaj Amrutur and Shishir Kolathaya
+- [also this one](https://arxiv.org/pdf/1903.02993.pdf) by Krzysztof Choromanski,Aldo Pacchiano,Jack Parker-Holder,Yunhao Tang,Deepali Jain,Yuxiang Yang,Atil Iscen,Jasmine Hsu,Vikas Sindhwani
 
 ### Kinematics
 
@@ -123,7 +128,12 @@ You can find [some a first draft of the calculations here](https://github.com/Fl
 ## 3. Training
 
 There is no real Training-Code yet.
-
+I started to create a simple OpenAI-Gym-Environment, but have not finished it yet :/ 
+TODO: 
+ - Finish the OpenAI-Gym-Env
+ - write a basic RL-based Implementation to support example_automaticgait.py with a "BodyBalancer". ActionSpace is x,y,z of the Body, ObservationSpace pitch,roll,ground_distance,kinematic_motion_function_index
+ - adapt the "Neural Network Walker"-Example from Bullet to SpotMicroAI? not sure..
+ 
 ## Credits and thanks
 
 - Deok-yeon Kim creator of SpotMicro
