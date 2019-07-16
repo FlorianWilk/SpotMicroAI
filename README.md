@@ -4,7 +4,7 @@ I started this Project because i got inspired by some very smart People/Companie
 understand and adapt their work. It is based on existing OpenSource-Projects and uses affordable Hardware to enable other people to build their own Bots and help us to understand how to control it the way we want.
 
 This Project is heavily work in progress and may change every day. It is NOT a working or even finished Project.
-It is intended to be a community-project, so please feel free to contribute.
+It is intended to be a community-project, so please feel invited to contribute.
 
 ![PyBullet Simulation](/Images/SpotMicroAI_pybullet_lidar3.png)
 
