@@ -100,17 +100,6 @@ roslaunch spotmicroai showmodel.launch
 
 This will show up RVIZ with the Model of SpotMicroAI. 
 
-### Papers
-
-I like the Ideas of 
-- [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
-Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
-Google Brain,Google DeepMind
-- [this Paper](https://openreview.net/pdf?id=BklHpjCqKm) by Michael Lutter, Christian Ritter & Jan Peters ∗
-- [and this one](https://arxiv.org/pdf/1810.03842.pdf) by Abhik Singla, Shounak Bhattacharya, Dhaivat Dholakiya,
-Shalabh Bhatnagar, Ashitava Ghosal, Bharadwaj Amrutur and Shishir Kolathaya
-- [also this one](https://arxiv.org/pdf/1903.02993.pdf) by Krzysztof Choromanski,Aldo Pacchiano,Jack Parker-Holder,Yunhao Tang,Deepali Jain,Yuxiang Yang,Atil Iscen,Jasmine Hsu,Vikas Sindhwani
-
 ### Kinematics
 
 In order to be able to move the Robot or even make it walk, we need something which tells us what servo-angles
@@ -124,13 +113,13 @@ You can find [some a first draft of the calculations here](https://github.com/Fl
 There is no real Training-Code yet.
 I started to create a simple OpenAI-Gym-Environment, but have not finished it yet :/ 
 
-## my Hardware-Todos
+### Hardware-Todos
 
- - solve PowerSupply - use an additional VoltageRegulator 7,4->5V for the Jetson Nano
- - build a PowerPack ? x 18650 7,4V 
- - solve issues cable-length of all 12 Servos. Build a cool adapter-cable.
-
-## Software-Todos / Ideas 
+ - use an additional VoltageRegulator 7,4->5V for the Jetson Nano
+ - build a PowerPack ? x 18650 7,4V ? - not sure if i really should build a PowerPack :) Need help here! 
+ - build a nice Adapter-Cable to solve issues with cable-length of all 12 Servos. 
+ 
+### Software-Todos / Ideas 
  
  - write a basic RL-based Implementation to support example_automaticgait.py with a "BodyBalancer". ActionSpace is x,y,z of the Body, ObservationSpace pitch,roll,ground_distance,kinematic_motion_function_index
  - create a ROS-Sim-Adapter to map the joint_states to the leg_topic 
@@ -138,6 +127,17 @@ I started to create a simple OpenAI-Gym-Environment, but have not finished it ye
  - write a Controller-Node, which uses the Kinematics/RL-Model to control the Bot via the leg_topics. This Controller-Node will just be a wrapper for the same logic we use for the PyBullet-Simulation. 
  - Finish the OpenAI-Gym-Env? or
  - try to adapt the "Neural Network Walker"-Example from Bullet to SpotMicroAI? not sure..
+
+### Inspiration/Papers
+
+I like the Ideas of:
+- [this Paper](https://arxiv.org/pdf/1804.10332.pdf) by
+Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
+Google Brain,Google DeepMind
+- [this Paper](https://openreview.net/pdf?id=BklHpjCqKm) by Michael Lutter, Christian Ritter & Jan Peters ∗
+- [and this one](https://arxiv.org/pdf/1810.03842.pdf) by Abhik Singla, Shounak Bhattacharya, Dhaivat Dholakiya,
+Shalabh Bhatnagar, Ashitava Ghosal, Bharadwaj Amrutur and Shishir Kolathaya
+- [also this one](https://arxiv.org/pdf/1903.02993.pdf) by Krzysztof Choromanski,Aldo Pacchiano,Jack Parker-Holder,Yunhao Tang,Deepali Jain,Yuxiang Yang,Atil Iscen,Jasmine Hsu,Vikas Sindhwani
 
 ## Credits and thanks
 
