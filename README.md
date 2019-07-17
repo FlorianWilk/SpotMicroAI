@@ -30,7 +30,7 @@ You might notice the redunancy of some STL-files, which is caused by the "ROSifi
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
 
-Kim Deok-Yeon has updated his model for use with CLS6336HV-Servos. I will keep using the MG996R-Servos because they are cheaper and i expect unwanted behaviours and servo-crashes for the first stages.
+Kim Deok-Yeon has updated his model for use with CLS6336HV-Servos. I will keep on using the MG996R-Servos - although they will not have enough power - but they are cheaper and i expect unwanted behaviours and servo-crashes in the first stages. 
 
 ### NVIDIA Jetson Nano
 
@@ -127,6 +127,7 @@ I started to create a simple OpenAI-Gym-Environment, but have not finished it ye
  - write a Controller-Node, which uses the Kinematics/RL-Model to control the Bot via the leg_topics. This Controller-Node will just be a wrapper for the same logic we use for the PyBullet-Simulation. 
  - Finish the OpenAI-Gym-Env? or
  - try to adapt the "Neural Network Walker"-Example from Bullet to SpotMicroAI? not sure..
+ - understand the Marc H. Raibert's Balancing Controller from 1984/86 to possibly merge this ideas into the Action/Observation-Space. Does this make sense?
 
 ### Inspiration/Papers
 
