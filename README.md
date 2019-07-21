@@ -115,6 +115,7 @@ I started to create a simple OpenAI-Gym-Environment, but have not finished it ye
 
 ### Hardware-Todos
 
+ - the whole Servo-Setup. MG996R not powerfull enough. try the CLS6336HV Servos. PCA might make the Servos jitter.
  - use an additional VoltageRegulator 7,4->5V for the Jetson Nano
  - build a PowerPack ? x 18650 7,4V ? - not sure if i really should build a PowerPack :) Need help here! 
  - build a nice Adapter-Cable to solve issues with cable-length of all 12 Servos. 
