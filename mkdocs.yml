@@ -1,0 +1,6 @@
+site_name: SpotMicroAI
+nav:
+    - Home: index.md
+    - Getting Started: gettingStarted.md
+    - About: originalReadme.md
+theme: readthedocs
