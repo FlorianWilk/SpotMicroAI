@@ -11,6 +11,10 @@ To get going, the first thing that you're going to want to do is collect everyth
 - RL3-4 7.4v Battery
 - 1 x 16 Channel PCA9685 I2C-Servo Driver
 
+Electronics to Figure out:
+- IMU (GY-521)
+
+
 ### Sensors
 
 SpotMicroAI has a RPi-Cam, Sonar-Sensors and an IMU Gyro/Accel-Sensor (as designed by KDY). In one of the first versions i added two additional Sonars at the bottom, but i had to remove them again to have space for the voltage regulators. 

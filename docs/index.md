@@ -1,4 +1,4 @@
-![SpotMicroAI](/assets/logo.png)
+![SpotMicroAI](assets/logo.png)
 
 # The Story
 The SpotMicro model was originally developed by KDY and released on thingiverse here: [https://www.thingiverse.com/thing:3445283](https://www.thingiverse.com/thing:3445283). He has posted that he is required to join the military in his country for two years and so will be absent from development. Hopefully by the time he returns to the community we'll have a fully functional bot that he can come back to.
