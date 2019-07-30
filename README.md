@@ -1,6 +1,6 @@
 # SpotMicroAI 
 
-![PyBullet Simulation](Images/SpotMicroAI_pybullet_lidar3.png)
+![Logo](https://images.weserv.nl/?w=600&bg=ffffff&url=https://github.com/FlorianWilk/SpotMicroAI/blob/master/docs/assets/logo.png?raw=true)
 
 ## Abstract:
 The SpotMicro project is designed to be a low cost, easily built quadruped robot. The design is roughly based off of Boston Dynamics quadruped robot SpotMini, though with obvious adaptations such as size and sensor suite.
@@ -32,6 +32,8 @@ Sensors include a raspberry pi camera, MPU6050 Gyro accelerometer combination, a
 the software in this project is still very immature. Current experience has focused on running C++ directly on the Jetson and preliminary tests have occurred with robot operating system (ROS). The current work has focused on developing a robust gate for the robot and so work on other aspects such as navigation path planning but have not yet started.
 
 Current efforts to develop the gait through reinforcement learning have taken place in the PyBullet. Preliminary work in open AI gym has begun. There has also been discussion about using unity as a platform for reinforcement learning, in particular to be able to utilize the advanced graphics in the game engine for image recognition training on the RPi cam.
+
+![PyBullet Simulation](Images/SpotMicroAI_pybullet_lidar3.png)
 
 ## Community:
 The primary community discussions take place on SpotMicro.org. The message boards there contain a repository of topics which span hardware and software.
