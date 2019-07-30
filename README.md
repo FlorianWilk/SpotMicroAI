@@ -1,5 +1,3 @@
-# SpotMicroAI 
-
 ![Logo](https://images.weserv.nl/?w=800&bg=ffffff&url=https://github.com/FlorianWilk/SpotMicroAI/blob/master/docs/assets/logo.png?raw=true)
 
 ## Abstract:
