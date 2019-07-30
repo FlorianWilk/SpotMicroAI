@@ -8,7 +8,7 @@ The project is maintained by a community of volunteers and is very much still in
 ## Getting started:
 The best place to get started is to read the getting started documentation at spotmicroai.readthedocs.io. The documentation contains a complete tutorial for building a SpotMicroAI including where to source components, links to most recent 3D files for printing, assembly, and installing the software.
 
-For questions or more information please see the (Forums at SpotMicroAI.org)[http://SpotMicroAI.org], or asked on our slack channel. Link coming soon.
+For questions or more information please see the [Forums at SpotMicroAI.org](http://SpotMicroAI.org), or asked on our slack channel. Link coming soon.
 
 ## Hardware:
 ![physial Bot](Images/SpotMicroAI_complete_1.jpg)
