@@ -19,8 +19,18 @@ Parts of this Project:
 
 ![SpotMicroAI](/Images/SpotMicroAI_complete_1.jpg)
 
+First of all thanks to Kim Deok-Yeon aka KDY0523 who made [this incredible work on Thingiverse](https://www.thingiverse.com/thing:3445283)
+
+This basically is the physical Robot. It will take some days to print and assemble all the parts, but it's worth all the effort. I also sanded, primed and painted all the Parts to give it a nicer look.
+
+[Here is my Thingiverse-Make](https://www.thingiverse.com/make:654812)
+
+Since my setup required some additional Hardware, i recreated some parts using FreeCAD - see /urdf/FreeCAD-Directory.
+You might notice the redunancy of some STL-files, which is caused by the "ROSification" and the slightly different Model-Structure. I will have to clean it up.
 
 ![Parts](/Images/SpotMicroAI_FreeCad.png)
+
+Kim Deok-Yeon has updated his model for use with CLS6336HV-Servos. I will keep on using the MG996R-Servos - although they will not have enough power - but they are cheaper and i expect unwanted behaviours and servo-crashes in the first stages. 
 
 ### NVIDIA Jetson Nano
 
@@ -42,7 +52,68 @@ In a first version i used an Arduino Mega as kind of Servo/Sensor-Controller and
 
 I am not sure if the Hardware i use now will be enough to finally have a very smooth walking Robot like for example the real SpotMini. See this more as a Research-Project where I try to use cheap Hardware and other People's Work to learn more about how this all works. 
 
+### Next Steps
 
+- I am still working on the PowerSupply. Currently SpotMicroAI is powered by two separate AC-Adapters for Jetson and PCA. I need another voltage-regulator for the Jetson (7,4v -> 5V). 
+
+## 2. Simulation
+
+Masses and Inertias of the URDF-Model are still not correct.
+
+There is also a Blender-File included which i used to create the STLs for the simulation. 
+Of course you could also do some nice renderings with it! :)
+
+### Quickstart PyBullet
+
+![PyBullet](/Images/SpotMicroAI_stairs.png)
+
+This example can be found in the Repository. You need a GamePad for this to work:
+```
+pip3 install numpy
+pip3 install pybullet
+pip3 install inputs
+...TODO: provide setup.py
+
+cd Core/
+python3 example_automatic_gait.py
+```
+
+### Quickstart for ROS
+
+![urdf](/Images/SpotMicroAI_rviz_urdf.png)
+
+There is also a first ROSification of SpotMicroAI.
+
+First of all install ROS. I use Melodic, but it should work with Kinetic, too.
+I will not go into detail on how to install ROS because there are many good Tutorials out there.
+
+When finished installing ROS:
+
+```
+cd ~/catkin_ws/src
+git clone https://github.com/FlorianWilk/SpotMicroAI.git
+cd ..
+catkin_make
+source ./devel/setup.bash
+roslaunch spotmicroai showmodel.launch
+```
+
+This will show up RVIZ with the Model of SpotMicroAI. 
+
+### Kinematics
+
+In order to be able to move the Robot or even make it walk, we need something which tells us what servo-angles
+will be needed for a Leg to reach position XYZ.
+This is what InverseKinematics does. We know all the constraints, the length of the legs, how the joints rotate and where they are positioned. 
+
+You can find [some a first draft of the calculations here](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics). There is also a [Jupyter Notebook explaining the Kinematics](https://github.com/FlorianWilk/SpotMicroAI/tree/master/Kinematics/Kinematic.ipynb) and a [YouTube-Video](https://www.youtube.com/watch?v=VSkqhFok17Q).
+
+## 3. Training
+
+There is no real Training-Code yet.
+We need an environment which allows fast multiagent learning. A C++/Bullet-Implementation might be a good solution. 
+We are also currently evaluating Unity as an Enviroment, but tbh i prefer to have a clean and tight C++ implementation instead of Mono/C#. On the other hand Unity would allow us to have far more realistic (virtual) VideoInputs for CV-Training. Not sure about this, would be great to have feedback here from you guys.
+I also started to create a simple OpenAI-Gym-Environment, but have not finished it yet :/ 
 
 ### Hardware-Todos
 
@@ -80,3 +151,4 @@ Shalabh Bhatnagar, Ashitava Ghosal, Bharadwaj Amrutur and Shishir Kolathaya
 - My colleagues at REWE digital / Research & Innovation for inspiration and feedback
 - Jie Tan, Tingnan Zhang, Erwin Coumans, Atil Iscen, Yunfei Bai, Danijar Hafner, Steven Bohez, and Vincent Vanhoucke
 Google Brain,Google DeepMind 
+
