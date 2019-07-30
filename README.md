@@ -1,6 +1,6 @@
 # SpotMicroAI 
 
-![Logo](https://images.weserv.nl/?w=600&bg=ffffff&url=https://github.com/FlorianWilk/SpotMicroAI/blob/master/docs/assets/logo.png?raw=true)
+![Logo](https://images.weserv.nl/?w=800&bg=ffffff&url=https://github.com/FlorianWilk/SpotMicroAI/blob/master/docs/assets/logo.png?raw=true)
 
 ## Abstract:
 The SpotMicro project is designed to be a low cost, easily built quadruped robot. The design is roughly based off of Boston Dynamics quadruped robot SpotMini, though with obvious adaptations such as size and sensor suite.
