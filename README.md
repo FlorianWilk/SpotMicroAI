@@ -20,7 +20,9 @@ The vast majority of the hardware by volume is designed to be 3D printed. So far
 The files available both as STL and STP. As a community we have not yet settled on a servo for this project and therefore multiple versions of the hardware exist to support the physical dimensions of the servos and their respective servo horns. For the most up-to-date version of the hardware please visit: [https://www.thingiverse.com/thing:3761340](https://www.thingiverse.com/thing:3761340). Please see documentation for details as to which files correspond to which servo.
 
 ## Electronics:
-The brains of this project is designed to be powered by an Nvidia Jetson Nano. The Jetson nano is connected to a BCA7215 controller board which allows communication to the 12 servos required to articulate the hips and legs.
+![NVIDIA Jetson Nano](Images/SpotMicroAI_jetson.jpg)
+
+The brain of this project is designed to be powered by an Nvidia Jetson Nano. The Jetson nano is connected to a PCA9685 controller board which allows communication to the 12 servos required to articulate the hips and legs.
 
 Sensors include a raspberry pi camera, MPU6050 Gyro accelerometer combination, and several ultrasound sensors. Some users have also integrated a RPiLIDAR A1 into their build.
 
