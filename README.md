@@ -7,16 +7,14 @@ The SpotMicro project is designed to be a low cost, easily built quadruped robot
 
 The project is maintained by a community of volunteers and is very much still in its early stages. Any individual is welcome to contribute, and in particular expertise in areas involving simulation, reinforcement learning, and hardware development is greatly appreciated.
 
-![ROS](Images/SpotMicroAI_rviz_urdf.png)
-
 ## Getting started:
 The best place to get started is to read the getting started documentation at spotmicroai.readthedocs.io. The documentation contains a complete tutorial for building a SpotMicro including where to source components, links to most recent 3D files for printing, assembly, and installing the software.
 
 For questions or more information please see the forms at SpotMicro.org, or asked on our slack channel. Link coming soon.
 
+## Hardware:
 ![physial Bot](Images/SpotMicroAI_complete_1.jpg)
 
-## Hardware:
 The hardware for SpotMicro is designed to be both aesthetically pleasing as well as easily obtainable and readily available. Wherever possible standard screws, bolts, and bearings are used. Standard hobby grade servos are currently used for locomotion in development however, they don't appear to have sufficient power to drive the robot at more than the slowest speeds. Other options are currently being investigated (including high-voltage and brushless hobby servos typically used with RC cars) which we hope will lead to a balance between an economical as well as robust robot.
 
 The vast majority of the hardware by volume is designed to be 3D printed. So far complete prints have been successful in PLA, though no technical barriers should exist to printing the robot in other material such as PETG, nylon, ABS, etc. The majority of parts require significant supports to print.
@@ -28,7 +26,9 @@ The brains of this project is designed to be powered by an Nvidia Jetson Nano. T
 
 Sensors include a raspberry pi camera, MPU6050 Gyro accelerometer combination, and several ultrasound sensors. Some users have also integrated a RPiLIDAR A1 into their build.
 
-Software:
+## Software:
+![ROS](Images/SpotMicroAI_rviz_urdf.png)
+
 the software in this project is still very immature. Current experience has focused on running C++ directly on the Jetson and preliminary tests have occurred with robot operating system (ROS). The current work has focused on developing a robust gate for the robot and so work on other aspects such as navigation path planning but have not yet started.
 
 Current efforts to develop the gait through reinforcement learning have taken place in the PyBullet. Preliminary work in open AI gym has begun. There has also been discussion about using unity as a platform for reinforcement learning, in particular to be able to utilize the advanced graphics in the game engine for image recognition training on the RPi cam.
