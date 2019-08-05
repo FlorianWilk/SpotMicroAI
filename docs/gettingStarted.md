@@ -1,3 +1,6 @@
+__Collect all the Things!__
+
+![SpotMicroAI](assets/tutorial/all_parts.jpg)
 
 To get going, the first thing that you're going to want to do is collect everything you're going to need. The current build of SpotMicroAI requires:
 ### Electronics 
