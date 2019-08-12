@@ -1,10 +1,12 @@
+__Collect all the Things!__
+
+![SpotMicroAI](assets/tutorial/all_parts.jpg)
 
 To get going, the first thing that you're going to want to do is collect everything you're going to need. The current build of SpotMicroAI requires:
 ### Electronics 
 - 12 × MG 996R servo motor (Towerpro MG996R from hobbyking are also being tested)
 - 1 × NVIDIA Jetson Nano/Raspberry Pi 4
 - 2 × HC-SR04 Ultrasonic sensor 
-- 1 × HC-06 Bluetooth module 
 - 1 × MPU-6050 Gyro sensor 
 - 1 × I2C 16x2 LCD Module 
 - 1 × Rleil rocker switch 
@@ -13,7 +15,13 @@ To get going, the first thing that you're going to want to do is collect everyth
 
 Electronics to Figure out:
 - IMU (GY-521)
+- 1 × HC-06 Bluetooth module 
 
+Optional Upgraded Parts:
+- OLED screen (This should probably be standardized as interfaces should probably have a little variability as possible)
+- Better IMU
+- LIDAR
+- More U/S Sensors
 
 ### Sensors
 
