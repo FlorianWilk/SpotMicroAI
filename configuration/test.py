@@ -1,7 +1,41 @@
 from adafruit_servokit import ServoKit
 import time
+class Dog(object):
+    def __init__(self):
+        print("initializing servos")
+        self.kit = ServoKit(channels=16)
+        print("servos initialized")
+        self.FL = Leg("F", "L", [0, 5, 4], self.kit.servo, offsets= [0, 0, -35])
+        self.FR = Leg("F", "R", [1, 3, 2], self.kit.servo)
+        self.BL = Leg("B", "L", [13, 11, 8], self.kit.servo)
+        self.BR = Leg("B", "R", [12, 10, 9], self.kit.servo)
+        self.legs = {"FL" : self.FL, "FR" : self.FR, "BL" : self.BL, "BR" : self.BR}
 
-class Leg():
+    def __del__(self):
+        self.allOff()
+        # for _, leg in self.legs.values():
+        #     leg.allOff()
+    def allOff(self):
+        for x in range(len(self.kit.servo)):
+            self.kit.servo[x].angle = None
+    
+    def forwardKinematic(self, xyz):
+        #takes angles, converts to xyz
+        pass
+    
+    def reverseKinematic(self, xyz):
+        # Takes xyz converts angles
+        pass
+
+    def xyz_to_quaternion(self, xyz):
+        pass
+    
+    def quaternion_to_xyz(self, quaternion):
+        pass
+
+
+        
+class Leg(object):
     # self.pos.wrist = None
     # self.pos.elbow = None
     # self.pos.shoulder = None
@@ -25,17 +59,24 @@ class Leg():
         self.position = {
             "UP" : [180, 0, 90],
             "DOWN" : [0, 180, 90],
-            "DEFAULT": [90, 90, 90].
-            "A": [180, , 90].
-            "B": [90, 90, 90]
+            "DEFAULT": [90, 90, 90],
+            "A": [180, 0, 90],
+            "B": [90, 80, 90],
+            "C": [90, 90, 40],
+            "D": [90, 90, 140]
         }
     def _move(self, joint, angle):
         a = self.offset(joint, angle)
         self.servoController[joint["servo"]].angle = a
     
     def offset(self, joint, angle):
+        print(joint, angle)
         if self.side == "L":
             angle = 180 - angle
+        if joint["servo"] == self.shoulder["servo"] and self.end == "F":
+            angle = 180 - angle
+            
+
         a = angle - joint["offset"]
         return a
         
@@ -60,24 +101,16 @@ class Leg():
     def neutral(self):
         self.move(self.position["DEFAULT"])
 
-def allOff():
-    for x in range(len(kit.servo)):
-        kit.servo[x].angle = None
 
-def test(s):
-    restTime = 1.5
-    move(s, 0)
-    time.sleep(restTime)
-    move(s,180)
-    time.sleep(restTime)
-    move(s, 90)
-    time.sleep(restTime)
-    move(s, None)
+    def forwardKinematic(self, xyz):
+        #takes angles, converts to xyz
+        pass
+    
+    def reverseKinematic(self, xyz):
+        # Takes xyz converts angles
+        pass
 
-def testAll():
-    for x in range(len(kit.servo)):
-        print(f"testing {x}")
-        test(x)
+
     
 def testArm(leg):
     move(leg[0], 180)
@@ -123,10 +156,12 @@ def main(kit):
     allLegs = [FL, FR, BL, BR]
 
     while(True):
-        for x in ["A", "B"]
-        for leg in allLegs:
-            leg.preset(x)
-        input('press enter to continue...')
+        for x in ["C", "D"]:
+            i = input('press enter to continue...')
+            if i =="q":
+                return None
+            for leg in allLegs:
+                leg.preset(x)
 
 
 
