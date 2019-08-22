@@ -8,7 +8,7 @@ The project is maintained by a community of volunteers and is very much still in
 ## Getting started:
 All documentation and tutorials can be found at:
 
-[spotmicroai.readthedocs.io](spotmicroai.readthedocs.io)
+[spotmicroai.readthedocs.io](http://spotmicroai.readthedocs.io)
 
 The best place to get started is to read the getting started documentation at [spotmicroai.readthedocs.io](spotmicroai.readthedocs.io). The documentation will eventually contain a complete tutorial for building a SpotMicroAI including where to source components, links to most recent 3D files for printing, assembly, and installing the software. It's being updated as we go.
 
