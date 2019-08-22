@@ -12,7 +12,7 @@ All documentation and tutorials can be found at:
 
 The best place to get started is to read the getting started documentation at [spotmicroai.readthedocs.io](spotmicroai.readthedocs.io). The documentation will eventually contain a complete tutorial for building a SpotMicroAI including where to source components, links to most recent 3D files for printing, assembly, and installing the software. It's being updated as we go.
 
-For questions or more information please see the [Forums at SpotMicroAI.org](http://SpotMicroAI.org), or asked on our slack channel. Link coming soon.
+For questions or more information please see the [Forums at SpotMicroAI.org](http://SpotMicroAI.org), or asked on slack. Join our slack at: [https://spotmicroai-inviter.herokuapp.com/](https://spotmicroai-inviter.herokuapp.com/)
 
 ## Hardware:
 ![physial Bot](Images/SpotMicroAI_complete_1.jpg)
