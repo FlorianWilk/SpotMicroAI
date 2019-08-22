@@ -8,13 +8,13 @@ The SpotMicro model was originally developed by KDY and released on thingiverse.
 # Current State
 The rest of us are eager to get our hands on a reasonably priced quadruped and so have continued development in his absence. Development happens at the following locations:
 
+- Talk to us on Slack [spotmicroai-inviter.herokuapp.com/](https://spotmicroai-inviter.herokuapp.com/)
 - Codebase: [github.com/FlorianWilk/SpotMicroAI](https://github.com/FlorianWilk/SpotMicroAI)
 - Documentation: [spotmicroai.readthedocs.io](https://spotmicroai.readthedocs.io)
 - STL and STEP Files: 
     - Original and CLS STLs: [https://www.thingiverse.com/thing:3445283](https://www.thingiverse.com/thing:3445283) 
     - Hobbyking MG996R and STEP files: [https://www.thingiverse.com/thing:3761340](https://www.thingiverse.com/thing:3761340)
 - Message Board: [http://spotmicro.org](http://spotmicro.org)
-- Realtime Discussion: SLACK (TODO: Insert invite link)
 
 # Contributing and TODO:
 This project is still very much in its infancy and so any contributions are very much appreciated. Key problems that still need to be addressed are: 
