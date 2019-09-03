@@ -9,10 +9,10 @@ Version 1.00 - September 2, 2019
 - Chassis plate for RPi included
 - Chassis plate for Jetson Nano included
 - No holes cut in the covers
+- STEP files added
 
 Prior
 - STL files
-- STEP files
 - Copy of Original SpotMicro Design
 - Not complete
 - MG996R Servo Horns from Hobbyking
