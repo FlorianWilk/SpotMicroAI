@@ -6,12 +6,14 @@ The SpotMicroAI project is designed to be a low cost, easily built quadruped rob
 The project is maintained by a community of volunteers and is very much still in its early stages. Any individual is welcome to contribute, and in particular expertise in areas involving simulation, reinforcement learning, and hardware development is greatly appreciated.
 
 ## Getting started:
-COMPLETE DOCUMENTATION AND GETTIGN STARTED GUIDES CAN BE FOUND AT:
+COMPLETE DOCUMENTATION AND GETTING STARTED GUIDES CAN BE FOUND AT:
 [https://spotmicroai.readthedocs.io/en/latest/](https://spotmicroai.readthedocs.io/en/latest/)
 
-The best place to get started is to read the getting started documentation at [spotmicroai.readthedocs.io](spotmicroai.readthedocs.io). The documentation contains a complete tutorial for building a SpotMicroAI including where to source components, links to most recent 3D files for printing, assembly, and installing the software.It's being updated as we go.
+[spotmicroai.readthedocs.io](http://spotmicroai.readthedocs.io)
 
-For questions or more information please see the [Forums at SpotMicroAI.org](http://SpotMicroAI.org), or asked on our slack channel. Link coming soon.
+The best place to get started is to read the getting started documentation at [spotmicroai.readthedocs.io](spotmicroai.readthedocs.io). The documentation will eventually contain a complete tutorial for building a SpotMicroAI including where to source components, links to most recent 3D files for printing, assembly, and installing the software. It's being updated as we go.
+
+For questions or more information please see the [Forums at SpotMicroAI.org](http://SpotMicroAI.org), or asked on slack. Join our slack at: [https://spotmicroai-inviter.herokuapp.com/](https://spotmicroai-inviter.herokuapp.com/)
 
 ## Hardware:
 ![physial Bot](Images/SpotMicroAI_complete_1.jpg)
