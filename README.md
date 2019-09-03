@@ -27,7 +27,7 @@ The files available both as STL and STP. As a community we have not yet settled 
 ## Electronics:
 ![NVIDIA Jetson Nano](Images/SpotMicroAI_jetson.jpg)
 
-The brain of this project is designed to be powered by an Nvidia Jetson Nano. The Jetson nano is connected to a PCA9685 controller board which allows communication to the 12 servos required to articulate the hips and legs.
+The brain of this project is designed to be powered by a Raspberry Pi 4. The Pi is connected to a PCA9685 controller board which allows communication to the 12 servos required to articulate the hips and legs.
 
 Sensors include a raspberry pi camera, MPU6050 Gyro accelerometer combination, and several ultrasound sensors. Some users have also integrated a RPiLIDAR A1 into their build.
 
