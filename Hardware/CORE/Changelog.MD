@@ -1,5 +1,9 @@
 ## Change Log
 
+Version 1.01 - September 8, 2019
+- Fixed hole size for captive nuts
+- Screw holes for computer mount instead of extrusions
+
 Version 1.00 - September 2, 2019
 - Legs are now designated as Right or Left
 - Body/Shoulders have been adjusted to facilitate left and right symmetry in the legs
