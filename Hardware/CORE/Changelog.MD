@@ -1,6 +1,6 @@
 ## Change Log
 
-Version 1.02 - September
+Version 1.02 - September 23, 2019
 - One model that supports servos from Hobbyking, Towerpro, or other high performance servos using standard metal servo horns. No more seperate models depending on which servos you have.
 - adjusted wrist joint width to make up for 3dprinted flange for 5mm bearing
 - Fixed hole size for captive nuts (again)
