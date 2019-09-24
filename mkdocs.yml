@@ -5,6 +5,7 @@ nav:
         - Collect All The Things!: gettingStarted.md
         - Assembly: assembly.md
     - Simulation: simulation.md
+    - Kinematics: kinematic.md
     - Training: training.md
     - About: 
       - Credits: credits.md
