@@ -1,6 +1,0 @@
-numpy==1.15.4
-numpy-stl==2.3.2
-adafruit-circuitpython-servokit
-adafruit_pca9685
-Adafruit-SSD1306
-adafruit-circuitpython-pca9685

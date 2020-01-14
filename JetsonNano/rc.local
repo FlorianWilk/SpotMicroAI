@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-sudo python3 /home/user/SpotMicroAI/JetsonNano/boot.py &
-exit 0
