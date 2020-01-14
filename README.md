@@ -5,10 +5,10 @@ The SpotMicroAI project is designed to be a low cost, easily built quadruped rob
 
 The project is maintained by a community of volunteers and is very much still in its early stages. Any individual is welcome to contribute, and in particular expertise in areas involving simulation, reinforcement learning, and hardware development is greatly appreciated.
 
-## Where is the code?
+## But where is the code?
 
 We have moved to gitlab.com this repository due current limitations in github.com that prevents the community to work with the repository after certain quota is reached.
 
-The new repositories URL is: https://gitlab.com/custom_robots/spotmicro
+The new repositories URL is located at: **https://gitlab.com/custom_robots/spotmicro**
 
 If you like to know more why we migrated to gitlab, the data that triggered the decision is here: https://gitlab.com/custom_robots/spotmicro/nvidia-jetson-nano/blob/master/why_gitlab_a_bit_of_history.md
