@@ -9,6 +9,6 @@ The project is maintained by a community of volunteers and is very much still in
 
 We have moved to gitlab.com this repository due current limitations in github.com that prevents the community to work with the repository after certain quota is reached.
 
-The new repositories URL is located at: **https://gitlab.com/custom_robots/spotmicro**
+The new repositories URL is located at: **https://gitlab.com/custom_robots/spotmicroai**
 
 If you like to know more why we migrated to gitlab, the data that triggered the decision is here: https://gitlab.com/custom_robots/spotmicro/nvidia-jetson-nano/blob/master/why_gitlab_a_bit_of_history.md
